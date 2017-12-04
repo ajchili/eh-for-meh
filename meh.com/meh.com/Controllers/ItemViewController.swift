@@ -1,5 +1,5 @@
 //
-//  FirstViewController.swift
+//  ItemViewController.swift
 //  meh.com
 //
 //  Created by Kirin Patel on 12/4/17.
@@ -8,11 +8,12 @@
 
 import UIKit
 
-class FirstViewController: UIViewController {
+class ItemViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+
+        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -20,6 +21,4 @@ class FirstViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-
 }
-
