@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="zCa-EE-DHO">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View-->
+        <scene sceneID="jmE-az-XtD">
+            <objects>
+                <viewController id="zCa-EE-DHO" customClass="ItemViewController" customModule="meh_com" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lZu-hl-aqA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eN2-Va-Rp4">
+                                <rect key="frame" x="16" y="20" width="343" height="343"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="343" id="pdQ-Ya-fDg"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="erk-F5-DlC" kind="embed" id="HDk-me-w7H"/>
+                                </connections>
+                            </containerView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Yx-a2-rXt">
+                                <rect key="frame" x="16" y="416" width="343" height="40"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="1" translatesAutoresizingMaskIntoConstraints="NO" id="is3-XE-D2Y">
+                                <rect key="frame" x="16" y="371" width="343" height="37"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            </pageControl>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" bouncesZoom="NO" keyboardDismissMode="interactive" translatesAutoresizingMaskIntoConstraints="NO" id="g1l-z3-zAL">
+                                <rect key="frame" x="16" y="464" width="343" height="154"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bjm-03-XQi">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="153"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="eN2-Va-Rp4" firstAttribute="top" secondItem="cbB-qZ-aum" secondAttribute="top" id="5HJ-Ej-VZ3"/>
+                            <constraint firstItem="cbB-qZ-aum" firstAttribute="trailing" secondItem="eN2-Va-Rp4" secondAttribute="trailing" constant="16" id="aMo-8m-czX"/>
+                            <constraint firstItem="eN2-Va-Rp4" firstAttribute="leading" secondItem="cbB-qZ-aum" secondAttribute="leading" constant="16" id="n8f-pI-3OV"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="cbB-qZ-aum"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="View" image="view" id="oUp-ww-cXC"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="descriptionLabel" destination="bjm-03-XQi" id="C0n-ty-eII"/>
+                        <outlet property="imageView" destination="eN2-Va-Rp4" id="hJi-9X-uiI"/>
+                        <outlet property="pageController" destination="is3-XE-D2Y" id="A1R-9i-luG"/>
+                        <outlet property="scrollView" destination="g1l-z3-zAL" id="jeq-nj-lad"/>
+                        <outlet property="titleLabel" destination="3Yx-a2-rXt" id="cyj-zF-onZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9Mq-cy-lVe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="50.399999999999999" y="-31.03448275862069"/>
+        </scene>
+        <!--Image Page View Controller-->
+        <scene sceneID="yNF-2Y-MNe">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" pageSpacing="5" navigationOrientation="horizontal" spineLocation="none" id="erk-F5-DlC" customClass="ImagePageViewController" customModule="meh_com" customModuleProvider="target" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="z4Z-Jo-nhi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="743" y="-31"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="view" width="30" height="30"/>
+    </resources>
+</document>

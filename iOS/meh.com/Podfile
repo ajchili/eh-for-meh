@@ -7,6 +7,6 @@ target 'meh.com' do
 
   # Pods for meh.com
   pod 'Firebase/Core'
-  pod 'Firebase/Firestore'
+  pod 'Firebase/Database'
 
 end
