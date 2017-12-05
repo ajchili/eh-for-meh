@@ -18,16 +18,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView userInteractionEnabled="NO" contentMode="redraw" fixedFrame="YES" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UuW-c8-h6Q">
-                                <rect key="frame" x="0.0" y="0.0" width="343" height="343"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                            </webView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G1Z-7h-W66">
+                                <rect key="frame" x="0.0" y="0.0" width="343" height="340"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="N3k-au-dHX"/>
                     </view>
                     <connections>
-                        <outlet property="webView" destination="UuW-c8-h6Q" id="X4D-DB-C9c"/>
+                        <outlet property="imageView" destination="G1Z-7h-W66" id="oiz-by-ban"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jfT-Kb-LbN" userLabel="First Responder" sceneMemberID="firstResponder"/>

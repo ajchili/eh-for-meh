@@ -11,19 +11,17 @@ import SDWebImage
 
 class ImageViewController: UIViewController {
     
-    @IBOutlet var webView: UIWebView!
     open var image: URL!
     var didLoad: Bool = false
+    @IBOutlet var imageView: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = nil
         
-        webView!.layer.cornerRadius = 10.0
-        webView!.layer.masksToBounds = true
-        webView!.scalesPageToFit = true
-        webView!.translatesAutoresizingMaskIntoConstraints = false
+        imageView!.layer.cornerRadius = 10.0
+        imageView!.layer.masksToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,7 +29,19 @@ class ImageViewController: UIViewController {
         
         if (!didLoad) {
             didLoad = true
-            webView!.loadRequest(URLRequest(url: image))
+            URLSession.shared.dataTask(with: image, completionHandler: { (data, response, error) in
+                if error != nil {
+                    print(error!)
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    if let image = UIImage(data: data!) {
+                        self.imageView.image = image
+                    }
+                }
+                
+            }).resume()
         }
     }
 }
