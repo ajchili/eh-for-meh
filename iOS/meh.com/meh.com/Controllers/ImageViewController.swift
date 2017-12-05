@@ -7,20 +7,19 @@
 //
 
 import UIKit
-import SDWebImage
 
 class ImageViewController: UIViewController {
     
     open var image: URL!
     var didLoad: Bool = false
     @IBOutlet var imageView: UIImageView!
+    @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.backgroundColor = nil
         
-        imageView!.layer.cornerRadius = 10.0
         imageView!.layer.masksToBounds = true
     }
     
@@ -38,6 +37,7 @@ class ImageViewController: UIViewController {
                 DispatchQueue.main.async {
                     if let image = UIImage(data: data!) {
                         self.imageView.image = image
+                        self.loadingIndicator.stopAnimating()
                     }
                 }
                 

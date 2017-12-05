@@ -19,15 +19,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G1Z-7h-W66">
-                                <rect key="frame" x="0.0" y="0.0" width="343" height="340"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="KYX-1U-FsQ">
+                                <rect key="frame" x="178" y="191" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="KYX-1U-FsQ" firstAttribute="centerX" secondItem="bUR-Nc-h2e" secondAttribute="centerX" id="clo-cO-Cvz"/>
+                            <constraint firstItem="KYX-1U-FsQ" firstAttribute="top" secondItem="N3k-au-dHX" secondAttribute="top" constant="171" id="wSX-We-yZV"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="N3k-au-dHX"/>
                     </view>
                     <connections>
                         <outlet property="imageView" destination="G1Z-7h-W66" id="oiz-by-ban"/>
+                        <outlet property="loadingIndicator" destination="KYX-1U-FsQ" id="L2z-rH-mIa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jfT-Kb-LbN" userLabel="First Responder" sceneMemberID="firstResponder"/>
