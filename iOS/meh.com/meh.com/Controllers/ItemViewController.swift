@@ -82,7 +82,18 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        self.webView?.stringByEvaluatingJavaScript(from: "if (window.getComputedStyle(document.getElementsByClassName('front')[0])['zIndex'] == 2) { document.getElementsByTagName('form')[1].submit(); }")
+        if self.webView?.request?.url?.absoluteString.range(of: "/vote") != nil {
+            self.webView?.stringByEvaluatingJavaScript(from: "document.getElementsByTagName('form')[1].submit();")
+        } else {
+            self.effectView.isHidden = true
+            self.mehButton.isHidden = true
+            
+            let alert = UIAlertController(title: "You have already voted", message: "We get it, it's meh, no need to tell us again.", preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+        }
     }
     
     @IBAction func mehButtonTouchUpInside(_ sender: Any) {
