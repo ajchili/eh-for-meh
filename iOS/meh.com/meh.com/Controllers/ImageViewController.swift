@@ -20,7 +20,8 @@ class ImageViewController: UIViewController {
 
         view.backgroundColor = nil
         
-        imageView!.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 5
+        imageView.layer.masksToBounds = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -28,6 +29,12 @@ class ImageViewController: UIViewController {
         
         if (!didLoad) {
             didLoad = true
+            
+            if (!self.image.absoluteString.contains("https")) {
+                let s = self.image.absoluteString.replacingOccurrences(of: "http", with: "https")
+                self.image = URL(string: s)
+            }
+            
             URLSession.shared.dataTask(with: image, completionHandler: { (data, response, error) in
                 if error != nil {
                     print(error!)
@@ -40,7 +47,6 @@ class ImageViewController: UIViewController {
                         self.loadingIndicator.stopAnimating()
                     }
                 }
-                
             }).resume()
         }
     }

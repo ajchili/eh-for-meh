@@ -16,7 +16,8 @@ exports.updateItem = functions.https.onRequest((request, response) => {
                 id: res['deal']['id'],
                 title: res['deal']['title'],
                 description: res['deal']['features'],
-                photos: res['deal']['photos']
+                photos: res['deal']['photos'],
+                items: res['deal']['items']
             });
             ref.child('settings').set({
                 accentColor: res['deal']['theme']['accentColor'],
@@ -29,3 +30,31 @@ exports.updateItem = functions.https.onRequest((request, response) => {
     xhttp.send();
     response.send('Updated.');
 });
+
+exports.sendDealUpdate = functions.database.ref('/info').onUpdate(event => {
+    const info = event.data.val();
+    const tokens = [];
+    var payload = {
+            notification: {
+                title: 'Check out this new deal!',
+                body: info.title,
+                content_available: 'true'
+            }
+    };
+    
+    admin.database().ref(`/notifications`).once('value', (snapshot) => {
+        snapshot.forEach(function (token) {
+            if (token.val()) {
+                admin.messaging().sendToDevice(token.key, payload).then(function (response) {
+                    console.log("Successfully sent message:", JSON.stringify(response));
+                }).catch(function (error) {
+                    console.log("Error sending message:", JSON.stringify(error));
+                });
+            }
+        });
+        
+        return true;
+    });
+    
+    return 'No devices.';
+})

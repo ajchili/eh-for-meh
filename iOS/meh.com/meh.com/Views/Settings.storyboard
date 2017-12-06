@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="29J-Xb-oP9">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Settings-->
+        <scene sceneID="KbP-RY-Ket">
+            <objects>
+                <viewController id="29J-Xb-oP9" customClass="SettingsViewController" customModule="meh_com" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Rc7-nR-Phn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="C0P-Ub-38P">
+                                <rect key="frame" x="88" y="302.5" width="199" height="62"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get notified of new deals?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cgz-px-XHT">
+                                        <rect key="frame" x="0.0" y="0.0" width="199" height="31"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="27e-Nl-vBt">
+                                        <rect key="frame" x="75" y="31" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="notificationSwitchValueChanged:" destination="29J-Xb-oP9" eventType="valueChanged" id="88I-oW-JP4"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="C0P-Ub-38P" firstAttribute="centerY" secondItem="Rc7-nR-Phn" secondAttribute="centerY" id="DWV-xm-qFu"/>
+                            <constraint firstItem="C0P-Ub-38P" firstAttribute="centerX" secondItem="Rc7-nR-Phn" secondAttribute="centerX" id="LhD-Hk-lNH"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="oZy-pI-yRO"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Settings" image="settings" id="EXB-Ei-sGr"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="notificationSwitch" destination="27e-Nl-vBt" id="Vgf-zZ-lJ3"/>
+                        <outlet property="settingsLabel" destination="cgz-px-XHT" id="cFi-fd-Y81"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="v6h-nU-rWy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="565.60000000000002" y="-86.806596701649184"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="settings" width="30" height="30"/>
+    </resources>
+</document>

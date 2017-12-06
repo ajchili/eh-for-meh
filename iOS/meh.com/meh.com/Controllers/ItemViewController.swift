@@ -9,17 +9,22 @@
 import UIKit
 import FirebaseDatabase
 
-class ItemViewController: UIViewController {
-    
+class ItemViewController: UIViewController, UIWebViewDelegate {
     var ref: DatabaseReference!
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     @IBOutlet var imageView: UIView!
     @IBOutlet var pageController: UIPageControl!
     @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var mehButton: UIButton!
+    @IBOutlet var effectView: UIVisualEffectView!
+    @IBOutlet var webView: UIWebView!
+    @IBOutlet var priceLabel: UILabel!
     var accentColor: UIColor?
     var backgroundColor: UIColor?
     var foreground: String?
+    var priceRange: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,13 +38,38 @@ class ItemViewController: UIViewController {
             self.descriptionLabel.text = value?["description"] as? String ?? "Description"
             self.descriptionLabel.sizeToFit()
             self.scrollView.contentSize = CGSize(width: self.scrollView.contentSize.width, height: self.descriptionLabel.frame.height)
+            
+            var min = Int.max
+            var max = 0
+            var itemCount = 0
+            
+            for child in snapshot.childSnapshot(forPath: "items").children.allObjects {
+                let childSnapshot = child as! DataSnapshot
+                
+                itemCount += 1
+                let price: Int = childSnapshot.childSnapshot(forPath: "price").value as! Int
+                if price < min {
+                    min = price
+                } else if price > max {
+                    max = price
+                }
+            }
+            
+            if itemCount == 1 {
+                self.priceLabel.text = "$\(min)"
+            } else {
+                self.priceLabel.text = "$\(min) - $\(max)"
+            }
+            self.priceLabel.sizeToFit()
+            self.priceLabel.frame = CGRect(x: self.priceLabel.frame.origin.x, y: self.priceLabel.frame.origin.y, width: self.priceLabel.frame.width + 20, height: 30)
         }) { (error) in
             print(error.localizedDescription)
         }
         
         ref.child("settings").observe(DataEventType.value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
-            self.accentColor = UIColor.color(fromHexString: value?["backgroundColor"] as? String ?? "#ffffff")
+            
+            self.accentColor = UIColor.color(fromHexString: value?["accentColor"] as? String ?? "#ffffff")
             self.backgroundColor = UIColor.color(fromHexString: value?["backgroundColor"] as? String ?? "#000000")
             self.foreground = value?["backgroundColor"] as? String ?? "dark"
             
@@ -47,10 +77,39 @@ class ItemViewController: UIViewController {
         }) { (error) in
             print(error.localizedDescription)
         }
+        
+        webView.delegate = self
+    }
+    
+    func webViewDidFinishLoad(_ webView: UIWebView) {
+        self.webView?.stringByEvaluatingJavaScript(from: "if (window.getComputedStyle(document.getElementsByClassName('front')[0])['zIndex'] == 2) { document.getElementsByTagName('form')[1].submit(); }")
+    }
+    
+    @IBAction func mehButtonTouchUpInside(_ sender: Any) {
+        webView.loadRequest(URLRequest(url: URL(string: "https://meh.com")!))
+        effectView.isHidden = false
+    }
+    
+    @IBAction func closeButtonTouchUpInside(_ sender: Any) {
+        effectView.isHidden = true
     }
     
     private func setColor() {
-        self.view.layer.backgroundColor = self.backgroundColor!.cgColor
+        view.layer.backgroundColor = backgroundColor!.cgColor
+        titleLabel.textColor = accentColor
+        descriptionLabel.textColor = accentColor
+        pageController.currentPageIndicatorTintColor = accentColor
+        webView.layer.cornerRadius = 5
+        webView.layer.backgroundColor = backgroundColor!.cgColor
+        webView.layer.masksToBounds = true
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        priceLabel.backgroundColor = accentColor
+        priceLabel.layer.cornerRadius = 5
+        priceLabel.layer.masksToBounds = true
+        priceLabel.isHidden = false
+        mehButton.backgroundColor = accentColor
+        mehButton.layer.cornerRadius = 5
+        mehButton.isHidden = false
     }
 
 }
