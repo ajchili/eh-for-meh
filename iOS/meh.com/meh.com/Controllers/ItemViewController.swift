@@ -24,6 +24,7 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
     var backgroundColor: UIColor?
     var foreground: String?
     var priceRange: String?
+    var hasShownMeh: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +33,9 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
         
         ref.child("info").observe(DataEventType.value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
+            
+            self.mehButton.isHidden = false
+            self.hasShownMeh = false
             
             self.titleLabel.text = value?["title"] as? String ?? "Title"
             self.titleLabel.sizeToFit()
@@ -55,7 +59,7 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
                 }
             }
             
-            if itemCount == 1 {
+            if itemCount == 1 || min == max {
                 self.priceLabel.text = "$\(min)"
             } else {
                 self.priceLabel.text = "$\(min) - $\(max)"
@@ -73,7 +77,7 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
             self.backgroundColor = UIColor.color(fromHexString: value?["backgroundColor"] as? String ?? "#000000")
             self.foreground = value?["backgroundColor"] as? String ?? "dark"
             
-            self.setColor()
+            self.setupView()
         }) { (error) in
             print(error.localizedDescription)
         }
@@ -82,30 +86,37 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        if self.webView?.request?.url?.absoluteString.range(of: "/vote") != nil {
-            self.webView?.stringByEvaluatingJavaScript(from: "document.getElementsByTagName('form')[1].submit();")
-        } else {
-            self.effectView.isHidden = true
-            self.mehButton.isHidden = true
-            
-            let alert = UIAlertController(title: "You have already voted", message: "We get it, it's meh, no need to tell us again.", preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-            
-            self.present(alert, animated: true, completion: nil)
+        let url: String? = self.webView?.request?.url?.absoluteString
+        if url != nil {
+            if url! == "https://meh.com/" {
+                self.webView?.stringByEvaluatingJavaScript(from: "document.getElementsByTagName('form')[1].submit();")
+            } else if url!.range(of: "signin") != nil {
+                self.effectView.isHidden = false
+            } else if url!.range(of: "vote") != nil || url!.range(of: "deals") != nil {
+                self.effectView.isHidden = true
+                self.mehButton.isHidden = true
+                
+                if !self.hasShownMeh {
+                    self.hasShownMeh = true
+                    let alert = UIAlertController(title: "You have already voted", message: "We get it, it's meh, no need to tell us again.", preferredStyle: .alert)
+                    
+                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
+                    
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
         }
     }
     
     @IBAction func mehButtonTouchUpInside(_ sender: Any) {
-        webView.loadRequest(URLRequest(url: URL(string: "https://meh.com")!))
-        effectView.isHidden = false
+        webView.loadRequest(URLRequest(url: URL(string: "https://meh.com/")!))
     }
     
     @IBAction func closeButtonTouchUpInside(_ sender: Any) {
         effectView.isHidden = true
     }
-    
-    private func setColor() {
+
+    private func setupView() {
         view.layer.backgroundColor = backgroundColor!.cgColor
         titleLabel.textColor = accentColor
         descriptionLabel.textColor = accentColor
@@ -122,6 +133,5 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
         mehButton.layer.cornerRadius = 5
         mehButton.isHidden = false
     }
-
 }
 
