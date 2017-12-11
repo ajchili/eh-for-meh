@@ -24,7 +24,6 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
     var backgroundColor: UIColor?
     var foreground: String?
     var priceRange: String?
-    var hasShownMeh: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +34,6 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
             let value = snapshot.value as? NSDictionary
             
             self.mehButton.isHidden = false
-            self.hasShownMeh = false
             
             self.titleLabel.text = value?["title"] as? String ?? "Title"
             self.titleLabel.sizeToFit()
@@ -95,15 +93,6 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
             } else if url!.range(of: "vote") != nil || url!.range(of: "deals") != nil {
                 self.effectView.isHidden = true
                 self.mehButton.isHidden = true
-                
-                if !self.hasShownMeh {
-                    self.hasShownMeh = true
-                    let alert = UIAlertController(title: "You have already voted", message: "We get it, it's meh, no need to tell us again.", preferredStyle: .alert)
-                    
-                    alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.default, handler: nil))
-                    
-                    self.present(alert, animated: true, completion: nil)
-                }
             }
         }
     }
