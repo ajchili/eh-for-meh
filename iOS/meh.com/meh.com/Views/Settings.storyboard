@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="29J-Xb-oP9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="29J-Xb-oP9">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,11 +35,30 @@
                                     </switch>
                                 </subviews>
                             </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Icons obtained form icons8.com." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LKP-kB-G8a">
+                                <rect key="frame" x="16" y="597.5" width="343" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IZZ-i8-V9Y">
+                                <rect key="frame" x="16" y="487.5" width="343" height="101.5"/>
+                                <string key="text">This app is not affiliated with meh.com and is created by a member of the Meh community. Any issues with this app should be reported to the app developer, not to Meh.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="LKP-kB-G8a" firstAttribute="bottom" secondItem="oZy-pI-yRO" secondAttribute="bottom" id="92i-yZ-xzJ"/>
+                            <constraint firstItem="IZZ-i8-V9Y" firstAttribute="leading" secondItem="oZy-pI-yRO" secondAttribute="leading" constant="16" id="CkS-9b-nZl"/>
                             <constraint firstItem="C0P-Ub-38P" firstAttribute="centerY" secondItem="Rc7-nR-Phn" secondAttribute="centerY" id="DWV-xm-qFu"/>
                             <constraint firstItem="C0P-Ub-38P" firstAttribute="centerX" secondItem="Rc7-nR-Phn" secondAttribute="centerX" id="LhD-Hk-lNH"/>
+                            <constraint firstItem="oZy-pI-yRO" firstAttribute="trailing" secondItem="IZZ-i8-V9Y" secondAttribute="trailing" constant="16" id="mo5-kA-pCC"/>
+                            <constraint firstItem="oZy-pI-yRO" firstAttribute="trailing" secondItem="LKP-kB-G8a" secondAttribute="trailing" constant="16" id="mvD-s0-fwY"/>
+                            <constraint firstItem="LKP-kB-G8a" firstAttribute="leading" secondItem="oZy-pI-yRO" secondAttribute="leading" constant="16" id="rxf-B3-Nci"/>
+                            <constraint firstItem="LKP-kB-G8a" firstAttribute="top" secondItem="IZZ-i8-V9Y" secondAttribute="bottom" constant="8" id="xcd-ov-MWA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="oZy-pI-yRO"/>
                     </view>

@@ -24,12 +24,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="this app is not affiliated with meh.com" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9nF-zg-ZiR">
-                                <rect key="frame" x="43" y="638" width="290" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="for meh.com" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2do-vK-5pQ">
                                 <rect key="frame" x="130" y="359" width="115" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -41,9 +35,7 @@
                         <constraints>
                             <constraint firstItem="2do-vK-5pQ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="WXg-tZ-Y1s"/>
                             <constraint firstItem="KAE-pn-8fc" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="XKB-0t-HYe"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="9nF-zg-ZiR" secondAttribute="bottom" constant="8" id="d7V-5C-MyB"/>
                             <constraint firstItem="2do-vK-5pQ" firstAttribute="top" secondItem="KAE-pn-8fc" secondAttribute="bottom" constant="8" id="kOf-fb-DFP"/>
-                            <constraint firstItem="9nF-zg-ZiR" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="tJI-A2-1lX"/>
                             <constraint firstItem="KAE-pn-8fc" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="uqy-H5-53Q"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
