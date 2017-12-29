@@ -18,24 +18,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="eh" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAE-pn-8fc">
-                                <rect key="frame" x="172" y="315.5" width="32.5" height="36"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="eh for meh" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAE-pn-8fc">
+                                <rect key="frame" x="119" y="315.5" width="137" height="36"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="for meh.com" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2do-vK-5pQ">
-                                <rect key="frame" x="130" y="359" width="115" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="2do-vK-5pQ" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="WXg-tZ-Y1s"/>
                             <constraint firstItem="KAE-pn-8fc" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="XKB-0t-HYe"/>
-                            <constraint firstItem="2do-vK-5pQ" firstAttribute="top" secondItem="KAE-pn-8fc" secondAttribute="bottom" constant="8" id="kOf-fb-DFP"/>
                             <constraint firstItem="KAE-pn-8fc" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="uqy-H5-53Q"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
