@@ -23,7 +23,6 @@ class WebViewController: UIViewController {
         ref.child("settings").observe(DataEventType.value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             
-            
             self.backgroundColor = UIColor.color(fromHexString: value?["backgroundColor"] as? String ?? "#000000")
             
             self.view.layer.backgroundColor = self.backgroundColor!.cgColor
