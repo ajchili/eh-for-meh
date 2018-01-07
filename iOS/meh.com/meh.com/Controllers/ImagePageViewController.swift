@@ -81,7 +81,7 @@ extension ImagePageViewController: UIPageViewControllerDataSource {
         
         let nextIndex = viewControllerIndex + 1
         
-        if (nextIndex > orderedViewControllers!.count) {
+        if (nextIndex >= orderedViewControllers!.count) {
             return orderedViewControllers![0]
         } else if (nextIndex < 0) {
             return orderedViewControllers![orderedViewControllers!.count - 1]
