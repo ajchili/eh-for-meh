@@ -30,45 +30,6 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
         
         ref = Database.database().reference()
         
-        ref.child("info").observe(DataEventType.value, with: { (snapshot) in
-            let value = snapshot.value as? NSDictionary
-            
-            self.mehButton.isHidden = false
-            
-            self.titleLabel.text = value?["title"] as? String ?? "Title"
-            self.titleLabel.sizeToFit()
-            let md = SwiftyMarkdown(string: value?["description"] as? String ?? "Description")
-            self.descriptionView.dataDetectorTypes = UIDataDetectorTypes.all
-            self.descriptionView.attributedText = md.attributedString()
-            self.descriptionView.sizeToFit()
-            // self.scrollView.contentSize = CGSize(width: self.scrollView.contentSize.width, height: self.descriptionLabel.frame.height)
-            
-            var min = Int.max
-            var max = 0
-            var itemCount = 0
-            
-            for child in snapshot.childSnapshot(forPath: "items").children.allObjects {
-                let childSnapshot = child as! DataSnapshot
-                
-                itemCount += 1
-                let price: Int = childSnapshot.childSnapshot(forPath: "price").value as! Int
-                if price < min {
-                    min = price
-                } else if price > max {
-                    max = price
-                }
-            }
-            
-            if itemCount == 1 || min == max {
-                self.priceLabel.text = "$\(min)"
-            } else {
-                self.priceLabel.text = "$\(min) - $\(max)"
-            }
-            self.priceLabel.sizeToFit()
-            self.priceLabel.frame = CGRect(x: self.priceLabel.frame.origin.x, y: self.priceLabel.frame.origin.y, width: self.priceLabel.frame.width + 20, height: 30)
-        }) { (error) in
-            print(error.localizedDescription)
-        }
         
         ref.child("settings").observe(DataEventType.value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
@@ -78,6 +39,46 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
             self.foreground = value?["backgroundColor"] as? String ?? "dark"
             
             self.setupView()
+            
+            self.ref.child("info").observe(DataEventType.value, with: { (snapshot) in
+                let value = snapshot.value as? NSDictionary
+                
+                self.mehButton.isHidden = false
+                
+                self.titleLabel.text = value?["title"] as? String ?? "Title"
+                self.titleLabel.sizeToFit()
+                let md = SwiftyMarkdown(string: value?["description"] as? String ?? "Description")
+                md.body.color = self.accentColor!
+                self.descriptionView.dataDetectorTypes = UIDataDetectorTypes.all
+                self.descriptionView.attributedText = md.attributedString()
+                self.descriptionView.sizeToFit()
+                
+                var min = Int.max
+                var max = 0
+                var itemCount = 0
+                
+                for child in snapshot.childSnapshot(forPath: "items").children.allObjects {
+                    let childSnapshot = child as! DataSnapshot
+                    
+                    itemCount += 1
+                    let price: Int = childSnapshot.childSnapshot(forPath: "price").value as! Int
+                    if price < min {
+                        min = price
+                    } else if price > max {
+                        max = price
+                    }
+                }
+                
+                if itemCount == 1 || min == max {
+                    self.priceLabel.text = "$\(min)"
+                } else {
+                    self.priceLabel.text = "$\(min) - $\(max)"
+                }
+                self.priceLabel.sizeToFit()
+                self.priceLabel.frame = CGRect(x: self.priceLabel.frame.origin.x, y: self.priceLabel.frame.origin.y, width: self.priceLabel.frame.width + 20, height: 30)
+            }) { (error) in
+                print(error.localizedDescription)
+            }
         }) { (error) in
             print(error.localizedDescription)
         }
