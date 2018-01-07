@@ -8,14 +8,14 @@
 
 import UIKit
 import FirebaseDatabase
+import SwiftyMarkdown
 
 class ItemViewController: UIViewController, UIWebViewDelegate {
     var ref: DatabaseReference!
     @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var descriptionLabel: UILabel!
+    @IBOutlet var descriptionView: UITextView!
     @IBOutlet var imageView: UIView!
     @IBOutlet var pageController: UIPageControl!
-    @IBOutlet var scrollView: UIScrollView!
     @IBOutlet var mehButton: UIButton!
     @IBOutlet var effectView: UIVisualEffectView!
     @IBOutlet var webView: UIWebView!
@@ -37,9 +37,11 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
             
             self.titleLabel.text = value?["title"] as? String ?? "Title"
             self.titleLabel.sizeToFit()
-            self.descriptionLabel.text = value?["description"] as? String ?? "Description"
-            self.descriptionLabel.sizeToFit()
-            self.scrollView.contentSize = CGSize(width: self.scrollView.contentSize.width, height: self.descriptionLabel.frame.height)
+            let md = SwiftyMarkdown(string: value?["description"] as? String ?? "Description")
+            self.descriptionView.dataDetectorTypes = UIDataDetectorTypes.all
+            self.descriptionView.attributedText = md.attributedString()
+            self.descriptionView.sizeToFit()
+            // self.scrollView.contentSize = CGSize(width: self.scrollView.contentSize.width, height: self.descriptionLabel.frame.height)
             
             var min = Int.max
             var max = 0
@@ -108,7 +110,8 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
     private func setupView() {
         view.layer.backgroundColor = backgroundColor!.cgColor
         titleLabel.textColor = accentColor
-        descriptionLabel.textColor = accentColor
+        descriptionView.backgroundColor = backgroundColor
+        descriptionView.textColor = accentColor
         pageController.currentPageIndicatorTintColor = accentColor
         webView.layer.cornerRadius = 5
         webView.layer.backgroundColor = backgroundColor!.cgColor

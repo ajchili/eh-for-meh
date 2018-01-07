@@ -64,15 +64,13 @@ extension ImagePageViewController: UIPageViewControllerDataSource {
         
         let previousIndex = viewControllerIndex - 1
         
-        guard previousIndex >= 0 else {
-            return nil
+        if (previousIndex > orderedViewControllers!.count) {
+            return orderedViewControllers![0]
+        } else if (previousIndex < 0) {
+            return orderedViewControllers![orderedViewControllers!.count - 1]
+        } else {
+            return orderedViewControllers![previousIndex]
         }
-        
-        guard orderedViewControllers!.count > previousIndex else {
-            return nil
-        }
-        
-        return orderedViewControllers![previousIndex]
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -82,17 +80,14 @@ extension ImagePageViewController: UIPageViewControllerDataSource {
         }
         
         let nextIndex = viewControllerIndex + 1
-        let orderedViewControllersCount = orderedViewControllers!.count
         
-        guard orderedViewControllersCount != nextIndex else {
-            return nil
+        if (nextIndex > orderedViewControllers!.count) {
+            return orderedViewControllers![0]
+        } else if (nextIndex < 0) {
+            return orderedViewControllers![orderedViewControllers!.count - 1]
+        } else {
+            return orderedViewControllers![nextIndex]
         }
-        
-        guard orderedViewControllersCount > nextIndex else {
-            return nil
-        }
-        
-        return orderedViewControllers![nextIndex]
     }
     
     func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
