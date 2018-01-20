@@ -10,22 +10,19 @@ import UIKit
 
 class ImageViewController: UIViewController {
     
+    let imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        return iv
+    }()
+    
     open var image: URL!
     var didLoad: Bool = false
-    @IBOutlet var imageView: UIImageView!
-    @IBOutlet var loadingIndicator: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = nil
         
-        imageView.layer.cornerRadius = 5
-        imageView.layer.masksToBounds = true
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        setupView()
         
         if (!didLoad) {
             didLoad = true
@@ -44,10 +41,16 @@ class ImageViewController: UIViewController {
                 DispatchQueue.main.async {
                     if let image = UIImage(data: data!) {
                         self.imageView.image = image
-                        self.loadingIndicator.stopAnimating()
                     }
                 }
             }).resume()
         }
+    }
+    
+    private func setupView() {
+        view.backgroundColor = nil
+        
+        view.addSubview(imageView)
+        imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
 }

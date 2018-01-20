@@ -11,15 +11,65 @@ import FirebaseDatabase
 import SwiftyMarkdown
 
 class ItemViewController: UIViewController, UIWebViewDelegate {
+    
     var ref: DatabaseReference!
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var descriptionView: UITextView!
-    @IBOutlet var imageView: UIView!
-    @IBOutlet var pageController: UIPageControl!
-    @IBOutlet var mehButton: UIButton!
-    @IBOutlet var effectView: UIVisualEffectView!
-    @IBOutlet var webView: UIWebView!
-    @IBOutlet var priceLabel: UILabel!
+    let imagePageViewController: ImagePageViewController = {
+        let ipvc = ImagePageViewController()
+        return ipvc
+    }()
+    
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont.boldSystemFont(ofSize: 30)
+        return label
+    }()
+    
+    let pageController: UIPageControl = {
+        let pc = UIPageControl()
+        return pc
+    }()
+    
+    let priceLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        return label
+    }()
+    
+    let mehButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.setTitle("meh", for: .normal)
+        button.sizeToFit()
+        button.addTarget(self, action: #selector(handleMeh), for: .touchUpInside)
+        return button
+    }()
+    
+    let descriptionView: UITextView = {
+        let tv = UITextView()
+        tv.isEditable = false
+        return tv
+    }()
+    
+    let effectView: UIVisualEffectView = {
+        let vev = UIVisualEffectView()
+        vev.effect = UIBlurEffect(style: .light)
+        return vev
+    }()
+    
+    let webView: UIWebView = {
+        let wb = UIWebView()
+        wb.layer.cornerRadius = 5.0
+        wb.layer.masksToBounds = true
+        return wb
+    }()
+    
+    let closeButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(handleClose), for: .touchUpInside)
+        return button
+    }()
+
     var accentColor: UIColor?
     var backgroundColor: UIColor?
     var foreground: String?
@@ -30,15 +80,14 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
         
         ref = Database.database().reference()
         
-        
         ref.child("settings").observe(DataEventType.value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
             
             self.accentColor = UIColor.color(fromHexString: value?["accentColor"] as? String ?? "#ffffff")
             self.backgroundColor = UIColor.color(fromHexString: value?["backgroundColor"] as? String ?? "#000000")
-            self.foreground = value?["backgroundColor"] as? String ?? "dark"
+            self.foreground = value?["foreground"] as? String ?? "dark"
             
-            self.setupView()
+            self.prettyView()
             
             self.ref.child("info").observe(DataEventType.value, with: { (snapshot) in
                 let value = snapshot.value as? NSDictionary
@@ -75,7 +124,7 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
                     self.priceLabel.text = "$\(min) - $\(max)"
                 }
                 self.priceLabel.sizeToFit()
-                self.priceLabel.frame = CGRect(x: self.priceLabel.frame.origin.x, y: self.priceLabel.frame.origin.y, width: self.priceLabel.frame.width + 20, height: 30)
+                self.priceLabel.anchor(top: nil, left: self.imagePageViewController.view.leftAnchor, bottom: self.imagePageViewController.view.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: -10, paddingRight: 0, width: self.priceLabel.frame.width + 20, height: 0)
             }) { (error) in
                 print(error.localizedDescription)
             }
@@ -83,14 +132,16 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
             print(error.localizedDescription)
         }
         
+        setupView()
+        
         webView.delegate = self
     }
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        let url: String? = self.webView?.request?.url?.absoluteString
+        let url: String? = self.webView.request?.url?.absoluteString
         if url != nil {
             if url! == "https://meh.com/" {
-                self.webView?.stringByEvaluatingJavaScript(from: "document.getElementsByTagName('form')[1].submit();")
+                self.webView.stringByEvaluatingJavaScript(from: "document.getElementsByTagName('form')[1].submit();")
             } else if url!.range(of: "signin") != nil {
                 self.effectView.isHidden = false
             } else if url!.range(of: "vote") != nil || url!.range(of: "deals") != nil {
@@ -100,31 +151,62 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
         }
     }
     
-    @IBAction func mehButtonTouchUpInside(_ sender: Any) {
+    @objc func handleMeh() {
         webView.loadRequest(URLRequest(url: URL(string: "https://meh.com/")!))
     }
     
-    @IBAction func closeButtonTouchUpInside(_ sender: Any) {
+    @objc func handleClose() {
         effectView.isHidden = true
     }
 
     private func setupView() {
-        view.layer.backgroundColor = backgroundColor!.cgColor
+        addChildViewController(imagePageViewController)
+        view.addSubview(imagePageViewController.view)
+        imagePageViewController.didMove(toParentViewController: self)
+        imagePageViewController.view.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: ((view.frame.width - 20) / 4) * 3)
+        
+        view.addSubview(pageController)
+        pageController.anchor(top: imagePageViewController.view.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
+        pageController.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        view.addSubview(titleLabel)
+        titleLabel.anchor(top: pageController.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        
+        view.addSubview(priceLabel)
+        priceLabel.anchor(top: nil, left: imagePageViewController.view.leftAnchor, bottom: imagePageViewController.view.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: -10, paddingRight: 0, width: 0, height: 30)
+        
+        view.addSubview(mehButton)
+        mehButton.anchor(top: nil, left: nil, bottom: imagePageViewController.view.bottomAnchor, right: imagePageViewController.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: -10, paddingRight: 0, width: mehButton.frame.width + 20, height: 30)
+        
+        view.addSubview(descriptionView)
+        descriptionView.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: -10, paddingRight: 10, width: 0, height: 0)
+        
+        view.addSubview(effectView)
+        effectView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        effectView.isHidden = true
+        
+        effectView.contentView.addSubview(closeButton)
+        closeButton.anchor(top: effectView.topAnchor, left: effectView.leftAnchor, bottom: effectView.bottomAnchor, right: effectView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        effectView.contentView.addSubview(webView)
+        webView.anchor(top: effectView.topAnchor, left: effectView.leftAnchor, bottom: nil, right: effectView.rightAnchor, paddingTop: 40, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: (view.frame.height / 4) * 3)
+    }
+    
+    private func prettyView() {
+        view.layer.backgroundColor = backgroundColor?.cgColor
+        pageController.currentPageIndicatorTintColor = accentColor
         titleLabel.textColor = accentColor
+        priceLabel.textColor = .white
+        priceLabel.backgroundColor = accentColor
+        priceLabel.layer.masksToBounds = true
+        priceLabel.layer.cornerRadius = 5.0
+        mehButton.setTitleColor(.white, for: .normal)
+        mehButton.backgroundColor = accentColor
+        mehButton.tintColor = accentColor
+        mehButton.layer.masksToBounds = true
+        mehButton.layer.cornerRadius = 5.0
         descriptionView.backgroundColor = backgroundColor
         descriptionView.textColor = accentColor
-        pageController.currentPageIndicatorTintColor = accentColor
-        webView.layer.cornerRadius = 5
-        webView.layer.backgroundColor = backgroundColor!.cgColor
-        webView.layer.masksToBounds = true
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        priceLabel.backgroundColor = accentColor
-        priceLabel.layer.cornerRadius = 5
-        priceLabel.layer.masksToBounds = true
-        priceLabel.isHidden = false
-        mehButton.backgroundColor = accentColor
-        mehButton.layer.cornerRadius = 5
-        mehButton.isHidden = false
     }
 }
 

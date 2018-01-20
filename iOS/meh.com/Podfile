@@ -10,5 +10,12 @@ target 'meh.com' do
   pod 'Firebase/Database'
   pod 'Firebase/Messaging'
   pod 'SwiftyMarkdown'
+end
 
+target 'Meh Deal' do
+    use_frameworks!
+    
+    # Pods for meh.com
+    pod 'Firebase/Core'
+    pod 'Firebase/Database'
 end

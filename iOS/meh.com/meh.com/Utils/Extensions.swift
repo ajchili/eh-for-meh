@@ -1,14 +1,18 @@
 //
-//  UIColorFromRGB.swift
+//  Extensions.swift
 //
+//  Created by Kirin Patel on 1/17/18.
+//  Copyright © 2018 Kirin Patel. All rights reserved.
 //
-//  Created by Alex Gotev on 21/11/16.
-//
-//
-import Foundation
+
 import UIKit
 
-public extension UIColor {
+extension UIColor {
+    
+    static func rgb(red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
+        return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: 1)
+    }
+    
     public static func color(fromHexString: String, alpha:CGFloat? = 1.0) -> UIColor {
         // Convert hex string to an integer
         let hexint = Int(colorInteger(fromHexString: fromHexString))
@@ -59,5 +63,37 @@ public extension UIColor {
         // https://24ways.org/2010/calculating-color-contrast/
         let yiq = ((red * 299) + (green * 587) + (blue * 114)) / 1000
         return yiq < 192
+    }
+}
+
+extension UIView {
+    
+    func anchor(top: NSLayoutYAxisAnchor?, left: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, right: NSLayoutXAxisAnchor?, paddingTop: CGFloat, paddingLeft: CGFloat, paddingBottom: CGFloat, paddingRight: CGFloat, width: CGFloat, height: CGFloat) {
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        if let top = top {
+            topAnchor.constraint(equalTo: top, constant: paddingTop).isActive = true
+        }
+        
+        if let left = left {
+            leftAnchor.constraint(equalTo: left, constant: paddingLeft).isActive = true
+        }
+        
+        if let bottom = bottom {
+            bottomAnchor.constraint(equalTo: bottom, constant: paddingBottom).isActive = true
+        }
+        
+        if let right = right {
+            rightAnchor.constraint(equalTo: right, constant: -paddingRight).isActive = true
+        }
+        
+        if width != 0 {
+            widthAnchor.constraint(equalToConstant: width).isActive = true
+        }
+        
+        if height != 0 {
+            heightAnchor.constraint(equalToConstant: height).isActive = true
+        }
     }
 }

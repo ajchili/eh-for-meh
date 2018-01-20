@@ -17,113 +17,15 @@
                     <view key="view" contentMode="scaleToFill" id="lZu-hl-aqA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eN2-Va-Rp4">
-                                <rect key="frame" x="16" y="20" width="382" height="343"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="343" id="pdQ-Ya-fDg"/>
-                                </constraints>
-                                <connections>
-                                    <segue destination="erk-F5-DlC" kind="embed" id="HDk-me-w7H"/>
-                                </connections>
-                            </containerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Yx-a2-rXt">
-                                <rect key="frame" x="16" y="416" width="382" height="40"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <pageControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="1" translatesAutoresizingMaskIntoConstraints="NO" id="is3-XE-D2Y">
-                                <rect key="frame" x="16" y="371" width="382" height="37"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            </pageControl>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yMF-p2-opl">
-                                <rect key="frame" x="23" y="329" width="89" height="30"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rae-0i-rZ8">
-                                <rect key="frame" x="348" y="329" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal" title="meh">
-                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                </state>
-                                <connections>
-                                    <action selector="mehButtonTouchUpInside:" destination="zCa-EE-DHO" eventType="touchUpInside" id="S0z-uT-8Pb"/>
-                                </connections>
-                            </button>
-                            <visualEffectView hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="syo-O2-TX6">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" id="VA4-VR-FUe">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JEq-G4-HuW">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="687"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                            <connections>
-                                                <action selector="closeButtonTouchUpInside:" destination="zCa-EE-DHO" eventType="touchUpInside" id="SMZ-OX-ux2"/>
-                                            </connections>
-                                        </button>
-                                        <webView contentMode="scaleToFill" fixedFrame="YES" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BtK-k7-Ikc">
-                                            <rect key="frame" x="8" y="21" width="398" height="537"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </webView>
-                                    </subviews>
-                                </view>
-                                <blurEffect style="light"/>
-                            </visualEffectView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="18O-VC-cPo">
-                                <rect key="frame" x="16" y="464" width="378" height="223"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <accessibility key="accessibilityConfiguration">
-                                    <accessibilityTraits key="traits" link="YES" notEnabled="YES"/>
-                                    <bool key="isElement" value="NO"/>
-                                </accessibility>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <dataDetectorType key="dataDetectorTypes" link="YES"/>
-                            </textView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="eN2-Va-Rp4" firstAttribute="top" secondItem="cbB-qZ-aum" secondAttribute="top" id="5HJ-Ej-VZ3"/>
-                            <constraint firstItem="cbB-qZ-aum" firstAttribute="trailing" secondItem="eN2-Va-Rp4" secondAttribute="trailing" constant="16" id="aMo-8m-czX"/>
-                            <constraint firstItem="eN2-Va-Rp4" firstAttribute="leading" secondItem="cbB-qZ-aum" secondAttribute="leading" constant="16" id="n8f-pI-3OV"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="cbB-qZ-aum"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="View" image="view" id="oUp-ww-cXC"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="descriptionView" destination="18O-VC-cPo" id="Pj7-mA-OQj"/>
-                        <outlet property="effectView" destination="syo-O2-TX6" id="sDz-Tg-T6b"/>
-                        <outlet property="imageView" destination="eN2-Va-Rp4" id="hJi-9X-uiI"/>
-                        <outlet property="mehButton" destination="rae-0i-rZ8" id="BtV-Bb-nd4"/>
-                        <outlet property="pageController" destination="is3-XE-D2Y" id="A1R-9i-luG"/>
-                        <outlet property="priceLabel" destination="yMF-p2-opl" id="sir-xB-er1"/>
-                        <outlet property="titleLabel" destination="3Yx-a2-rXt" id="cyj-zF-onZ"/>
-                        <outlet property="webView" destination="BtK-k7-Ikc" id="u6l-th-OAw"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Mq-cy-lVe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="49.275362318840585" y="-31.793478260869566"/>
-        </scene>
-        <!--Image Page View Controller-->
-        <scene sceneID="yNF-2Y-MNe">
-            <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" pageSpacing="5" navigationOrientation="horizontal" spineLocation="none" id="erk-F5-DlC" customClass="ImagePageViewController" customModule="meh_com" customModuleProvider="target" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="z4Z-Jo-nhi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="743" y="-31"/>
         </scene>
     </scenes>
     <resources>

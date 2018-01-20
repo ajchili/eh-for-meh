@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2AA37B06988EE5272DFE884A /* Pods_Meh_Deal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD64933D1800455A5CA2E589 /* Pods_Meh_Deal.framework */; };
 		780630BF1FF6DC5F00D2019D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 780630BE1FF6DC5F00D2019D /* GoogleService-Info.plist */; };
-		7826E0E81FD64D480011AA23 /* UIColorFromRGB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7826E0E71FD64D480011AA23 /* UIColorFromRGB.swift */; };
+		78266BC1200FC7F400BF5BD8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78266BC0200FC7F400BF5BD8 /* Extensions.swift */; };
 		7826E0EA1FD655400011AA23 /* ImagePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7826E0E91FD655400011AA23 /* ImagePageViewController.swift */; };
-		7826E0EC1FD658FC0011AA23 /* ImageView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7826E0EB1FD658FC0011AA23 /* ImageView.storyboard */; };
 		7826E0EE1FD659320011AA23 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7826E0ED1FD659320011AA23 /* ImageViewController.swift */; };
 		7830BD921FD5BEF300F3D371 /* ItemView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7830BD911FD5BEF300F3D371 /* ItemView.storyboard */; };
 		7830BD941FD5BF8D00F3D371 /* WebView.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7830BD931FD5BF8D00F3D371 /* WebView.storyboard */; };
@@ -18,6 +18,12 @@
 		7830BD991FD5C1EB00F3D371 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830BD981FD5C1EB00F3D371 /* ItemViewController.swift */; };
 		785C37FA1FD76C52002CE08C /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 785C37F91FD76C52002CE08C /* Settings.storyboard */; };
 		785C37FC1FD76D0D002CE08C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785C37FB1FD76D0D002CE08C /* SettingsViewController.swift */; };
+		785D3ECB20131C9B00EB1598 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 785D3ECA20131C9B00EB1598 /* NotificationCenter.framework */; };
+		785D3ECE20131C9B00EB1598 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785D3ECD20131C9B00EB1598 /* TodayViewController.swift */; };
+		785D3ED120131C9B00EB1598 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 785D3ECF20131C9B00EB1598 /* MainInterface.storyboard */; };
+		785D3ED520131C9B00EB1598 /* Meh Deal.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 785D3EC920131C9B00EB1598 /* Meh Deal.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		785D3EDC20131EFC00EB1598 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785D3EDB20131EFC00EB1598 /* Extensions.swift */; };
+		785D3EDE20131F9F00EB1598 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 785D3EDD20131F9F00EB1598 /* GoogleService-Info.plist */; };
 		78952D8F1FD5BDCF000E0AAC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78952D8E1FD5BDCF000E0AAC /* AppDelegate.swift */; };
 		78952D961FD5BDCF000E0AAC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78952D941FD5BDCF000E0AAC /* Main.storyboard */; };
 		78952D981FD5BDCF000E0AAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78952D971FD5BDCF000E0AAC /* Assets.xcassets */; };
@@ -25,13 +31,37 @@
 		A9E3D3EBBF74004850F4629F /* Pods_meh_com.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9B8600787B1AEA09CCDBB8F /* Pods_meh_com.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		785D3ED320131C9B00EB1598 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 78952D831FD5BDCE000E0AAC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 785D3EC820131C9B00EB1598;
+			remoteInfo = "Meh Deal";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		785D3ED920131C9B00EB1598 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				785D3ED520131C9B00EB1598 /* Meh Deal.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		12EBA40DFD69FE30FAB18F22 /* Pods-Meh Deal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meh Deal.release.xcconfig"; path = "Pods/Target Support Files/Pods-Meh Deal/Pods-Meh Deal.release.xcconfig"; sourceTree = "<group>"; };
 		38CA4D8E12BF331B76676C17 /* Pods-meh.com.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meh.com.release.xcconfig"; path = "Pods/Target Support Files/Pods-meh.com/Pods-meh.com.release.xcconfig"; sourceTree = "<group>"; };
 		3CDDDA797F244B5C653149C6 /* Pods-meh.com.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meh.com.debug.xcconfig"; path = "Pods/Target Support Files/Pods-meh.com/Pods-meh.com.debug.xcconfig"; sourceTree = "<group>"; };
 		780630BE1FF6DC5F00D2019D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		7826E0E71FD64D480011AA23 /* UIColorFromRGB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorFromRGB.swift; sourceTree = "<group>"; };
+		78266BC0200FC7F400BF5BD8 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7826E0E91FD655400011AA23 /* ImagePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePageViewController.swift; sourceTree = "<group>"; };
-		7826E0EB1FD658FC0011AA23 /* ImageView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImageView.storyboard; sourceTree = "<group>"; };
 		7826E0ED1FD659320011AA23 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		7830BD911FD5BEF300F3D371 /* ItemView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ItemView.storyboard; sourceTree = "<group>"; };
 		7830BD931FD5BF8D00F3D371 /* WebView.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = WebView.storyboard; sourceTree = "<group>"; };
@@ -40,16 +70,34 @@
 		785C37F91FD76C52002CE08C /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		785C37FB1FD76D0D002CE08C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		785C37FD1FD7A2DF002CE08C /* meh.com.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = meh.com.entitlements; sourceTree = "<group>"; };
+		785D3EC920131C9B00EB1598 /* Meh Deal.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Meh Deal.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		785D3ECA20131C9B00EB1598 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
+		785D3ECD20131C9B00EB1598 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
+		785D3ED020131C9B00EB1598 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
+		785D3ED220131C9B00EB1598 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		785D3EDB20131EFC00EB1598 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		785D3EDD20131F9F00EB1598 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "meh.com/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		78952D8B1FD5BDCE000E0AAC /* meh.com.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = meh.com.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78952D8E1FD5BDCF000E0AAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78952D951FD5BDCF000E0AAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		78952D971FD5BDCF000E0AAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		78952D9A1FD5BDCF000E0AAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		78952D9C1FD5BDCF000E0AAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		903BF7FAD035129F02A7C4FD /* Pods-Meh Deal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meh Deal.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Meh Deal/Pods-Meh Deal.debug.xcconfig"; sourceTree = "<group>"; };
+		AD64933D1800455A5CA2E589 /* Pods_Meh_Deal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Meh_Deal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9B8600787B1AEA09CCDBB8F /* Pods_meh_com.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_meh_com.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		785D3EC620131C9B00EB1598 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				785D3ECB20131C9B00EB1598 /* NotificationCenter.framework in Frameworks */,
+				2AA37B06988EE5272DFE884A /* Pods_Meh_Deal.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		78952D881FD5BDCE000E0AAC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -65,16 +113,18 @@
 			isa = PBXGroup;
 			children = (
 				E9B8600787B1AEA09CCDBB8F /* Pods_meh_com.framework */,
+				785D3ECA20131C9B00EB1598 /* NotificationCenter.framework */,
+				AD64933D1800455A5CA2E589 /* Pods_Meh_Deal.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7826E0E61FD64D360011AA23 /* Extensions */ = {
+		78266BBF200FC7E300BF5BD8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				7826E0E71FD64D480011AA23 /* UIColorFromRGB.swift */,
+				78266BC0200FC7F400BF5BD8 /* Extensions.swift */,
 			);
-			path = Extensions;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		7830BD8F1FD5BECD00F3D371 /* Views */ = {
@@ -84,7 +134,6 @@
 				78952D941FD5BDCF000E0AAC /* Main.storyboard */,
 				7830BD911FD5BEF300F3D371 /* ItemView.storyboard */,
 				7830BD931FD5BF8D00F3D371 /* WebView.storyboard */,
-				7826E0EB1FD658FC0011AA23 /* ImageView.storyboard */,
 				785C37F91FD76C52002CE08C /* Settings.storyboard */,
 			);
 			path = Views;
@@ -102,10 +151,31 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		785D3ECC20131C9B00EB1598 /* Meh Deal */ = {
+			isa = PBXGroup;
+			children = (
+				785D3EDA20131EE900EB1598 /* Utils */,
+				785D3ECD20131C9B00EB1598 /* TodayViewController.swift */,
+				785D3ECF20131C9B00EB1598 /* MainInterface.storyboard */,
+				785D3ED220131C9B00EB1598 /* Info.plist */,
+				785D3EDD20131F9F00EB1598 /* GoogleService-Info.plist */,
+			);
+			path = "Meh Deal";
+			sourceTree = "<group>";
+		};
+		785D3EDA20131EE900EB1598 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				785D3EDB20131EFC00EB1598 /* Extensions.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		78952D821FD5BDCE000E0AAC = {
 			isa = PBXGroup;
 			children = (
 				78952D8D1FD5BDCE000E0AAC /* meh.com */,
+				785D3ECC20131C9B00EB1598 /* Meh Deal */,
 				78952D8C1FD5BDCE000E0AAC /* Products */,
 				BBFE7EFBD100451A811A6FFD /* Pods */,
 				67FF1084BEAA0FC7D813C28A /* Frameworks */,
@@ -116,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				78952D8B1FD5BDCE000E0AAC /* meh.com.app */,
+				785D3EC920131C9B00EB1598 /* Meh Deal.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -123,14 +194,14 @@
 		78952D8D1FD5BDCE000E0AAC /* meh.com */ = {
 			isa = PBXGroup;
 			children = (
-				785C37FD1FD7A2DF002CE08C /* meh.com.entitlements */,
-				7826E0E61FD64D360011AA23 /* Extensions */,
+				78266BBF200FC7E300BF5BD8 /* Utils */,
 				7830BD951FD5C07B00F3D371 /* Controllers */,
 				7830BD8F1FD5BECD00F3D371 /* Views */,
 				78952D8E1FD5BDCF000E0AAC /* AppDelegate.swift */,
 				78952D971FD5BDCF000E0AAC /* Assets.xcassets */,
 				78952D9C1FD5BDCF000E0AAC /* Info.plist */,
 				780630BE1FF6DC5F00D2019D /* GoogleService-Info.plist */,
+				785C37FD1FD7A2DF002CE08C /* meh.com.entitlements */,
 			);
 			path = meh.com;
 			sourceTree = "<group>";
@@ -140,6 +211,8 @@
 			children = (
 				3CDDDA797F244B5C653149C6 /* Pods-meh.com.debug.xcconfig */,
 				38CA4D8E12BF331B76676C17 /* Pods-meh.com.release.xcconfig */,
+				903BF7FAD035129F02A7C4FD /* Pods-Meh Deal.debug.xcconfig */,
+				12EBA40DFD69FE30FAB18F22 /* Pods-Meh Deal.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -147,6 +220,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		785D3EC820131C9B00EB1598 /* Meh Deal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 785D3ED820131C9B00EB1598 /* Build configuration list for PBXNativeTarget "Meh Deal" */;
+			buildPhases = (
+				62D3AEFB5B9B9A57E1960FA8 /* [CP] Check Pods Manifest.lock */,
+				785D3EC520131C9B00EB1598 /* Sources */,
+				785D3EC620131C9B00EB1598 /* Frameworks */,
+				785D3EC720131C9B00EB1598 /* Resources */,
+				B91FC1D3E7D4F2BE688508BB /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Meh Deal";
+			productName = "Meh Deal";
+			productReference = 785D3EC920131C9B00EB1598 /* Meh Deal.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		78952D8A1FD5BDCE000E0AAC /* meh.com */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 78952D9F1FD5BDCF000E0AAC /* Build configuration list for PBXNativeTarget "meh.com" */;
@@ -157,10 +249,12 @@
 				78952D891FD5BDCE000E0AAC /* Resources */,
 				5DD3E0702F4ED20FE681A370 /* [CP] Embed Pods Frameworks */,
 				92A53A6DD2ADB0D24D82244A /* [CP] Copy Pods Resources */,
+				785D3ED920131C9B00EB1598 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				785D3ED420131C9B00EB1598 /* PBXTargetDependency */,
 			);
 			name = meh.com;
 			productName = meh.com;
@@ -173,10 +267,14 @@
 		78952D831FD5BDCE000E0AAC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0910;
+				LastSwiftUpdateCheck = 0920;
 				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Kirin Patel";
 				TargetAttributes = {
+					785D3EC820131C9B00EB1598 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
 					78952D8A1FD5BDCE000E0AAC = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
@@ -202,11 +300,21 @@
 			projectRoot = "";
 			targets = (
 				78952D8A1FD5BDCE000E0AAC /* meh.com */,
+				785D3EC820131C9B00EB1598 /* Meh Deal */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		785D3EC720131C9B00EB1598 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				785D3ED120131C9B00EB1598 /* MainInterface.storyboard in Resources */,
+				785D3EDE20131F9F00EB1598 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		78952D891FD5BDCE000E0AAC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -218,7 +326,6 @@
 				785C37FA1FD76C52002CE08C /* Settings.storyboard in Resources */,
 				78952D981FD5BDCF000E0AAC /* Assets.xcassets in Resources */,
 				78952D961FD5BDCF000E0AAC /* Main.storyboard in Resources */,
-				7826E0EC1FD658FC0011AA23 /* ImageView.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,11 +339,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-meh.com/Pods-meh.com-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-Defines-Logger-NSData+zlib/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyMarkdown/SwiftyMarkdown.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac-Defines-NSData+zlib/GoogleToolboxForMac.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
@@ -245,10 +353,29 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyMarkdown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-meh.com/Pods-meh.com-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		62D3AEFB5B9B9A57E1960FA8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Meh Deal-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6D6117D46929F9FFCAF21ED0 /* [CP] Check Pods Manifest.lock */ = {
@@ -284,9 +411,33 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-meh.com/Pods-meh.com-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B91FC1D3E7D4F2BE688508BB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Meh Deal/Pods-Meh Deal-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		785D3EC520131C9B00EB1598 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				785D3ECE20131C9B00EB1598 /* TodayViewController.swift in Sources */,
+				785D3EDC20131EFC00EB1598 /* Extensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		78952D871FD5BDCE000E0AAC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -294,16 +445,32 @@
 				78952D8F1FD5BDCF000E0AAC /* AppDelegate.swift in Sources */,
 				7830BD991FD5C1EB00F3D371 /* ItemViewController.swift in Sources */,
 				785C37FC1FD76D0D002CE08C /* SettingsViewController.swift in Sources */,
+				78266BC1200FC7F400BF5BD8 /* Extensions.swift in Sources */,
 				7830BD971FD5C0AB00F3D371 /* WebViewController.swift in Sources */,
 				7826E0EA1FD655400011AA23 /* ImagePageViewController.swift in Sources */,
 				7826E0EE1FD659320011AA23 /* ImageViewController.swift in Sources */,
-				7826E0E81FD64D480011AA23 /* UIColorFromRGB.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		785D3ED420131C9B00EB1598 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 785D3EC820131C9B00EB1598 /* Meh Deal */;
+			targetProxy = 785D3ED320131C9B00EB1598 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		785D3ECF20131C9B00EB1598 /* MainInterface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				785D3ED020131C9B00EB1598 /* Base */,
+			);
+			name = MainInterface.storyboard;
+			sourceTree = "<group>";
+		};
 		78952D941FD5BDCF000E0AAC /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -323,6 +490,40 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		785D3ED620131C9B00EB1598 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 903BF7FAD035129F02A7C4FD /* Pods-Meh Deal.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T4GLZ43QVM;
+				INFOPLIST_FILE = "Meh Deal/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kirinpatel.meh.Meh-Deal";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		785D3ED720131C9B00EB1598 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 12EBA40DFD69FE30FAB18F22 /* Pods-Meh Deal.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T4GLZ43QVM;
+				INFOPLIST_FILE = "Meh Deal/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kirinpatel.meh.Meh-Deal";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		78952D9D1FD5BDCF000E0AAC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -434,6 +635,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3CDDDA797F244B5C653149C6 /* Pods-meh.com.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = meh.com/meh.com.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -452,6 +654,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 38CA4D8E12BF331B76676C17 /* Pods-meh.com.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = meh.com/meh.com.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -469,6 +672,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		785D3ED820131C9B00EB1598 /* Build configuration list for PBXNativeTarget "Meh Deal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				785D3ED620131C9B00EB1598 /* Debug */,
+				785D3ED720131C9B00EB1598 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		78952D861FD5BDCE000E0AAC /* Build configuration list for PBXProject "meh.com" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
