@@ -118,6 +118,10 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
                     }
                 }
                 
+                if max == 0 {
+                    max = min
+                }
+                
                 if itemCount == 1 || min == max {
                     self.priceLabel.text = "$\(min)"
                 } else {

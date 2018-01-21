@@ -19,6 +19,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         return iv
     }()
     
+    let progressView: UIActivityIndicatorView = {
+        let aiv = UIActivityIndicatorView()
+        aiv.hidesWhenStopped = true
+        return aiv
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -41,11 +47,21 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         return button
     }()
     
+    let buyButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Buy", for: .normal)
+        button.sizeToFit()
+        button.addTarget(self, action: #selector(handleBuy), for: .touchUpInside)
+        return button
+    }()
+    
     private static var hasBeenConfigured: Bool = false
     private static var didLoad: Bool = false
         
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        extensionContext?.widgetLargestAvailableDisplayMode = .expanded
         
         if !TodayViewController.hasBeenConfigured {
             TodayViewController.hasBeenConfigured = true
@@ -71,6 +87,14 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         completionHandler(NCUpdateResult.newData)
     }
     
+    func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
+        if activeDisplayMode == .expanded {
+            preferredContentSize = CGSize(width: 0.0, height: 200.0)
+        } else {
+            preferredContentSize = maxSize
+        }
+    }
+    
     @objc func handleView() {
         let url: URL? = URL(string: "meh:")!
         
@@ -79,18 +103,30 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         }
     }
     
+    @objc func handleBuy() {
+        self.extensionContext!.open(URL(string: "https://meh.com/account/signin?returnurl=https%3A%2F%2Fmeh.com%2F%23checkout")!, completionHandler: nil)
+    }
+    
     fileprivate func setupView() {
-        // view.addSubview(imageView)
-        // imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        view.addSubview(imageView)
+        imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 80)
+        
+        view.addSubview(progressView)
+        progressView.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        progressView.startAnimating()
         
         view.addSubview(titleLabel)
-        titleLabel.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        titleLabel.anchor(top: imageView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
         
         view.addSubview(priceLabel)
         priceLabel.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
         
         view.addSubview(viewButton)
         viewButton.anchor(top: priceLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        view.addSubview(buyButton)
+        buyButton.anchor(top: priceLabel.bottomAnchor, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
     }
     
     fileprivate func pullDeal() {
@@ -118,23 +154,26 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 }
             }
             
+            if max == 0 {
+                max = min
+            }
+            
             if itemCount == 1 || min == max {
                 self.priceLabel.text = "Price: $\(min)"
             } else {
                 self.priceLabel.text = "Prices: $\(min) - $\(max)"
             }
             self.priceLabel.sizeToFit()
-        }) { (error) in
-            print(error.localizedDescription)
-        }
-        
-        ref.child("info").child("photos").observeSingleEvent(of: .value, with: { (snapshot) in
-            let value = snapshot.value as? NSDictionary
             
-            let url: String = value?["0"] as? String ?? ""
-            
-            if url.count != 0 {
-                // self.loadImage(url: URL(string: url)!)
+            for child in snapshot.childSnapshot(forPath: "photos").children.allObjects {
+                let childSnapshot = child as! DataSnapshot
+                
+                let url: String = childSnapshot.value as? String ?? ""
+                
+                if url.count != 0 {
+                    self.loadImage(url: URL(string: url)!)
+                }
+                break;
             }
         }) { (error) in
             print(error.localizedDescription)
@@ -160,6 +199,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             DispatchQueue.main.async {
                 if let image = UIImage(data: data!) {
                     self.imageView.image = image
+                    self.progressView.stopAnimating()
                 }
             }
         }).resume()
