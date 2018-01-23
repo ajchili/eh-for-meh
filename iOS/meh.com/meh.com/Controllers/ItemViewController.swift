@@ -41,6 +41,7 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.setTitle("meh", for: .normal)
         button.sizeToFit()
+        button.isHidden = true
         button.addTarget(self, action: #selector(handleMeh), for: .touchUpInside)
         return button
     }()
@@ -100,7 +101,7 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
                 md.body.color = self.accentColor!
                 self.descriptionView.dataDetectorTypes = UIDataDetectorTypes.all
                 self.descriptionView.attributedText = md.attributedString()
-                self.descriptionView.sizeToFit()
+                self.descriptionView.scrollsToTop = true
                 
                 var min = Int.max
                 var max = 0
@@ -167,7 +168,7 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
         addChildViewController(imagePageViewController)
         view.addSubview(imagePageViewController.view)
         imagePageViewController.didMove(toParentViewController: self)
-        imagePageViewController.view.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 40, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: ((view.frame.width - 20) / 4) * 3)
+        imagePageViewController.view.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: ((view.frame.width - 20) / 4) * 3)
         
         view.addSubview(pageController)
         pageController.anchor(top: imagePageViewController.view.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 30)
@@ -183,7 +184,7 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
         mehButton.anchor(top: nil, left: nil, bottom: imagePageViewController.view.bottomAnchor, right: imagePageViewController.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: -10, paddingRight: 0, width: mehButton.frame.width + 20, height: 30)
         
         view.addSubview(descriptionView)
-        descriptionView.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: -10, paddingRight: 10, width: 0, height: 0)
+        descriptionView.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: -10, paddingRight: 10, width: 0, height: 0)
         
         view.addSubview(effectView)
         effectView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
@@ -193,7 +194,7 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
         closeButton.anchor(top: effectView.topAnchor, left: effectView.leftAnchor, bottom: effectView.bottomAnchor, right: effectView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         effectView.contentView.addSubview(webView)
-        webView.anchor(top: effectView.topAnchor, left: effectView.leftAnchor, bottom: nil, right: effectView.rightAnchor, paddingTop: 40, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: (view.frame.height / 4) * 3)
+        webView.anchor(top: effectView.safeAreaLayoutGuide.topAnchor, left: effectView.leftAnchor, bottom: nil, right: effectView.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: (view.frame.height / 4) * 3)
     }
     
     private func prettyView() {

@@ -89,7 +89,8 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
         if activeDisplayMode == .expanded {
-            preferredContentSize = CGSize(width: 0.0, height: 200.0)
+            let height = 50 + imageView.frame.height + titleLabel.frame.height + priceLabel.frame.height + viewButton.frame.height
+            preferredContentSize = CGSize(width: 0.0, height: height)
         } else {
             preferredContentSize = maxSize
         }

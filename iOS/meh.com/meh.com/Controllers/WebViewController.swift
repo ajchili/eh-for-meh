@@ -25,7 +25,7 @@ class WebViewController: UIViewController {
         ref = Database.database().reference()
         
         view.addSubview(webView)
-        webView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        webView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         ref.child("settings").observe(DataEventType.value, with: { (snapshot) in
             let value = snapshot.value as? NSDictionary
