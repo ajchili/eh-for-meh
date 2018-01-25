@@ -27,14 +27,15 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.font = UIFont.boldSystemFont(ofSize: 18.0)
+        label.numberOfLines = 2
         label.text = ""
         return label
     }()
     
     let priceLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 1
         label.text = ""
         return label
     }()
@@ -61,8 +62,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        extensionContext?.widgetLargestAvailableDisplayMode = .expanded
-        
         if !TodayViewController.hasBeenConfigured {
             TodayViewController.hasBeenConfigured = true
             FirebaseApp.configure()
@@ -87,15 +86,6 @@ class TodayViewController: UIViewController, NCWidgetProviding {
         completionHandler(NCUpdateResult.newData)
     }
     
-    func widgetActiveDisplayModeDidChange(_ activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize) {
-        if activeDisplayMode == .expanded {
-            let height = 50 + imageView.frame.height + titleLabel.frame.height + priceLabel.frame.height + viewButton.frame.height
-            preferredContentSize = CGSize(width: 0.0, height: height)
-        } else {
-            preferredContentSize = maxSize
-        }
-    }
-    
     @objc func handleView() {
         let url: URL? = URL(string: "meh:")!
         
@@ -110,24 +100,23 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     
     fileprivate func setupView() {
         view.addSubview(imageView)
-        imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 80)
+        imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 70, height: 70)
         
         view.addSubview(progressView)
-        progressView.anchor(top: view.topAnchor, left: nil, bottom: nil, right: nil, paddingTop: 50, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        progressView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        progressView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
+        progressView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
         progressView.startAnimating()
         
         view.addSubview(titleLabel)
-        titleLabel.anchor(top: imageView.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        titleLabel.anchor(top: view.topAnchor, left: imageView.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
         
         view.addSubview(priceLabel)
-        priceLabel.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        priceLabel.anchor(top: titleLabel.bottomAnchor, left: imageView.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         view.addSubview(viewButton)
-        viewButton.anchor(top: priceLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        
-        view.addSubview(buyButton)
-        buyButton.anchor(top: priceLabel.bottomAnchor, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        viewButton.anchor(top: nil, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        viewButton.centerYAnchor.constraint(equalTo: priceLabel.centerYAnchor).isActive = true
     }
     
     fileprivate func pullDeal() {
@@ -136,7 +125,7 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             
             TodayViewController.didLoad = false
             
-            self.titleLabel.text = "Deal: \(value?["title"] as? String ?? "Unable to load")"
+            self.titleLabel.text = value?["title"] as? String ?? "Unable to load"
             self.titleLabel.sizeToFit()
             
             var min = Int.max
@@ -160,9 +149,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             }
             
             if itemCount == 1 || min == max {
-                self.priceLabel.text = "Price: $\(min)"
+                self.priceLabel.text = "$\(min)"
             } else {
-                self.priceLabel.text = "Prices: $\(min) - $\(max)"
+                self.priceLabel.text = "$\(min) - $\(max)"
             }
             self.priceLabel.sizeToFit()
             
