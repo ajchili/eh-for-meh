@@ -103,15 +103,15 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
                 self.descriptionView.attributedText = md.attributedString()
                 self.descriptionView.scrollsToTop = true
                 
-                var min = Int.max
-                var max = 0
+                var min: Double = Double(Int.max)
+                var max: Double = 0
                 var itemCount = 0
                 
                 for child in snapshot.childSnapshot(forPath: "items").children.allObjects {
                     let childSnapshot = child as! DataSnapshot
                     
                     itemCount += 1
-                    let price: Int = childSnapshot.childSnapshot(forPath: "price").value as! Int
+                    let price: Double = childSnapshot.childSnapshot(forPath: "price").value as! Double
                     if price < min {
                         min = price
                     } else if price > max {

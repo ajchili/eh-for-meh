@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2AA37B06988EE5272DFE884A /* Pods_Meh_Deal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD64933D1800455A5CA2E589 /* Pods_Meh_Deal.framework */; };
-		780630BF1FF6DC5F00D2019D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 780630BE1FF6DC5F00D2019D /* GoogleService-Info.plist */; };
+		780C1BE920466CA400D6B902 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 780C1BE820466CA400D6B902 /* GoogleService-Info.plist */; };
 		78266BC1200FC7F400BF5BD8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78266BC0200FC7F400BF5BD8 /* Extensions.swift */; };
 		7826E0EA1FD655400011AA23 /* ImagePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7826E0E91FD655400011AA23 /* ImagePageViewController.swift */; };
 		7826E0EE1FD659320011AA23 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7826E0ED1FD659320011AA23 /* ImageViewController.swift */; };
@@ -59,7 +59,7 @@
 		12EBA40DFD69FE30FAB18F22 /* Pods-Meh Deal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meh Deal.release.xcconfig"; path = "Pods/Target Support Files/Pods-Meh Deal/Pods-Meh Deal.release.xcconfig"; sourceTree = "<group>"; };
 		38CA4D8E12BF331B76676C17 /* Pods-meh.com.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meh.com.release.xcconfig"; path = "Pods/Target Support Files/Pods-meh.com/Pods-meh.com.release.xcconfig"; sourceTree = "<group>"; };
 		3CDDDA797F244B5C653149C6 /* Pods-meh.com.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meh.com.debug.xcconfig"; path = "Pods/Target Support Files/Pods-meh.com/Pods-meh.com.debug.xcconfig"; sourceTree = "<group>"; };
-		780630BE1FF6DC5F00D2019D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		780C1BE820466CA400D6B902 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		78266BC0200FC7F400BF5BD8 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7826E0E91FD655400011AA23 /* ImagePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePageViewController.swift; sourceTree = "<group>"; };
 		7826E0ED1FD659320011AA23 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
@@ -200,7 +200,7 @@
 				78952D8E1FD5BDCF000E0AAC /* AppDelegate.swift */,
 				78952D971FD5BDCF000E0AAC /* Assets.xcassets */,
 				78952D9C1FD5BDCF000E0AAC /* Info.plist */,
-				780630BE1FF6DC5F00D2019D /* GoogleService-Info.plist */,
+				780C1BE820466CA400D6B902 /* GoogleService-Info.plist */,
 				785C37FD1FD7A2DF002CE08C /* meh.com.entitlements */,
 			);
 			path = meh.com;
@@ -320,8 +320,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7830BD941FD5BF8D00F3D371 /* WebView.storyboard in Resources */,
+				780C1BE920466CA400D6B902 /* GoogleService-Info.plist in Resources */,
 				7830BD921FD5BEF300F3D371 /* ItemView.storyboard in Resources */,
-				780630BF1FF6DC5F00D2019D /* GoogleService-Info.plist in Resources */,
 				78952D9B1FD5BDCF000E0AAC /* LaunchScreen.storyboard in Resources */,
 				785C37FA1FD76C52002CE08C /* Settings.storyboard in Resources */,
 				78952D981FD5BDCF000E0AAC /* Assets.xcassets in Resources */,
@@ -353,7 +353,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyMarkdown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

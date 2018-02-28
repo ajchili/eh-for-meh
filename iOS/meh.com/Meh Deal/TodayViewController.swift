@@ -99,20 +99,20 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     }
     
     fileprivate func setupView() {
-        view.addSubview(imageView)
-        imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 70, height: 70)
+        // view.addSubview(imageView)
+        // imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 70, height: 70)
         
-        view.addSubview(progressView)
-        progressView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        progressView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
-        progressView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
-        progressView.startAnimating()
+        // view.addSubview(progressView)
+        // progressView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        // progressView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
+        // progressView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
+        // progressView.startAnimating()
         
         view.addSubview(titleLabel)
-        titleLabel.anchor(top: view.topAnchor, left: imageView.rightAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        titleLabel.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
         
         view.addSubview(priceLabel)
-        priceLabel.anchor(top: titleLabel.bottomAnchor, left: imageView.rightAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        priceLabel.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         view.addSubview(viewButton)
         viewButton.anchor(top: nil, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
@@ -128,15 +128,15 @@ class TodayViewController: UIViewController, NCWidgetProviding {
             self.titleLabel.text = value?["title"] as? String ?? "Unable to load"
             self.titleLabel.sizeToFit()
             
-            var min = Int.max
-            var max = 0
+            var min:Double = Double(Int.max)
+            var max:Double = 0
             var itemCount = 0
             
             for child in snapshot.childSnapshot(forPath: "items").children.allObjects {
                 let childSnapshot = child as! DataSnapshot
                 
                 itemCount += 1
-                let price: Int = childSnapshot.childSnapshot(forPath: "price").value as! Int
+                let price: Double = childSnapshot.childSnapshot(forPath: "price").value as! Double
                 if price < min {
                     min = price
                 } else if price > max {
@@ -161,9 +161,9 @@ class TodayViewController: UIViewController, NCWidgetProviding {
                 let url: String = childSnapshot.value as? String ?? ""
                 
                 if url.count != 0 {
-                    self.loadImage(url: URL(string: url)!)
+                    // self.loadImage(url: URL(string: url)!)
+                    return;
                 }
-                break;
             }
         }) { (error) in
             print(error.localizedDescription)
