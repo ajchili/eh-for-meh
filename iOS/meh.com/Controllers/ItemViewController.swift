@@ -13,6 +13,7 @@ import SwiftyMarkdown
 class ItemViewController: UIViewController, UIWebViewDelegate {
     
     var ref: DatabaseReference!
+    
     let imagePageViewController: ImagePageViewController = {
         let ipvc = ImagePageViewController()
         return ipvc
@@ -103,8 +104,8 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
                 self.descriptionView.attributedText = md.attributedString()
                 self.descriptionView.scrollsToTop = true
                 
-                var min: Double = Double(Int.max)
-                var max: Double = 0
+                var min: Double = 0.0
+                var max: Double = 0.0
                 var itemCount = 0
                 
                 for child in snapshot.childSnapshot(forPath: "items").children.allObjects {
@@ -112,9 +113,10 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
                     
                     itemCount += 1
                     let price: Double = childSnapshot.childSnapshot(forPath: "price").value as! Double
-                    if price < min {
+                    
+                    if min == 0.0 || min != Double.minimum(min, price) {
                         min = price
-                    } else if price > max {
+                    } else if max != Double.maximum(max, price) {
                         max = price
                     }
                 }
@@ -184,7 +186,7 @@ class ItemViewController: UIViewController, UIWebViewDelegate {
         mehButton.anchor(top: nil, left: nil, bottom: imagePageViewController.view.bottomAnchor, right: imagePageViewController.view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: -10, paddingRight: 0, width: mehButton.frame.width + 20, height: 30)
         
         view.addSubview(descriptionView)
-        descriptionView.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: -10, paddingRight: 10, width: 0, height: 0)
+        descriptionView.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
         
         view.addSubview(effectView)
         effectView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
