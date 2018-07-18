@@ -7,12 +7,12 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 import FirebaseDatabase
 import FirebaseMessaging
 
 class SettingsViewController: UIViewController {
     
-    var ref: DatabaseReference!
     let settingsLabel: UILabel = {
         let label = UILabel()
         label.text = "Receive notifications of new deals?"
@@ -43,8 +43,12 @@ class SettingsViewController: UIViewController {
         return s
     }()
     
+    var ref: DatabaseReference!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = .clear
         
         ref = Database.database().reference()
         
@@ -73,22 +77,23 @@ class SettingsViewController: UIViewController {
             print(error.localizedDescription)
         }
         
-        ref.child("settings").observe(DataEventType.value, with: { (snapshot) in
-            let value = snapshot.value as? NSDictionary
+        ref.child("deal/theme").observe(DataEventType.value, with: { (snapshot) in
+            let accentColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "accentColor").value as? String ?? "#000000")
             
-            let accentColor = UIColor.color(fromHexString: value?["accentColor"] as? String ?? "#000000")
+            self.notificationSwitch.tintColor = accentColor
+            self.notificationSwitch.onTintColor = accentColor
             self.settingsLabel.textColor = accentColor
             self.affiliateLabel.textColor = accentColor
             self.iconLabel.textColor = accentColor
-            self.notificationSwitch.tintColor = accentColor
-            self.notificationSwitch.onTintColor = accentColor
-            self.view.backgroundColor = UIColor.color(fromHexString: value?["backgroundColor"] as? String ?? "#000000")
         }) { (error) in
             print(error.localizedDescription)
         }
     }
 
     @objc func handleSwitch() {
+        Analytics.logEvent("setNotifications", parameters: [
+            "recieveNotifications": notificationSwitch.isOn
+            ])
         ref.child("notifications").child(Messaging.messaging().fcmToken!).setValue(notificationSwitch.isOn)
     }
 }

@@ -9,12 +9,16 @@
 import UIKit
 import FirebaseDatabase
 
+protocol ItemPageViewDelegate: class {
+    func setCurrentImage(_ index: Int)
+}
+
 class ImagePageViewController: UIPageViewController {
     
-    var ref: DatabaseReference!
-    var pageViewController: UIPageViewController!
-    weak var pageDelegate: UIPageViewControllerDelegate?
+    var currentIndex = 0
     var orderedViewControllers: [UIViewController]?
+    
+    var itemViewPageControlDelegate: ItemViewPageControlDelegate!
 
     override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
@@ -29,9 +33,7 @@ class ImagePageViewController: UIPageViewController {
         
         dataSource = self
         
-        ref = Database.database().reference()
-        
-        ref.child("info").child("photos").observe(DataEventType.value, with: { (snapshot) in
+        Database.database().reference().child("deal/photos").observe(.value) { (snapshot) in
             self.orderedViewControllers = []
             
             for child in snapshot.children.allObjects {
@@ -48,9 +50,7 @@ class ImagePageViewController: UIPageViewController {
                                    completion: nil)
             }
             
-            (self.parent as? ItemViewController)?.pageController.numberOfPages = (self.orderedViewControllers?.count)!
-        }) { (error) in
-            print(error.localizedDescription)
+            self.itemViewPageControlDelegate.itemCountChanged((self.orderedViewControllers?.count)!)
         }
     }
     
@@ -64,12 +64,13 @@ class ImagePageViewController: UIPageViewController {
 extension ImagePageViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        setPageControlIndex(index: orderedViewControllers!.index(of: viewController)!)
         guard let viewControllerIndex = orderedViewControllers!.index(of: viewController) else {
             return nil
         }
         
         let previousIndex = viewControllerIndex - 1
+        currentIndex = viewControllerIndex
+        setPageControlIndex(viewControllerIndex)
         
         if (previousIndex > orderedViewControllers!.count) {
             return orderedViewControllers![0]
@@ -81,12 +82,13 @@ extension ImagePageViewController: UIPageViewControllerDataSource {
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        setPageControlIndex(index: orderedViewControllers!.index(of: viewController)!)
         guard let viewControllerIndex = orderedViewControllers!.index(of: viewController) else {
             return nil
         }
         
         let nextIndex = viewControllerIndex + 1
+        currentIndex = viewControllerIndex
+        setPageControlIndex(viewControllerIndex)
         
         if (nextIndex >= orderedViewControllers!.count) {
             return orderedViewControllers![0]
@@ -109,7 +111,18 @@ extension ImagePageViewController: UIPageViewControllerDataSource {
         return firstViewControllerIndex
     }
     
-    func setPageControlIndex(index: Int) {
-        (parent as? ItemViewController)?.pageController.currentPage = index
+    func setPageControlIndex(_ index: Int) {
+        itemViewPageControlDelegate.itemIndexChanged(index)
+    }
+}
+
+extension ImagePageViewController: ItemPageViewDelegate {
+    
+    func setCurrentImage(_ index: Int) {
+        self.setViewControllers([orderedViewControllers![index]],
+                                direction: index > currentIndex ? .forward : .reverse,
+                                animated: true,
+                                completion: nil)
+        currentIndex = index
     }
 }
