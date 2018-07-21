@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         })
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        self.window?.rootViewController = MainViewController()
+        self.window?.rootViewController = LoadingViewController()
         self.window?.makeKeyAndVisible()
         
         return true

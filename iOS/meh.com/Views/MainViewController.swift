@@ -11,39 +11,59 @@ import FirebaseDatabase
 
 class MainViewController: UITabBarController, UITabBarControllerDelegate {
     
+    let itemTab = ItemViewController()
+    let buyTab = BuyViewController()
+    let settingsTab = SettingsViewController()
+    var backgroundColor: UIColor! {
+        didSet {
+            buyTab.backgroundColor = backgroundColor
+        }
+    }
+    var accentColor: UIColor! {
+        didSet {
+            buyTab.accentColor = accentColor
+        }
+    }
+    var isDark: Bool! {
+        didSet {
+            setTheme()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let itemTab = ItemViewController()
-        itemTab.tabBarItem = UITabBarItem(title: "Deal", image: UIImage(named: "view"), selectedImage: nil)
-        
-        let buyTab = BuyViewController()
-        buyTab.tabBarItem = UITabBarItem(title: "Buy", image: UIImage(named: "buy"), selectedImage: nil)
-        
-        let settingsTab = SettingsViewController()
-        settingsTab.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "settings"), selectedImage: nil)
-        
-        self.viewControllers = [itemTab, buyTab, settingsTab]
-        self.selectedIndex = 0
-        
         view.backgroundColor = .white
         
-        setBackgroundColor()
+        setupView()
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
         return true;
     }
     
-    fileprivate func setBackgroundColor() {
-        Database.database().reference().child("deal/theme/backgroundColor").observe(.value) { (snapshot) in
-            if snapshot.exists() {
-                let color: UIColor = UIColor.color(fromHexString: snapshot.value as! String)
-                self.tabBar.tintColor = color
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.view.backgroundColor = color
-                })
-            }
+    fileprivate func setupView() {
+        itemTab.tabBarItem = UITabBarItem(title: "Deal", image: UIImage(named: "view"), selectedImage: nil)
+        buyTab.tabBarItem = UITabBarItem(title: "Buy", image: UIImage(named: "buy"), selectedImage: nil)
+        settingsTab.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "settings"), selectedImage: nil)
+        
+        viewControllers = [itemTab, buyTab, settingsTab]
+        selectedIndex = 0
+    }
+    
+    fileprivate func setTheme() {
+        UIView.animate(withDuration: 0.5) {
+            self.tabBar.barStyle = self.isDark ? .black : .default
+            self.tabBar.tintColor = self.backgroundColor
+            self.view.backgroundColor = self.backgroundColor
+        }
+    }
+    
+    fileprivate func setupThemeObserver() {
+        Database.database().reference().child("deal/theme").observe(.value) { snapshot in
+            self.backgroundColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "backgroundColor").value as? String ?? "#ffffff")
+            self.accentColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "accentColor").value as? String ?? "#000000")
+            self.isDark = snapshot.childSnapshot(forPath: "foreground").value as? String ?? "dark" == "dark"
         }
     }
 }

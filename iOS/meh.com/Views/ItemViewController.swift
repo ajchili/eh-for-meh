@@ -88,7 +88,7 @@ class ItemViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitle("View Deal On Form", for: .normal)
+        button.setTitle("View Deal on Forum", for: .normal)
         button.layer.cornerRadius = 25
         button.addTarget(self, action: #selector(handleViewOnForm), for: .touchUpInside)
         return button
@@ -118,7 +118,7 @@ class ItemViewController: UIViewController {
     }()
     
     var itemPageViewDelegate: ItemPageViewDelegate!
-    var formPostULR: URL?
+    var forumPostURL: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,8 +144,8 @@ class ItemViewController: UIViewController {
     }
     
     @objc func handleViewOnForm() {
-        if formPostULR != nil {
-            UIApplication.shared.open(formPostULR!, options: [:]) { _ in
+        if forumPostURL != nil {
+            UIApplication.shared.open(forumPostURL!, options: [:]) { _ in
                 Analytics.logEvent("viewForm", parameters: [:])
             }
         }
@@ -264,7 +264,7 @@ class ItemViewController: UIViewController {
                 self.calculatePrices(snapshot.childSnapshot(forPath: "items"))
                 
                 // Form Post
-                self.formPostULR = URL(string: snapshot.childSnapshot(forPath: "topic/url").value as! String)
+                self.forumPostURL = URL(string: snapshot.childSnapshot(forPath: "topic/url").value as? String ?? "")
                 
                 // Set Theme color
                 UIView.animate(withDuration: 0.5, animations: {
@@ -323,10 +323,21 @@ class ItemViewController: UIViewController {
             }
         }
         
+        var sMin: Any = min
+        var sMax: Any = max
+        
+        if min.truncatingRemainder(dividingBy: 1.0) == 0 {
+            sMin = String(format: "%g", min)
+        }
+        
+        if max.truncatingRemainder(dividingBy: 1.0) == 0 {
+            sMax = String(format: "%g", max)
+        }
+        
         if snapshot.childrenCount == 1 || min == max {
-            self.priceLabel.text = "$\(min)"
+            self.priceLabel.text = "$\(sMin)"
         } else {
-            self.priceLabel.text = "$\(min) - $\(max)"
+            self.priceLabel.text = "$\(sMin) - $\(sMax)"
         }
         
         self.priceLabel.constraints.forEach {
