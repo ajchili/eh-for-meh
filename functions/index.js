@@ -20,7 +20,7 @@ exports.updateItem = functions.https.onRequest((request, response) => {
       ref.child("settings").set({
         accentColor: res.data.deal.theme.accentColor,
         backgroundColor: res.data.deal.theme.backgroundColor,
-        foreground: res.data.dealtheme.foreground
+        foreground: res.data.deal.theme.foreground
       });
       response.send("Completed.");
       return true;
