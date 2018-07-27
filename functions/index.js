@@ -31,8 +31,8 @@ exports.updateItem = functions.https.onRequest((request, response) => {
   });
 });
 
-exports.sendDealUpdate = functions.database.ref("deal").onUpdate(event => {
-  const deal = event.data.val();
+exports.sendDealUpdate = functions.database.ref("deal").onUpdate((change, context) => {
+  const deal = change.after.val();
   const tokens = [];
   const payload = {
     notification: {
@@ -43,15 +43,17 @@ exports.sendDealUpdate = functions.database.ref("deal").onUpdate(event => {
   };
 
   return admin.database().ref("/notifications").once("value", (snapshot) => {
-    snapshot.forEach(function (token) {
-      tokens.push(token.val());
+    snapshot.forEach(function (childSnapshot) {
+      if (childSnapshot.val()) {
+        tokens.push(childSnapshot.key);
+      }
     });
 
     return admin.messaging().sendToDevice(tokens, payload).then((res) => {
       console.log("Successfully sent message:", JSON.stringify(res));
       return true;
     }).catch((err) => {
-      console.log("Error sending message:", JSON.stringify(error));
+      console.log("Error sending message:", JSON.stringify(err));
       return err;
     });
   });
