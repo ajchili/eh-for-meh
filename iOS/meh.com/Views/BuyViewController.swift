@@ -71,8 +71,10 @@ class BuyViewController: UIViewController {
     }
     
     fileprivate func setTheme() {
-        buyInBrowserButton.backgroundColor = accentColor
-        buyInBrowserButton.tintColor = backgroundColor
-        buyInBrowserButton.setTitleColor(backgroundColor, for: .normal)
+        UIView.animate(withDuration: 0.5) {
+            self.buyInBrowserButton.backgroundColor = self.accentColor
+            self.buyInBrowserButton.tintColor = self.backgroundColor
+            self.buyInBrowserButton.setTitleColor(self.backgroundColor, for: .normal)
+        }
     }
 }

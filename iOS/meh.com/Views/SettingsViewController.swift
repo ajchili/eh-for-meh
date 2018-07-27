@@ -43,14 +43,16 @@ class SettingsViewController: UIViewController {
         return s
     }()
     
-    var ref: DatabaseReference!
+    var accentColor: UIColor! {
+        didSet {
+            setTheme()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .clear
-        
-        ref = Database.database().reference()
         
         view.addSubview(notificationSwitch)
         notificationSwitch.center = view.center
@@ -63,37 +65,33 @@ class SettingsViewController: UIViewController {
         
         view.addSubview(iconLabel)
         iconLabel.anchor(top: affiliateLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        ref.child("notifications").observeSingleEvent(of: DataEventType.value, with: { (snapshot) in
-            let value = snapshot.value as? NSDictionary
-            let fmcToken = Messaging.messaging().fcmToken!
-            
-            if snapshot.hasChild(fmcToken) {
-                self.notificationSwitch.isOn = value?[fmcToken] as? Bool ?? false
-            } else {
-                self.ref.child("notifications").child(fmcToken).setValue(false)
+        let fmcToken = Messaging.messaging().fcmToken!
+        Database.database().reference().child("notifications/\(fmcToken)").observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists() {
+                self.notificationSwitch.isOn = snapshot.value as? Bool ?? false
             }
-        }) { (error) in
-            print(error.localizedDescription)
-        }
-        
-        ref.child("deal/theme").observe(DataEventType.value, with: { (snapshot) in
-            let accentColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "accentColor").value as? String ?? "#000000")
-            
-            self.notificationSwitch.tintColor = accentColor
-            self.notificationSwitch.onTintColor = accentColor
-            self.settingsLabel.textColor = accentColor
-            self.affiliateLabel.textColor = accentColor
-            self.iconLabel.textColor = accentColor
-        }) { (error) in
-            print(error.localizedDescription)
-        }
+        })
     }
 
     @objc func handleSwitch() {
         Analytics.logEvent("setNotifications", parameters: [
             "recieveNotifications": notificationSwitch.isOn
             ])
-        ref.child("notifications").child(Messaging.messaging().fcmToken!).setValue(notificationSwitch.isOn)
+        Database.database().reference().child("notifications\(Messaging.messaging().fcmToken!)").setValue(notificationSwitch.isOn ? true : nil)
+    }
+    
+    fileprivate func setTheme() {
+        UIView.animate(withDuration: 0.5) {
+            self.notificationSwitch.tintColor = self.accentColor
+            self.notificationSwitch.onTintColor = self.accentColor
+            self.settingsLabel.textColor = self.accentColor
+            self.affiliateLabel.textColor = self.accentColor
+            self.iconLabel.textColor = self.accentColor
+        }
     }
 }
