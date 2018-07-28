@@ -261,7 +261,18 @@ class ItemViewController: UIViewController {
                 self.descriptionView.scrollsToTop = true
                 
                 // Item price
-                self.calculatePrices(snapshot.childSnapshot(forPath: "items"))
+                if snapshot.childSnapshot(forPath: "soldOutAt").exists() {
+                    self.priceLabel.text = "SOLD OUT"
+                    self.priceLabel.constraints.forEach {
+                        (constraint) in
+                        
+                        if constraint.firstAttribute == .width {
+                            constraint.constant = CGFloat(50 + self.priceLabel.text!.count * 6)
+                        }
+                    }
+                } else {
+                    self.calculatePrices(snapshot.childSnapshot(forPath: "items"))
+                }
                 
                 // Form Post
                 self.forumPostURL = URL(string: snapshot.childSnapshot(forPath: "topic/url").value as? String ?? "")
