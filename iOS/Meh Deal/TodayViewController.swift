@@ -7,191 +7,147 @@
 //
 
 import UIKit
-import NotificationCenter
 import Firebase
+import NotificationCenter
 
 class TodayViewController: UIViewController, NCWidgetProviding {
     
-    var ref: DatabaseReference!
-    let imageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        return iv
-    }()
-    
-    let progressView: UIActivityIndicatorView = {
-        let aiv = UIActivityIndicatorView()
-        aiv.hidesWhenStopped = true
-        return aiv
-    }()
-    
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 2
-        label.text = ""
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         return label
     }()
     
     let priceLabel: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 1
-        label.text = ""
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         return label
     }()
     
     let viewButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("View Deal", for: .normal)
-        button.sizeToFit()
-        button.addTarget(self, action: #selector(handleView), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("View", for: .normal)
+        button.addTarget(self, action: #selector(handleViewDealInApp), for: .touchUpInside)
+        button.isHidden = true
         return button
     }()
     
     let buyButton: UIButton = {
         let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Buy", for: .normal)
-        button.sizeToFit()
         button.addTarget(self, action: #selector(handleBuy), for: .touchUpInside)
+        button.isHidden = true
         return button
     }()
     
-    private static var hasBeenConfigured: Bool = false
-    private static var didLoad: Bool = false
+    static var wasFirebaseSet: Bool = false
         
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if !TodayViewController.hasBeenConfigured {
-            TodayViewController.hasBeenConfigured = true
+        if !TodayViewController.wasFirebaseSet {
+            TodayViewController.wasFirebaseSet = true
             FirebaseApp.configure()
         }
         
-        ref = Database.database().reference()
-        
         setupView()
-        pullDeal()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        if !TodayViewController.didLoad {
-            pullDeal()
-        }
+        loadData()
     }
     
     func widgetPerformUpdate(completionHandler: (@escaping (NCUpdateResult) -> Void)) {
-        pullDeal()
+        loadData()
         completionHandler(NCUpdateResult.newData)
     }
     
-    @objc func handleView() {
+    @objc func handleViewDealInApp() {
         let url: URL? = URL(string: "meh:")!
         
         if let appurl = url {
+            Analytics.logEvent("viewDealInApp", parameters: [:])
             self.extensionContext!.open(appurl, completionHandler: nil)
         }
     }
     
     @objc func handleBuy() {
+        Analytics.logEvent("buyInExtension", parameters: [:])
         self.extensionContext!.open(URL(string: "https://meh.com/account/signin?returnurl=https%3A%2F%2Fmeh.com%2F%23checkout")!, completionHandler: nil)
     }
     
     fileprivate func setupView() {
-        // view.addSubview(imageView)
-        // imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 70, height: 70)
-        
-        // view.addSubview(progressView)
-        // progressView.anchor(top: nil, left: nil, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
-        // progressView.centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
-        // progressView.centerYAnchor.constraint(equalTo: imageView.centerYAnchor).isActive = true
-        // progressView.startAnimating()
-        
         view.addSubview(titleLabel)
-        titleLabel.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: nil, right: view.rightAnchor, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
+        titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8).isActive = true
         
         view.addSubview(priceLabel)
-        priceLabel.anchor(top: titleLabel.bottomAnchor, left: view.leftAnchor, bottom: nil, right: nil, paddingTop: 10, paddingLeft: 10, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8).isActive = true
+        priceLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8).isActive = true
+        
+        view.addSubview(buyButton)
+        buyButton.centerYAnchor.constraint(equalTo: priceLabel.centerYAnchor).isActive = true
+        buyButton.leftAnchor.constraint(equalTo: priceLabel.rightAnchor, constant: 8).isActive = true
         
         view.addSubview(viewButton)
-        viewButton.anchor(top: nil, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 10, width: 0, height: 0)
         viewButton.centerYAnchor.constraint(equalTo: priceLabel.centerYAnchor).isActive = true
+        viewButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8).isActive = true
     }
     
-    fileprivate func pullDeal() {
-        ref.child("info").observeSingleEvent(of: .value, with: { (snapshot) in
-            let value = snapshot.value as? NSDictionary
+    fileprivate func loadData() {
+        buyButton.isHidden = true
+        viewButton.isHidden = true
+        Database.database().reference().child("deal/title").observeSingleEvent(of: .value) { (snapshot) in
+            self.titleLabel.text = (snapshot.value as! String)
+            self.buyButton.isHidden = false
+            self.viewButton.isHidden = false
+        }
+        Database.database().reference().child("deal/items").observeSingleEvent(of: .value) { (snapshot) in
+            self.calculatePrices(snapshot)
+        }
+    }
+    
+    fileprivate func calculatePrices(_ snapshot: DataSnapshot) {
+        var min: CGFloat = .infinity
+        var max: CGFloat = 0
+        
+        for child in snapshot.children.allObjects {
+            let childSnapshot = child as! DataSnapshot
             
-            TodayViewController.didLoad = false
-            
-            self.titleLabel.text = value?["title"] as? String ?? "Unable to load"
-            self.titleLabel.sizeToFit()
-            
-            var min:Double = Double(Int.max)
-            var max:Double = 0
-            var itemCount = 0
-            
-            for child in snapshot.childSnapshot(forPath: "items").children.allObjects {
-                let childSnapshot = child as! DataSnapshot
-                
-                itemCount += 1
-                let price: Double = childSnapshot.childSnapshot(forPath: "price").value as! Double
+            if let price = childSnapshot.childSnapshot(forPath: "price").value as? CGFloat {
                 if price < min {
                     min = price
+                    if max == 0 {
+                        max = price
+                    }
                 } else if price > max {
                     max = price
                 }
             }
-            
-            if max == 0 {
-                max = min
-            }
-            
-            if itemCount == 1 || min == max {
-                self.priceLabel.text = "$\(min)"
-            } else {
-                self.priceLabel.text = "$\(min) - $\(max)"
-            }
-            self.priceLabel.sizeToFit()
-            
-            for child in snapshot.childSnapshot(forPath: "photos").children.allObjects {
-                let childSnapshot = child as! DataSnapshot
-                
-                let url: String = childSnapshot.value as? String ?? ""
-                
-                if url.count != 0 {
-                    // self.loadImage(url: URL(string: url)!)
-                    return;
-                }
-            }
-        }) { (error) in
-            print(error.localizedDescription)
-        }
-    }
-    
-    fileprivate func loadImage(url: URL) {
-        TodayViewController.didLoad = true
-        
-        var image: URL = url
-        
-        if (!image.absoluteString.contains("https")) {
-            let s = image.absoluteString.replacingOccurrences(of: "http", with: "https")
-            image = URL(string: s)!
         }
         
-        URLSession.shared.dataTask(with: image, completionHandler: { (data, response, error) in
-            if error != nil {
-                print(error!)
-                return
-            }
-            
-            DispatchQueue.main.async {
-                if let image = UIImage(data: data!) {
-                    self.imageView.image = image
-                    self.progressView.stopAnimating()
-                }
-            }
-        }).resume()
+        var sMin: Any = min
+        var sMax: Any = max
+        
+        if min.truncatingRemainder(dividingBy: 1.0) == 0 {
+            sMin = String(format: "%g", min)
+        }
+        
+        if max.truncatingRemainder(dividingBy: 1.0) == 0 {
+            sMax = String(format: "%g", max)
+        }
+        
+        if snapshot.childrenCount == 1 || min == max {
+            self.priceLabel.text = "$\(sMin)"
+        } else {
+            self.priceLabel.text = "$\(sMin) - $\(sMax)"
+        }
     }
 }

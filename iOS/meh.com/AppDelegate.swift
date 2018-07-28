@@ -38,10 +38,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        Analytics.logEvent("notificationRecieved", parameters: [:])
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
+        Analytics.logEvent("notificationRecieved", parameters: [:])
     }
 }
 

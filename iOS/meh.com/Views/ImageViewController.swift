@@ -12,6 +12,7 @@ class ImageViewController: UIViewController {
     
     let imageView: UIImageView = {
         let iv = UIImageView()
+        iv.translatesAutoresizingMaskIntoConstraints = false
         iv.contentMode = .scaleAspectFit
         return iv
     }()
@@ -59,7 +60,10 @@ class ImageViewController: UIViewController {
         view.backgroundColor = nil
         
         view.addSubview(imageView)
-        imageView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        imageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        imageView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        imageView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
         view.addSubview(progressView)
         progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

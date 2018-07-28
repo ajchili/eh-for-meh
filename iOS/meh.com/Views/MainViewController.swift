@@ -25,7 +25,11 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
             settingsTab.accentColor = accentColor
         }
     }
-    var isDark: Bool!
+    var isDark: Bool! {
+        didSet {
+            setTheme()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,7 +66,6 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
             self.backgroundColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "backgroundColor").value as? String ?? "#ffffff")
             self.accentColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "accentColor").value as? String ?? "#000000")
             self.isDark = snapshot.childSnapshot(forPath: "foreground").value as? String ?? "dark" == "dark"
-            self.setTheme()
         }
     }
 }

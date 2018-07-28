@@ -50,7 +50,7 @@ class BuyViewController: UIViewController {
     
     @objc func handleBuyInBrowser() {
         UIApplication.shared.open(URL(string: "https://meh.com/account/signin?returnurl=https%3A%2F%2Fmeh.com%2F%23checkout")!, options: [:]) { _ in
-            Analytics.logEvent("viewMeh", parameters: [:])
+            Analytics.logEvent("buyInApp", parameters: [:])
         }
     }
     
