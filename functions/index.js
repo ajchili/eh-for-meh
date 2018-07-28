@@ -1,9 +1,53 @@
 const admin = require("firebase-admin");
 const axios = require("axios");
 const functions = require("firebase-functions");
+
 admin.initializeApp(functions.config().firebase);
 
-let ref = admin.database().ref();
+const ref = admin.database().ref();
+
+const sendNewDealNotification = (deal) => {
+  const payload = {
+    notification: {
+      title: "Check out this new deal!",
+      body: deal,
+      content_available: "true"
+    }
+  };
+
+  return sendNotification(payload);
+};
+
+const sendDealSoldoutNotification = (deal) => {
+  const payload = {
+    notification: {
+      title: "The current deal has sold out!",
+      body: `There are no more ${deal}'s left!`,
+      content_available: "true"
+    }
+  };
+
+  return sendNotification(payload);
+};
+
+const sendNotification = (payload) => {
+  let tokens = [];
+
+  return admin.database().ref("/notifications").once("value", (snapshot) => {
+    snapshot.forEach(function (childSnapshot) {
+      if (childSnapshot.val()) {
+        tokens.push(childSnapshot.key);
+      }
+    });
+
+    return admin.messaging().sendToDevice(tokens, payload).then((res) => {
+      console.log("Successfully sent message:", JSON.stringify(res));
+    }).catch((err) => {
+      console.log("Error sending message:", JSON.stringify(err));
+      return err;
+    });
+  });
+};
 
 exports.updateItem = functions.https.onRequest((request, response) => {
   return ref.child("API_KEY").once("value", (snapshot) => {
@@ -32,29 +76,14 @@ exports.updateItem = functions.https.onRequest((request, response) => {
 });
 
 exports.sendDealUpdate = functions.database.ref("deal").onUpdate((change, context) => {
+  const previousDeal = change.before.val();
   const deal = change.after.val();
-  const tokens = [];
-  const payload = {
-    notification: {
-      title: "Check out this new deal!",
-      body: deal.title,
-      content_available: "true"
-    }
-  };
 
-  return admin.database().ref("/notifications").once("value", (snapshot) => {
-    snapshot.forEach(function (childSnapshot) {
-      if (childSnapshot.val()) {
-        tokens.push(childSnapshot.key);
-      }
-    });
-
-    return admin.messaging().sendToDevice(tokens, payload).then((res) => {
-      console.log("Successfully sent message:", JSON.stringify(res));
-      return true;
-    }).catch((err) => {
-      console.log("Error sending message:", JSON.stringify(err));
-      return err;
-    });
-  });
+  if (previousDeal.title === deal.title) {
+    return true;
+  } else if (!previousDeal.soldOutAt && deal.soldOutAt) {
+    return sendDealSoldoutNotification(deal.title);
+  } else {
+    return sendNewDealNotification(deal.title);
+  }
 });
