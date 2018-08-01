@@ -53,21 +53,24 @@ exports.updateItem = functions.https.onRequest((request, response) => {
   return ref.child("API_KEY").once("value", (snapshot) => {
     const API_KEY = snapshot.val();
     return axios.get(`https://api.meh.com/1/current.json?apikey=${API_KEY}`).then((res) => {
-      ref.child("deal").set(res.data.deal);
-      ref.child("info").set({
-        id: res.data.deal.id,
-        title: res.data.deal.title,
-        description: res.data.deal.features,
-        photos: res.data.deal.photos,
-        items: res.data.deal.items
+      return ref.child("deal").once("value").then((snapshot) => {
+        ref.child(`previousDeal/${snapshot.child("id").val()}`).set(snapshot.val());
+        ref.child("deal").set(res.data.deal);
+        ref.child("info").set({
+          id: res.data.deal.id,
+          title: res.data.deal.title,
+          description: res.data.deal.features,
+          photos: res.data.deal.photos,
+          items: res.data.deal.items
+        });
+        ref.child("settings").set({
+          accentColor: res.data.deal.theme.accentColor,
+          backgroundColor: res.data.deal.theme.backgroundColor,
+          foreground: res.data.deal.theme.foreground
+        });
+        response.send("Completed.");
+        return true;
       });
-      ref.child("settings").set({
-        accentColor: res.data.deal.theme.accentColor,
-        backgroundColor: res.data.deal.theme.backgroundColor,
-        foreground: res.data.deal.theme.foreground
-      });
-      response.send("Completed.");
-      return true;
     }).catch((err) => {
       console.error("Error fetching meh data...", err);
       return err;
