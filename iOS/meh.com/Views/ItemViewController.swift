@@ -283,6 +283,7 @@ class ItemViewController: UIViewController {
                     self.mehButton.backgroundColor = backgroundColor
                     self.mehButton.tintColor = accentColor
                     self.mehButton.setTitleColor(accentColor, for: .normal)
+                    self.mehButton.isHidden = false
                     self.viewInFormButton.backgroundColor = backgroundColor
                     self.viewInFormButton.tintColor = accentColor
                     self.viewInFormButton.setTitleColor(accentColor, for: .normal)
