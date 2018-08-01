@@ -55,6 +55,7 @@ exports.updateItem = functions.https.onRequest((request, response) => {
     return axios.get(`https://api.meh.com/1/current.json?apikey=${API_KEY}`).then((res) => {
       return ref.child("deal").once("value").then((snapshot) => {
         ref.child(`previousDeal/${snapshot.child("id").val()}`).set(snapshot.val());
+        ref.child(`previousDeal/${snapshot.child("id").val()}/date`).set(new Date().getTime());
         ref.child("deal").set(res.data.deal);
         ref.child("info").set({
           id: res.data.deal.id,
