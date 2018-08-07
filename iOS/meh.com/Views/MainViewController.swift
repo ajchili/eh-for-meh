@@ -49,6 +49,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
             self.view.backgroundColor = self.theme.backgroundColor
         }
         
+        itemTab.theme = theme
         buyTab.theme = theme
         settingsTab.theme = theme
     }

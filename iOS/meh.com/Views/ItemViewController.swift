@@ -117,6 +117,8 @@ class ItemViewController: UIViewController {
         return button
     }()
     
+    var theme: Theme!
+    
     var itemPageViewDelegate: ItemPageViewDelegate!
     var forumPostURL: URL?
     
@@ -127,6 +129,14 @@ class ItemViewController: UIViewController {
         loadData()
         
         webView.delegate = self
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if let theme = theme {
+            return theme.dark ? .lightContent : .default
+        }
+        
+        return .default
     }
     
     @objc func handleMeh() {

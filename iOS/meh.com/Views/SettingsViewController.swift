@@ -88,6 +88,14 @@ class SettingsViewController: UIViewController {
             }
         })
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if let theme = theme {
+            return theme.dark ? .lightContent : .default
+        }
+        
+        return .default
+    }
 
     @objc func handleSwitch() {
         Analytics.logEvent("setNotifications", parameters: [

@@ -43,6 +43,14 @@ class BuyViewController: UIViewController {
         setupView()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if let theme = theme {
+            return theme.dark ? .lightContent : .default
+        }
+        
+        return .default
+    }
+    
     @objc func handleBuyInBrowser() {
         UIApplication.shared.open(URL(string: "https://meh.com/account/signin?returnurl=https%3A%2F%2Fmeh.com%2F%23checkout")!, options: [:]) { _ in
             Analytics.logEvent("buyInApp", parameters: [:])
