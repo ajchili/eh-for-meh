@@ -29,12 +29,7 @@ class BuyViewController: UIViewController {
         return button
     }()
     
-    var backgroundColor: UIColor! {
-        didSet {
-            setTheme()
-        }
-    }
-    var accentColor: UIColor! {
+    var theme: Theme! {
         didSet {
             setTheme()
         }
@@ -72,9 +67,9 @@ class BuyViewController: UIViewController {
     
     fileprivate func setTheme() {
         UIView.animate(withDuration: 0.5) {
-            self.buyInBrowserButton.backgroundColor = self.accentColor
-            self.buyInBrowserButton.tintColor = self.backgroundColor
-            self.buyInBrowserButton.setTitleColor(self.backgroundColor, for: .normal)
+            self.buyInBrowserButton.backgroundColor = self.theme.accentColor
+            self.buyInBrowserButton.tintColor = self.theme.backgroundColor
+            self.buyInBrowserButton.setTitleColor(self.theme.backgroundColor, for: .normal)
         }
     }
 }

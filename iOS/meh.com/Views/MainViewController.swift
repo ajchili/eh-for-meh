@@ -48,13 +48,17 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
             self.tabBar.tintColor = self.theme.backgroundColor
             self.view.backgroundColor = self.theme.backgroundColor
         }
+        
+        buyTab.theme = theme
+        settingsTab.theme = theme
     }
     
     fileprivate func setupThemeObserver() {
         Database.database().reference().child("deal/theme").observe(.value) { snapshot in
-            self.theme.backgroundColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "backgroundColor").value as? String ?? "#ffffff")
-            self.theme.accentColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "accentColor").value as? String ?? "#000000")
-            self.theme.dark = snapshot.childSnapshot(forPath: "foreground").value as? String ?? "dark" == "dark"
+            self.theme = Theme(
+                backgroundColor: UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "backgroundColor").value as? String ?? "#ffffff"),
+                accentColor: UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "accentColor").value as? String ?? "#000000"),
+                dark: snapshot.childSnapshot(forPath: "foreground").value as? String ?? "dark" == "dark")
         }
     }
 }

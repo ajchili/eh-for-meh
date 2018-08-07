@@ -47,7 +47,7 @@ class SettingsViewController: UIViewController {
         return s
     }()
     
-    var accentColor: UIColor! {
+    var theme: Theme! {
         didSet {
             setTheme()
         }
@@ -98,11 +98,11 @@ class SettingsViewController: UIViewController {
     
     fileprivate func setTheme() {
         UIView.animate(withDuration: 0.5) {
-            self.notificationSwitch.tintColor = self.accentColor
-            self.notificationSwitch.onTintColor = self.accentColor
-            self.settingsLabel.textColor = self.accentColor
-            self.affiliateLabel.textColor = self.accentColor
-            self.iconLabel.textColor = self.accentColor
+            self.notificationSwitch.tintColor = self.theme.accentColor
+            self.notificationSwitch.onTintColor = self.theme.accentColor
+            self.settingsLabel.textColor = self.theme.accentColor
+            self.affiliateLabel.textColor = self.theme.accentColor
+            self.iconLabel.textColor = self.theme.accentColor
         }
     }
 }
