@@ -95,6 +95,16 @@ class ItemViewController: UIViewController {
         return button
     }()
     
+    let viewStoryButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.setTitle("View Story", for: .normal)
+        button.layer.cornerRadius = 25
+        button.addTarget(self, action: #selector(handleViewStory), for: .touchUpInside)
+        return button
+    }()
+    
     let effectView: UIVisualEffectView = {
         let vev = UIVisualEffectView()
         vev.translatesAutoresizingMaskIntoConstraints = false
@@ -152,6 +162,17 @@ class ItemViewController: UIViewController {
     
     @objc func handlePageChange() {
         itemPageViewDelegate.setCurrentImage(pageControl.currentPage)
+    }
+    
+    @objc func handleViewStory() {
+        Analytics.logEvent("viewStory", parameters: [:])
+        
+        let storyView = StoryViewController()
+        storyView.theme = theme
+        storyView.modalPresentationStyle = .fullScreen
+        storyView.modalTransitionStyle = .coverVertical
+        
+        present(storyView, animated: true, completion: nil)
     }
     
     @objc func handleViewOnForm() {
@@ -222,8 +243,14 @@ class ItemViewController: UIViewController {
         descriptionView.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
         descriptionView.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
         
+        itemView.addSubview(viewStoryButton)
+        viewStoryButton.topAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: 10).isActive = true
+        viewStoryButton.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
+        viewStoryButton.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
+        viewStoryButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
         itemView.addSubview(viewInFormButton)
-        viewInFormButton.topAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: 10).isActive = true
+        viewInFormButton.topAnchor.constraint(equalTo: viewStoryButton.bottomAnchor, constant: 10).isActive = true
         viewInFormButton.bottomAnchor.constraint(equalTo: itemView.bottomAnchor, constant: -10).isActive = true
         viewInFormButton.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
         viewInFormButton.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
@@ -294,6 +321,9 @@ class ItemViewController: UIViewController {
                     self.mehButton.tintColor = accentColor
                     self.mehButton.setTitleColor(accentColor, for: .normal)
                     self.mehButton.isHidden = false
+                    self.viewStoryButton.backgroundColor = backgroundColor
+                    self.viewStoryButton.tintColor = accentColor
+                    self.viewStoryButton.setTitleColor(accentColor, for: .normal)
                     self.viewInFormButton.backgroundColor = backgroundColor
                     self.viewInFormButton.tintColor = accentColor
                     self.viewInFormButton.setTitleColor(accentColor, for: .normal)
