@@ -14,18 +14,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     let itemTab = ItemViewController()
     let buyTab = BuyViewController()
     let settingsTab = SettingsViewController()
-    var backgroundColor: UIColor! {
-        didSet {
-            buyTab.backgroundColor = backgroundColor
-        }
-    }
-    var accentColor: UIColor! {
-        didSet {
-            buyTab.accentColor = accentColor
-            settingsTab.accentColor = accentColor
-        }
-    }
-    var isDark: Bool! {
+    var theme: Theme! {
         didSet {
             setTheme()
         }
@@ -55,17 +44,17 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     
     fileprivate func setTheme() {
         UIView.animate(withDuration: 0.5) {
-            self.tabBar.barStyle = self.isDark ? .black : .default
-            self.tabBar.tintColor = self.backgroundColor
-            self.view.backgroundColor = self.backgroundColor
+            self.tabBar.barStyle = self.theme.dark ? .black : .default
+            self.tabBar.tintColor = self.theme.backgroundColor
+            self.view.backgroundColor = self.theme.backgroundColor
         }
     }
     
     fileprivate func setupThemeObserver() {
         Database.database().reference().child("deal/theme").observe(.value) { snapshot in
-            self.backgroundColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "backgroundColor").value as? String ?? "#ffffff")
-            self.accentColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "accentColor").value as? String ?? "#000000")
-            self.isDark = snapshot.childSnapshot(forPath: "foreground").value as? String ?? "dark" == "dark"
+            self.theme.backgroundColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "backgroundColor").value as? String ?? "#ffffff")
+            self.theme.accentColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "accentColor").value as? String ?? "#000000")
+            self.theme.dark = snapshot.childSnapshot(forPath: "foreground").value as? String ?? "dark" == "dark"
         }
     }
 }
