@@ -58,6 +58,7 @@ class ItemViewController: UIViewController {
         let tv = UITextView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.isEditable = false
+        tv.isScrollEnabled = false
         tv.backgroundColor = .white
         tv.layer.cornerRadius = 6
         return tv
@@ -220,7 +221,6 @@ class ItemViewController: UIViewController {
         descriptionView.topAnchor.constraint(equalTo: buttonView.bottomAnchor, constant: 10).isActive = true
         descriptionView.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
         descriptionView.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
-        descriptionView.heightAnchor.constraint(equalToConstant: 350).isActive = true
         
         itemView.addSubview(viewInFormButton)
         viewInFormButton.topAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: 10).isActive = true
@@ -268,14 +268,14 @@ class ItemViewController: UIViewController {
                 let md = SwiftyMarkdown(string: snapshot.childSnapshot(forPath: "features").value as! String)
                 self.descriptionView.dataDetectorTypes = UIDataDetectorTypes.all
                 self.descriptionView.attributedText = md.attributedString()
+                self.descriptionView.sizeToFit()
+                self.descriptionView.layoutIfNeeded()
                 self.descriptionView.scrollsToTop = true
                 
                 // Item price
                 if snapshot.childSnapshot(forPath: "soldOutAt").exists() {
                     self.priceLabel.text = "SOLD OUT"
-                    self.priceLabel.constraints.forEach {
-                        (constraint) in
-                        
+                    self.priceLabel.constraints.forEach { constraint in
                         if constraint.firstAttribute == .width {
                             constraint.constant = CGFloat(50 + self.priceLabel.text!.count * 6)
                         }
