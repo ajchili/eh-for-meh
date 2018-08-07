@@ -342,6 +342,9 @@ class ItemViewController: UIViewController {
                 }, completion: { _ in
                     UIView.animate(withDuration: 0.5, animations: {
                         self.itemView.alpha = 1
+                        
+                        let offset = CGPoint(x: 0, y: -self.scrollView.adjustedContentInset.top)
+                        self.scrollView.setContentOffset(offset, animated: false)
                     })
                 })
             } else {
