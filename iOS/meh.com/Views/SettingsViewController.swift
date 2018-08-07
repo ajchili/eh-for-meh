@@ -93,7 +93,7 @@ class SettingsViewController: UIViewController {
         Analytics.logEvent("setNotifications", parameters: [
             "recieveNotifications": notificationSwitch.isOn
             ])
-        Database.database().reference().child("notifications\(Messaging.messaging().fcmToken!)").setValue(notificationSwitch.isOn ? true : nil)
+        Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").setValue(notificationSwitch.isOn ? true : nil)
     }
     
     fileprivate func setTheme() {
