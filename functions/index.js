@@ -53,13 +53,12 @@ exports.updateItem = functions.https.onRequest((request, response) => {
   return ref.child("API_KEY").once("value", (snapshot) => {
     const API_KEY = snapshot.val();
     return axios.get(`https://api.meh.com/1/current.json?apikey=${API_KEY}`).then((res) => {
-      return ref.child("deal").once("value").then((snapshot) => {
+      return ref.child("currentDeal").once("value").then((snapshot) => {
         ref.child(`previousDeal/${snapshot.child("id").val()}`).update(snapshot.val());
         return ref.child(`previousDeal/${snapshot.child("id").val()}/date`).once("value").then(childSnapshot => {
           if (!childSnapshot.exists()) {
             ref.child(`previousDeal/${snapshot.child("id").val()}/date`).set(new Date().getTime());
           }
-
           ref.child("deal").set(res.data.deal);
           Object.keys(res.data).forEach(key => ref.child(`currentDeal/${key}`).set(res.data[key]));
           response.send("Updated.");
