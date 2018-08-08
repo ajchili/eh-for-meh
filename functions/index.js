@@ -55,26 +55,16 @@ exports.updateItem = functions.https.onRequest((request, response) => {
     return axios.get(`https://api.meh.com/1/current.json?apikey=${API_KEY}`).then((res) => {
       return ref.child("deal").once("value").then((snapshot) => {
         ref.child(`previousDeal/${snapshot.child("id").val()}`).update(snapshot.val());
-        ref.child(`previousDeal/${snapshot.child("id").val()}/date`).once("value").then(childSnapshot => {
+        return ref.child(`previousDeal/${snapshot.child("id").val()}/date`).once("value").then(childSnapshot => {
           if (!childSnapshot.exists()) {
-            ref.child(`previousDeal/${snapshot.child("id").val()}/date`).set(`${new Date().getFullYear()}_${new Date().getMonth()}_${new Date().getDate()}`);
+            ref.child(`previousDeal/${snapshot.child("id").val()}/date`).set(new Date().getTime());
           }
+
+          ref.child("deal").set(res.data.deal);
+          Object.keys(res.data).forEach(key => ref.child(`currentDeal/${key}`).set(res.data[key]));
+          response.send("Updated.");
+          return true;
         });
-        ref.child("deal").set(res.data.deal);
-        ref.child("info").set({
-          id: res.data.deal.id,
-          title: res.data.deal.title,
-          description: res.data.deal.features,
-          photos: res.data.deal.photos,
-          items: res.data.deal.items
-        });
-        ref.child("settings").set({
-          accentColor: res.data.deal.theme.accentColor,
-          backgroundColor: res.data.deal.theme.backgroundColor,
-          foreground: res.data.deal.theme.foreground
-        });
-        response.send("Completed.");
-        return true;
       });
     }).catch((err) => {
       console.error("Error fetching meh data...", err);
