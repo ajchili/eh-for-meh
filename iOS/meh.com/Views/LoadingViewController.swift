@@ -21,15 +21,13 @@ class LoadingViewController: UIViewController {
         return label
     }()
     
-    var theme: Theme?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
         setupView()
-        loadTheme()
+        loadMainViewController()
     }
     
     fileprivate func setupView() {
@@ -38,24 +36,15 @@ class LoadingViewController: UIViewController {
         titleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
-    fileprivate func loadTheme() {
-        Database.database().reference().child("deal/theme").observeSingleEvent(of: .value) { snapshot in
-            self.theme = Theme(
-                backgroundColor: UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "backgroundColor").value as? String ?? "#ffffff"),
-                accentColor: UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "accentColor").value as? String ?? "#000000"),
-                dark: snapshot.childSnapshot(forPath: "foreground").value as? String ?? "dark" == "dark")
-            
-            self.loadMainViewController()
-        }
-    }
-    
     fileprivate func loadMainViewController() {
-        let mainViewController = MainViewController()
-        
-        mainViewController.theme = theme
-        mainViewController.modalPresentationStyle = .fullScreen
-        mainViewController.modalTransitionStyle = .crossDissolve
-        
-        self.present(mainViewController, animated: true, completion: nil)
+        ThemeLoader.sharedInstance.loadTheme { theme in
+            let mainViewController = MainViewController()
+            
+            mainViewController.theme = theme
+            mainViewController.modalPresentationStyle = .fullScreen
+            mainViewController.modalTransitionStyle = .crossDissolve
+            
+            self.present(mainViewController, animated: true, completion: nil)
+        }
     }
 }

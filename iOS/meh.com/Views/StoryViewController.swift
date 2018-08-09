@@ -64,20 +64,14 @@ class StoryViewController: UIViewController {
         }
     }
     
-    var storyTitle: String = "" {
+    var story: Story! {
         didSet {
-            titleLabel.text = storyTitle
-        }
-    }
-    
-    var storyBody: String = "" {
-        didSet {
-            let md = SwiftyMarkdown(string: storyBody)
+            titleLabel.text = story.title
+            let md = SwiftyMarkdown(string: story.body)
             bodyView.dataDetectorTypes = UIDataDetectorTypes.all
             bodyView.attributedText = md.attributedString()
             bodyView.sizeToFit()
             bodyView.layoutIfNeeded()
-            bodyView.scrollsToTop = true
         }
     }
     
@@ -85,7 +79,6 @@ class StoryViewController: UIViewController {
         super.viewDidLoad()
         
         setupView()
-        loadData()
     }
     
     @objc func handleClose() {
@@ -135,12 +128,5 @@ class StoryViewController: UIViewController {
         closeButton.backgroundColor = theme.accentColor
         closeButton.tintColor = theme.backgroundColor
         closeButton.setTitleColor(theme.backgroundColor, for: .normal)
-    }
-    
-    fileprivate func loadData() {
-        Database.database().reference().child("deal/story").observe(.value) { snapshot in
-            self.storyTitle = snapshot.childSnapshot(forPath: "title").value as? String ?? ""
-            self.storyBody = snapshot.childSnapshot(forPath: "body").value as? String ?? ""
-        }
     }
 }

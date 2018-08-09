@@ -15,8 +15,14 @@ protocol ItemPageViewDelegate: class {
 
 class ImagePageViewController: UIPageViewController {
     
+    var deal: Deal! {
+        didSet {
+            setup()
+        }
+    }
+    
     var currentIndex = 0
-    var orderedViewControllers: [UIViewController]?
+    var orderedViewControllers = [UIViewController]()
     
     var itemViewPageControlDelegate: ItemViewPageControlDelegate!
 
@@ -32,29 +38,26 @@ class ImagePageViewController: UIPageViewController {
         super.viewDidLoad()
         
         dataSource = self
+    }
+    
+    fileprivate func setup() {
+        orderedViewControllers.removeAll()
         
-        Database.database().reference().child("deal/photos").observe(.value) { (snapshot) in
-            self.orderedViewControllers = []
+        for photo in deal.photos {
+            orderedViewControllers.append(newImageViewController(image: photo))
             
-            for child in snapshot.children.allObjects {
-                let childSnapshot = child as! DataSnapshot
-                
-                let imageURL = URL(string: childSnapshot.value as! String)!
-                self.orderedViewControllers?.append(self.newImageViewController(image: imageURL))
+            if let firstViewController = orderedViewControllers.first {
+                setViewControllers([firstViewController],
+                                    direction: .forward,
+                                    animated: true,
+                                    completion: nil)
             }
             
-            if let firstViewController = self.orderedViewControllers!.first {
-                self.setViewControllers([firstViewController],
-                                   direction: .forward,
-                                   animated: true,
-                                   completion: nil)
-            }
-            
-            self.itemViewPageControlDelegate.itemCountChanged((self.orderedViewControllers?.count)!)
+            itemViewPageControlDelegate.itemCountChanged(orderedViewControllers.count)
         }
     }
     
-    private func newImageViewController(image: URL) -> UIViewController {
+    fileprivate func newImageViewController(image: URL) -> UIViewController {
         let imageViewController = ImageViewController()
         imageViewController.image = image
         return imageViewController
@@ -64,7 +67,7 @@ class ImagePageViewController: UIPageViewController {
 extension ImagePageViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let viewControllerIndex = orderedViewControllers!.index(of: viewController) else {
+        guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
             return nil
         }
         
@@ -72,17 +75,17 @@ extension ImagePageViewController: UIPageViewControllerDataSource {
         currentIndex = viewControllerIndex
         setPageControlIndex(viewControllerIndex)
         
-        if (previousIndex > orderedViewControllers!.count) {
-            return orderedViewControllers![0]
+        if (previousIndex > orderedViewControllers.count) {
+            return orderedViewControllers[0]
         } else if (previousIndex < 0) {
-            return orderedViewControllers![orderedViewControllers!.count - 1]
+            return orderedViewControllers[orderedViewControllers.count - 1]
         } else {
-            return orderedViewControllers![previousIndex]
+            return orderedViewControllers[previousIndex]
         }
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let viewControllerIndex = orderedViewControllers!.index(of: viewController) else {
+        guard let viewControllerIndex = orderedViewControllers.index(of: viewController) else {
             return nil
         }
         
@@ -90,22 +93,22 @@ extension ImagePageViewController: UIPageViewControllerDataSource {
         currentIndex = viewControllerIndex
         setPageControlIndex(viewControllerIndex)
         
-        if (nextIndex >= orderedViewControllers!.count) {
-            return orderedViewControllers![0]
+        if (nextIndex >= orderedViewControllers.count) {
+            return orderedViewControllers[0]
         } else if (nextIndex < 0) {
-            return orderedViewControllers![orderedViewControllers!.count - 1]
+            return orderedViewControllers[orderedViewControllers.count - 1]
         } else {
-            return orderedViewControllers![nextIndex]
+            return orderedViewControllers[nextIndex]
         }
     }
     
     func presentationCountForPageViewController(pageViewController: UIPageViewController) -> Int {
-        return orderedViewControllers!.count
+        return orderedViewControllers.count
     }
     
     func presentationIndexForPageViewController(pageViewController: UIPageViewController) -> Int {
         guard let firstViewController = viewControllers?.first,
-            let firstViewControllerIndex = orderedViewControllers!.index(of: firstViewController) else {
+            let firstViewControllerIndex = orderedViewControllers.index(of: firstViewController) else {
                 return 0
         }
         return firstViewControllerIndex
@@ -119,7 +122,7 @@ extension ImagePageViewController: UIPageViewControllerDataSource {
 extension ImagePageViewController: ItemPageViewDelegate {
     
     func setCurrentImage(_ index: Int) {
-        self.setViewControllers([orderedViewControllers![index]],
+        self.setViewControllers([orderedViewControllers[index]],
                                 direction: index > currentIndex ? .forward : .reverse,
                                 animated: true,
                                 completion: nil)

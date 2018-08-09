@@ -13,6 +13,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     
     let itemTab = ItemViewController()
     let buyTab = BuyViewController()
+    let historyTab = HistoryNavigationViewController()
     let settingsTab = SettingsViewController()
     var theme: Theme! {
         didSet {
@@ -27,6 +28,7 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
         
         setupView()
         setupThemeObserver()
+        setupDealObserver()
     }
     
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
@@ -36,30 +38,34 @@ class MainViewController: UITabBarController, UITabBarControllerDelegate {
     fileprivate func setupView() {
         itemTab.tabBarItem = UITabBarItem(title: "Deal", image: UIImage(named: "view"), selectedImage: nil)
         buyTab.tabBarItem = UITabBarItem(title: "Buy", image: UIImage(named: "buy"), selectedImage: nil)
+        historyTab.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 0)
         settingsTab.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "settings"), selectedImage: nil)
         
-        viewControllers = [itemTab, buyTab, settingsTab]
+        viewControllers = [itemTab, buyTab, historyTab, settingsTab]
         selectedIndex = 0
     }
     
     fileprivate func setTheme() {
         UIView.animate(withDuration: 0.5) {
-            self.tabBar.barStyle = self.theme.dark ? .black : .default
             self.tabBar.tintColor = self.theme.backgroundColor
+            self.tabBar.barTintColor = self.theme.accentColor
             self.view.backgroundColor = self.theme.backgroundColor
         }
         
-        itemTab.theme = theme
         buyTab.theme = theme
+        historyTab.theme = theme
         settingsTab.theme = theme
     }
     
     fileprivate func setupThemeObserver() {
-        Database.database().reference().child("deal/theme").observe(.value) { snapshot in
-            self.theme = Theme(
-                backgroundColor: UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "backgroundColor").value as? String ?? "#ffffff"),
-                accentColor: UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "accentColor").value as? String ?? "#000000"),
-                dark: snapshot.childSnapshot(forPath: "foreground").value as? String ?? "dark" == "dark")
+        ThemeLoader.sharedInstance.setupThemeListener { theme in
+            self.theme = theme
+        }
+    }
+    
+    fileprivate func setupDealObserver() {
+        DealLoader.sharedInstance.loadCurrentDeal { deal in
+            self.itemTab.deal = deal
         }
     }
 }

@@ -128,7 +128,12 @@ class ItemViewController: UIViewController {
         return button
     }()
     
-    var theme: Theme!
+    var deal: Deal! {
+        didSet {
+            setupDeal()
+            imagePageViewController.deal = deal
+        }
+    }
     
     var itemPageViewDelegate: ItemPageViewDelegate!
     var forumPostURL: URL?
@@ -137,14 +142,13 @@ class ItemViewController: UIViewController {
         super.viewDidLoad()
         
         setupView()
-        loadData()
         
         webView.delegate = self
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        if let theme = theme {
-            return theme.dark ? .lightContent : .default
+        if deal != nil {
+            return deal.theme.dark ? .lightContent : .default
         }
         
         return .default
@@ -168,7 +172,8 @@ class ItemViewController: UIViewController {
         Analytics.logEvent("viewStory", parameters: [:])
         
         let storyView = StoryViewController()
-        storyView.theme = theme
+        storyView.theme = deal.theme
+        storyView.story = deal.story
         storyView.modalPresentationStyle = .fullScreen
         storyView.modalTransitionStyle = .coverVertical
         
@@ -278,103 +283,77 @@ class ItemViewController: UIViewController {
         webView.rightAnchor.constraint(equalTo: effectView.contentView.rightAnchor, constant: -30).isActive = true
     }
     
-    fileprivate func loadData() {
-        Database.database().reference().child("deal").observe(.value) { (snapshot) in
-            if snapshot.exists() {
-                Analytics.logEvent("loadDeal", parameters: [
-                    "deal": snapshot.childSnapshot(forPath: "id").value as! String
-                    ])
-                
-                let backgroundColor: UIColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "theme/backgroundColor").value as! String)
-                let accentColor: UIColor = UIColor.color(fromHexString: snapshot.childSnapshot(forPath: "theme/accentColor").value as! String)
-                
-                // Item title
-                self.titleLabel.text = snapshot.childSnapshot(forPath: "title").value as! String
-                
-                // Item description
-                let md = SwiftyMarkdown(string: snapshot.childSnapshot(forPath: "features").value as! String)
-                self.descriptionView.dataDetectorTypes = UIDataDetectorTypes.all
-                self.descriptionView.attributedText = md.attributedString()
-                self.descriptionView.sizeToFit()
-                self.descriptionView.layoutIfNeeded()
-                self.descriptionView.scrollsToTop = true
-                
-                // Item price
-                if snapshot.childSnapshot(forPath: "soldOutAt").exists() {
-                    self.priceLabel.text = "SOLD OUT"
-                    self.priceLabel.constraints.forEach { constraint in
-                        if constraint.firstAttribute == .width {
-                            constraint.constant = CGFloat(50 + self.priceLabel.text!.count * 6)
-                        }
-                    }
-                } else {
-                    self.calculatePrices(snapshot.childSnapshot(forPath: "items"))
-                }
-                
-                // Form Post
-                self.forumPostURL = URL(string: snapshot.childSnapshot(forPath: "topic/url").value as? String ?? "")
-                
-                // Set Theme color
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.pageControl.pageIndicatorTintColor = accentColor
-                    self.mehButton.backgroundColor = backgroundColor
-                    self.mehButton.tintColor = accentColor
-                    self.mehButton.setTitleColor(accentColor, for: .normal)
-                    self.mehButton.isHidden = false
-                    self.viewStoryButton.backgroundColor = backgroundColor
-                    self.viewStoryButton.tintColor = accentColor
-                    self.viewStoryButton.setTitleColor(accentColor, for: .normal)
-                    self.viewInFormButton.backgroundColor = backgroundColor
-                    self.viewInFormButton.tintColor = accentColor
-                    self.viewInFormButton.setTitleColor(accentColor, for: .normal)
-                    self.priceLabel.backgroundColor = backgroundColor
-                    self.priceLabel.textColor = accentColor
-                    
-                    if snapshot.childSnapshot(forPath: "theme/foreground").value as! String == "dark" {
-                        self.itemView.backgroundColor = .black
-                        self.pageControl.currentPageIndicatorTintColor = .white
-                        self.titleLabel.textColor = .white
-                    } else {
-                        self.itemView.backgroundColor = .white
-                        self.pageControl.currentPageIndicatorTintColor = .black
-                        self.titleLabel.textColor = .black
-                    }
-                }, completion: { _ in
-                    UIView.animate(withDuration: 0.5, animations: {
-                        self.itemView.alpha = 1
-                        
-                        let offset = CGPoint(x: 0, y: -self.scrollView.adjustedContentInset.top)
-                        self.scrollView.setContentOffset(offset, animated: false)
-                    })
-                })
-            } else {
-                let alert = UIAlertController(title: "Error Loading Deal", message: "Unable to load current meh deal.", preferredStyle: .alert)
-                
-                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                
-                alert.addAction(okAction)
-                
-                self.present(alert, animated: true, completion: nil)
-            }
+    fileprivate func setupDeal() {
+        titleLabel.text = deal.title
+        
+        let md = SwiftyMarkdown(string: deal.features)
+        descriptionView.dataDetectorTypes = UIDataDetectorTypes.all
+        descriptionView.attributedText = md.attributedString()
+        descriptionView.sizeToFit()
+        descriptionView.layoutIfNeeded()
+        
+        if deal.soldOut {
+            priceLabel.text = "SOLD OUT"
+        } else {
+            priceLabel.text = calculatePrices(deal.items)
         }
+        setPriceLabelConstraints()
+        
+        if let topic = deal.topic {
+            forumPostURL = topic.url
+        }
+        
+        animateUI(theme: deal.theme)
     }
     
-    fileprivate func calculatePrices(_ snapshot: DataSnapshot) {
+    fileprivate func animateUI(theme: Theme) {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.view.backgroundColor = theme.backgroundColor
+            self.pageControl.pageIndicatorTintColor = theme.accentColor
+            self.mehButton.backgroundColor = theme.backgroundColor
+            self.mehButton.tintColor = theme.accentColor
+            self.mehButton.setTitleColor(theme.accentColor, for: .normal)
+            self.mehButton.isHidden = false
+            self.viewStoryButton.backgroundColor = theme.backgroundColor
+            self.viewStoryButton.tintColor = theme.accentColor
+            self.viewStoryButton.setTitleColor(theme.accentColor, for: .normal)
+            self.viewInFormButton.backgroundColor = theme.backgroundColor
+            self.viewInFormButton.tintColor = theme.accentColor
+            self.viewInFormButton.setTitleColor(theme.accentColor, for: .normal)
+            self.priceLabel.backgroundColor = theme.backgroundColor
+            self.priceLabel.textColor = theme.accentColor
+            
+            if theme.dark {
+                self.itemView.backgroundColor = .black
+                self.pageControl.currentPageIndicatorTintColor = .white
+                self.titleLabel.textColor = .white
+            } else {
+                self.itemView.backgroundColor = .white
+                self.pageControl.currentPageIndicatorTintColor = .black
+                self.titleLabel.textColor = .black
+            }
+        }, completion: { _ in
+            UIView.animate(withDuration: 0.5, animations: {
+                self.itemView.alpha = 1
+                
+                let offset = CGPoint(x: 0, y: -self.scrollView.adjustedContentInset.top)
+                self.scrollView.setContentOffset(offset, animated: false)
+            })
+        })
+    }
+    
+    fileprivate func calculatePrices(_ items: [Item]) -> String {
         var min: CGFloat = .infinity
         var max: CGFloat = 0
         
-        for child in snapshot.children.allObjects {
-            let childSnapshot = child as! DataSnapshot
-            
-            if let price = childSnapshot.childSnapshot(forPath: "price").value as? CGFloat {
-                if price < min {
-                    min = price
-                    if max == 0 {
-                        max = price
-                    }
-                } else if price > max {
-                    max = price
+        for item in items {
+            if item.price < min {
+                min = item.price
+                if max == 0 {
+                    max = item.price
                 }
+            } else if item.price > max {
+                max = item.price
             }
         }
         
@@ -389,13 +368,15 @@ class ItemViewController: UIViewController {
             sMax = String(format: "%g", max)
         }
         
-        if snapshot.childrenCount == 1 || min == max {
-            self.priceLabel.text = "$\(sMin)"
+        if items.count == 1 || min == max {
+            return "$\(sMin)"
         } else {
-            self.priceLabel.text = "$\(sMin) - $\(sMax)"
+            return "$\(sMin) - $\(sMax)"
         }
-        
-        self.priceLabel.constraints.forEach {
+    }
+    
+    fileprivate func setPriceLabelConstraints() {
+        priceLabel.constraints.forEach {
             (constraint) in
             
             if constraint.firstAttribute == .width {
