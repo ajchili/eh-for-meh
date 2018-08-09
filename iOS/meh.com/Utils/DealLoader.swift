@@ -97,7 +97,7 @@ class DealLoader {
         
         for child in objects {
             let childSnapshot = child as! DataSnapshot
-            print(childSnapshot.value as! String)
+            
             photos.append(URL(string: childSnapshot.value as! String)!)
         }
         
