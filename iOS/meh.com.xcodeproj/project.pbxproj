@@ -14,7 +14,7 @@
 		7826E0EA1FD655400011AA23 /* ImagePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7826E0E91FD655400011AA23 /* ImagePageViewController.swift */; };
 		7826E0EE1FD659320011AA23 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7826E0ED1FD659320011AA23 /* ImageViewController.swift */; };
 		7830BD971FD5C0AB00F3D371 /* BuyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830BD961FD5C0AB00F3D371 /* BuyViewController.swift */; };
-		7830BD991FD5C1EB00F3D371 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830BD981FD5C1EB00F3D371 /* ItemViewController.swift */; };
+		7830BD991FD5C1EB00F3D371 /* DealViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7830BD981FD5C1EB00F3D371 /* DealViewController.swift */; };
 		784BED89211958D400F68B60 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784BED88211958D400F68B60 /* Theme.swift */; };
 		785AB98B21127D240022BCBB /* StoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785AB98A21127D240022BCBB /* StoryViewController.swift */; };
 		785C37FC1FD76D0D002CE08C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785C37FB1FD76D0D002CE08C /* SettingsViewController.swift */; };
@@ -73,7 +73,7 @@
 		7826E0E91FD655400011AA23 /* ImagePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePageViewController.swift; sourceTree = "<group>"; };
 		7826E0ED1FD659320011AA23 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		7830BD961FD5C0AB00F3D371 /* BuyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyViewController.swift; sourceTree = "<group>"; };
-		7830BD981FD5C1EB00F3D371 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
+		7830BD981FD5C1EB00F3D371 /* DealViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealViewController.swift; sourceTree = "<group>"; };
 		784BED88211958D400F68B60 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		785AB98A21127D240022BCBB /* StoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryViewController.swift; sourceTree = "<group>"; };
 		785C37FB1FD76D0D002CE08C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -157,11 +157,11 @@
 			isa = PBXGroup;
 			children = (
 				7830BD961FD5C0AB00F3D371 /* BuyViewController.swift */,
+				7830BD981FD5C1EB00F3D371 /* DealViewController.swift */,
 				78C110CE211B8D3600622810 /* HistoryNavigationViewController.swift */,
 				78C110CC211B8C7C00622810 /* HistoryTableViewController.swift */,
 				7826E0E91FD655400011AA23 /* ImagePageViewController.swift */,
 				7826E0ED1FD659320011AA23 /* ImageViewController.swift */,
-				7830BD981FD5C1EB00F3D371 /* ItemViewController.swift */,
 				78AD53AD2102F4AF0031E9B0 /* LoadingViewController.swift */,
 				781FCC5E20FE5D63009F35ED /* MainViewController.swift */,
 				785C37FB1FD76D0D002CE08C /* SettingsViewController.swift */,
@@ -433,7 +433,7 @@
 				78C110DE211B97D100622810 /* DealLoader.swift in Sources */,
 				785AB98B21127D240022BCBB /* StoryViewController.swift in Sources */,
 				78952D8F1FD5BDCF000E0AAC /* AppDelegate.swift in Sources */,
-				7830BD991FD5C1EB00F3D371 /* ItemViewController.swift in Sources */,
+				7830BD991FD5C1EB00F3D371 /* DealViewController.swift in Sources */,
 				785C37FC1FD76D0D002CE08C /* SettingsViewController.swift in Sources */,
 				78C110DA211B974100622810 /* Poll.swift in Sources */,
 				784BED89211958D400F68B60 /* Theme.swift in Sources */,

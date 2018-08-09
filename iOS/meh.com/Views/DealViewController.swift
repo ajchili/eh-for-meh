@@ -16,7 +16,7 @@ protocol ItemViewPageControlDelegate: class {
     func itemIndexChanged(_ index: Int)
 }
 
-class ItemViewController: UIViewController {
+class DealViewController: UIViewController {
     
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -386,7 +386,7 @@ class ItemViewController: UIViewController {
     }
 }
 
-extension ItemViewController: UIWebViewDelegate {
+extension DealViewController: UIWebViewDelegate {
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
         let url: String? = webView.request?.url?.absoluteString
@@ -414,7 +414,7 @@ extension ItemViewController: UIWebViewDelegate {
     }
 }
 
-extension ItemViewController: ItemViewPageControlDelegate {
+extension DealViewController: ItemViewPageControlDelegate {
     
     func itemCountChanged(_ count: Int) {
         pageControl.numberOfPages = count

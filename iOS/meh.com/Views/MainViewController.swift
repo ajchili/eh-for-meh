@@ -11,7 +11,7 @@ import FirebaseDatabase
 
 class MainViewController: UITabBarController, UITabBarControllerDelegate {
     
-    let itemTab = ItemViewController()
+    let itemTab = DealViewController()
     let buyTab = BuyViewController()
     let historyTab = HistoryNavigationViewController()
     let settingsTab = SettingsViewController()
