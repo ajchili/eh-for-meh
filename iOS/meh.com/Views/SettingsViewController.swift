@@ -62,6 +62,8 @@ class SettingsViewController: UIViewController {
         notificationSwitch.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         notificationSwitch.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
+        notificationSwitch.isOn = UserDefaults.standard.bool(forKey: "receiveNotifications")
+        
         view.addSubview(settingsLabel)
         settingsLabel.bottomAnchor.constraint(equalTo: notificationSwitch.topAnchor, constant: -8).isActive = true
         settingsLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8).isActive = true
@@ -101,6 +103,7 @@ class SettingsViewController: UIViewController {
         Analytics.logEvent("setNotifications", parameters: [
             "recieveNotifications": notificationSwitch.isOn
             ])
+        UserDefaults.standard.set(notificationSwitch.isOn, forKey: "receiveNotifications")
         Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").setValue(notificationSwitch.isOn ? true : nil)
     }
     
