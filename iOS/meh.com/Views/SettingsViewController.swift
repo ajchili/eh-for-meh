@@ -86,7 +86,11 @@ class SettingsViewController: UIViewController {
         let fmcToken = Messaging.messaging().fcmToken!
         Database.database().reference().child("notifications/\(fmcToken)").observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.exists() {
-                self.notificationSwitch.isOn = snapshot.value as? Bool ?? false
+                if let receiveNotifications = snapshot.value as? Bool {
+                    if self.notificationSwitch.isOn != receiveNotifications {
+                        self.displayDatabaseErrorAlert(receiveNotifications: receiveNotifications)
+                    }
+                }
             }
         })
     }
@@ -115,5 +119,33 @@ class SettingsViewController: UIViewController {
             self.affiliateLabel.textColor = self.theme.accentColor
             self.iconLabel.textColor = self.theme.accentColor
         }
+    }
+    
+    fileprivate func displayDatabaseErrorAlert(receiveNotifications: Bool) {
+        let alert = UIAlertController(title: "Notification Settings Error", message: "Your notifications are \(receiveNotifications ? "not" : "") enabled in the app but are in our database. Would you still like to recieve notifications?", preferredStyle: .alert)
+        
+        let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { _ in
+            Analytics.logEvent("setNotifications", parameters: [
+                "recieveNotifications": true,
+                "error": "Was not set in database."
+                ])
+            UserDefaults.standard.set(true, forKey: "receiveNotifications")
+            Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").setValue(true)
+            self.notificationSwitch.isOn = true
+        })
+        let noAction = UIAlertAction(title: "No", style: .cancel, handler: { _ in
+            Analytics.logEvent("setNotifications", parameters: [
+                "recieveNotifications": false,
+                "error": "Was not set in database."
+                ])
+            UserDefaults.standard.set(false, forKey: "receiveNotifications")
+            Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").setValue(nil)
+            self.notificationSwitch.isOn = false
+        })
+        
+        alert.addAction(yesAction)
+        alert.addAction(noAction)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
