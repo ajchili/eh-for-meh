@@ -36,6 +36,7 @@
 		78C110DA211B974100622810 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110D9211B974100622810 /* Poll.swift */; };
 		78C110DE211B97D100622810 /* DealLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110DD211B97D100622810 /* DealLoader.swift */; };
 		78C110E0211B99BB00622810 /* ThemeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110DF211B99BB00622810 /* ThemeLoader.swift */; };
+		78D5D7A7211D472C0085D4E2 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */; };
 		A9E3D3EBBF74004850F4629F /* Pods_meh_com.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9B8600787B1AEA09CCDBB8F /* Pods_meh_com.framework */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +100,7 @@
 		78C110D9211B974100622810 /* Poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
 		78C110DD211B97D100622810 /* DealLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealLoader.swift; sourceTree = "<group>"; };
 		78C110DF211B99BB00622810 /* ThemeLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeLoader.swift; sourceTree = "<group>"; };
+		78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		903BF7FAD035129F02A7C4FD /* Pods-Meh Deal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meh Deal.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Meh Deal/Pods-Meh Deal.debug.xcconfig"; sourceTree = "<group>"; };
 		AD64933D1800455A5CA2E589 /* Pods_Meh_Deal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Meh_Deal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9B8600787B1AEA09CCDBB8F /* Pods_meh_com.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_meh_com.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,6 +161,7 @@
 				7830BD961FD5C0AB00F3D371 /* BuyViewController.swift */,
 				7830BD981FD5C1EB00F3D371 /* DealViewController.swift */,
 				78C110CE211B8D3600622810 /* HistoryNavigationViewController.swift */,
+				78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */,
 				78C110CC211B8C7C00622810 /* HistoryTableViewController.swift */,
 				7826E0E91FD655400011AA23 /* ImagePageViewController.swift */,
 				7826E0ED1FD659320011AA23 /* ImageViewController.swift */,
@@ -439,6 +442,7 @@
 				784BED89211958D400F68B60 /* Theme.swift in Sources */,
 				78266BC1200FC7F400BF5BD8 /* Extensions.swift in Sources */,
 				7830BD971FD5C0AB00F3D371 /* BuyViewController.swift in Sources */,
+				78D5D7A7211D472C0085D4E2 /* HistoryTableViewCell.swift in Sources */,
 				78C110D6211B955700622810 /* Story.swift in Sources */,
 				7826E0EA1FD655400011AA23 /* ImagePageViewController.swift in Sources */,
 				78C110CF211B8D3600622810 /* HistoryNavigationViewController.swift in Sources */,

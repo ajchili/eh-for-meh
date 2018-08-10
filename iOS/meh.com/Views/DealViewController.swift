@@ -299,6 +299,8 @@ class DealViewController: UIViewController {
         }
         setPriceLabelConstraints()
         
+        mehButton.isHidden = deal.isPreviousDeal
+        
         if let topic = deal.topic {
             forumPostURL = topic.url
         }
@@ -313,7 +315,6 @@ class DealViewController: UIViewController {
             self.mehButton.backgroundColor = theme.backgroundColor
             self.mehButton.tintColor = theme.accentColor
             self.mehButton.setTitleColor(theme.accentColor, for: .normal)
-            self.mehButton.isHidden = false
             self.viewStoryButton.backgroundColor = theme.backgroundColor
             self.viewStoryButton.tintColor = theme.accentColor
             self.viewStoryButton.setTitleColor(theme.accentColor, for: .normal)

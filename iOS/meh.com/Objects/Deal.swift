@@ -12,6 +12,7 @@ class Deal {
     
     var id: String
     var features: String
+    var isPreviousDeal: Bool = false
     var items: [Item] = []
     var photos: [URL] = []
     var soldOut: Bool = false

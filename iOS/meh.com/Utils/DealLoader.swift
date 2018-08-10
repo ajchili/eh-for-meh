@@ -31,6 +31,7 @@ class DealLoader {
         ThemeLoader.sharedInstance.loadTheme(forDeal: id) { theme in
             Database.database().reference().child("previousDeal/\(id)/deal").observeSingleEvent(of: .value, with: { snapshot in
                 let deal = self.getDealFromSnapshot(theme: theme, snapshot: snapshot)
+                deal.isPreviousDeal = true
                 Analytics.logEvent("loadPreviousDeal", parameters: [
                     "deal": deal.id
                     ])
