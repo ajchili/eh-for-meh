@@ -17,7 +17,7 @@ class StoryViewController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.bounces = true
-        scrollView.showsVerticalScrollIndicator = true
+        scrollView.showsVerticalScrollIndicator = false
         scrollView.backgroundColor = .clear
         scrollView.layer.cornerRadius = 6
         return scrollView
@@ -27,6 +27,7 @@ class StoryViewController: UIViewController {
        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 6
+        view.layer.masksToBounds = true
         return view
     }()
     
@@ -94,13 +95,13 @@ class StoryViewController: UIViewController {
         closeButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         view.addSubview(scrollView)
-        scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: closeButton.topAnchor, constant: -10).isActive = true
-        scrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0).isActive = true
-        scrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0).isActive = true
+        scrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        scrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         
         scrollView.addSubview(cardView)
-        cardView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 0).isActive = true
+        cardView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20).isActive = true
         cardView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: 0).isActive = true
         cardView.leftAnchor.constraint(equalTo: scrollView.leftAnchor, constant: 0).isActive = true
         cardView.rightAnchor.constraint(equalTo: scrollView.rightAnchor, constant: 0).isActive = true
@@ -112,13 +113,13 @@ class StoryViewController: UIViewController {
         
         cardView.addSubview(bodyView)
         bodyView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10).isActive = true
-        bodyView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: 0).isActive = true
-        bodyView.leftAnchor.constraint(equalTo: cardView.leftAnchor, constant: 0).isActive = true
-        bodyView.rightAnchor.constraint(equalTo: cardView.rightAnchor, constant: 0).isActive = true
+        bodyView.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -10).isActive = true
+        bodyView.leftAnchor.constraint(equalTo: cardView.leftAnchor, constant: 10).isActive = true
+        bodyView.rightAnchor.constraint(equalTo: cardView.rightAnchor, constant: -10).isActive = true
         
         scrollView.bounds = view.bounds
         scrollView.contentSize = CGSize(width: view.bounds.width, height: .infinity)
-        cardView.widthAnchor.constraint(equalToConstant: scrollView.bounds.width).isActive = true
+        cardView.widthAnchor.constraint(equalToConstant: view.bounds.width - 40).isActive = true
     }
     
     fileprivate func setTheme() {

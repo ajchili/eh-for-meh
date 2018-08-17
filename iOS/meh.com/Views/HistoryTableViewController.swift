@@ -25,7 +25,7 @@ class HistoryTableViewController: UITableViewController {
         super.viewDidLoad()
         
         navigationItem.title = "History"
-        self.view.backgroundColor = .white
+        tableView.separatorStyle = .none
         
         tableView.register(HistoryTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         
@@ -34,7 +34,7 @@ class HistoryTableViewController: UITableViewController {
     
     fileprivate func setTheme() {
         UIView.animate(withDuration: 0.5) {
-            self.tableView.separatorColor = self.theme.accentColor
+            self.view.backgroundColor = self.theme.backgroundColor
         }
     }
     
@@ -71,7 +71,7 @@ class HistoryTableViewController: UITableViewController {
     }
     
     fileprivate func loadData() {
-        Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toFirst: 15).observeSingleEvent(of: .value) { snapshot in
+        Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toFirst: 15).observe(.value) { snapshot in
             for child in snapshot.children.allObjects.reversed().dropFirst() {
                 let childSnapshot = child as! DataSnapshot
                 
