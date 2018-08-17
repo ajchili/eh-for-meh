@@ -72,6 +72,8 @@ class HistoryTableViewController: UITableViewController {
     
     fileprivate func loadData() {
         Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toFirst: 15).observe(.value) { snapshot in
+            self.previousDeals.removeAll()
+            
             for child in snapshot.children.allObjects.reversed().dropFirst() {
                 let childSnapshot = child as! DataSnapshot
                 
