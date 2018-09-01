@@ -82,6 +82,10 @@ class StoryViewController: UIViewController {
         setupView()
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return theme.dark ? .lightContent : .default
+    }
+    
     @objc func handleClose() {
         Analytics.logEvent("closeStory", parameters: [:])
         dismiss(animated: true, completion: nil)
