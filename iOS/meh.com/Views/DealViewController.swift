@@ -146,6 +146,11 @@ class DealViewController: UIViewController {
         webView.delegate = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setPriceLabelConstraints()
+    }
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if deal != nil {
             return deal.theme.dark ? .lightContent : .default
@@ -381,7 +386,11 @@ class DealViewController: UIViewController {
             (constraint) in
             
             if constraint.firstAttribute == .width {
-                constraint.constant = CGFloat(50 + self.priceLabel.text!.count * 6)
+                if let text = self.priceLabel.text?.count {
+                    constraint.constant = CGFloat(50 + text * 6)
+                } else {
+                    constraint.constant = CGFloat(50)
+                }
             }
         }
     }
