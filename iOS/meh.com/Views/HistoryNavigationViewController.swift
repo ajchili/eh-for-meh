@@ -38,9 +38,15 @@ class HistoryNavigationViewController: UINavigationController {
     fileprivate func setTheme() {
         UIView.animate(withDuration: 0.5) {
             self.navigationBar.barTintColor = self.theme.accentColor
-            self.navigationBar.tintColor = self.theme.backgroundColor
-            self.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: self.theme.backgroundColor]
-            self.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: self.theme.backgroundColor]
+            if self.theme.dark {
+                self.navigationBar.tintColor = .white
+                self.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+                self.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+            } else {
+                self.navigationBar.tintColor = .black
+                self.navigationBar.largeTitleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+                self.navigationBar.titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.black]
+            }
             self.view.backgroundColor = self.theme.backgroundColor
         }
     }
