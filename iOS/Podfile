@@ -8,6 +8,7 @@ target 'meh.com' do
 # Pods for meh.com
   pod 'Crashlytics', '~> 3.10.5'
   pod 'Fabric', '~> 1.7.9'
+  pod 'Firebase/AdMob'
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Messaging'
