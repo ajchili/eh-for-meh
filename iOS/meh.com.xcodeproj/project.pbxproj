@@ -27,6 +27,7 @@
 		78952D981FD5BDCF000E0AAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78952D971FD5BDCF000E0AAC /* Assets.xcassets */; };
 		78952D9B1FD5BDCF000E0AAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78952D991FD5BDCF000E0AAC /* LaunchScreen.storyboard */; };
 		78AD53AE2102F4AF0031E9B0 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD53AD2102F4AF0031E9B0 /* LoadingViewController.swift */; };
+		78AE690A213F382F00A01C65 /* SpecificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AE6909213F382F00A01C65 /* SpecificationsViewController.swift */; };
 		78C110CD211B8C7C00622810 /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110CC211B8C7C00622810 /* HistoryTableViewController.swift */; };
 		78C110CF211B8D3600622810 /* HistoryNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110CE211B8D3600622810 /* HistoryNavigationViewController.swift */; };
 		78C110D2211B948C00622810 /* Deal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110D1211B948C00622810 /* Deal.swift */; };
@@ -91,6 +92,7 @@
 		78952D9A1FD5BDCF000E0AAC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		78952D9C1FD5BDCF000E0AAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78AD53AD2102F4AF0031E9B0 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		78AE6909213F382F00A01C65 /* SpecificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificationsViewController.swift; sourceTree = "<group>"; };
 		78C110CC211B8C7C00622810 /* HistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
 		78C110CE211B8D3600622810 /* HistoryNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryNavigationViewController.swift; sourceTree = "<group>"; };
 		78C110D1211B948C00622810 /* Deal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deal.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				781FCC5E20FE5D63009F35ED /* MainViewController.swift */,
 				785C37FB1FD76D0D002CE08C /* SettingsViewController.swift */,
 				785AB98A21127D240022BCBB /* StoryViewController.swift */,
+				78AE6909213F382F00A01C65 /* SpecificationsViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 			files = (
 				78C110DE211B97D100622810 /* DealLoader.swift in Sources */,
 				785AB98B21127D240022BCBB /* StoryViewController.swift in Sources */,
+				78AE690A213F382F00A01C65 /* SpecificationsViewController.swift in Sources */,
 				78952D8F1FD5BDCF000E0AAC /* AppDelegate.swift in Sources */,
 				7830BD991FD5C1EB00F3D371 /* DealViewController.swift in Sources */,
 				785C37FC1FD76D0D002CE08C /* SettingsViewController.swift in Sources */,

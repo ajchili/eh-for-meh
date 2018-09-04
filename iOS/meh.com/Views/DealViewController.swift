@@ -95,6 +95,16 @@ class DealViewController: UIViewController {
         return button
     }()
     
+    let viewSpecificationsButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.setTitle("View Specifications", for: .normal)
+        button.layer.cornerRadius = 25
+        button.addTarget(self, action: #selector(handleViewSpecifications), for: .touchUpInside)
+        return button
+    }()
+    
     let viewStoryButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -171,6 +181,18 @@ class DealViewController: UIViewController {
     
     @objc func handlePageChange() {
         itemPageViewDelegate.setCurrentImage(pageControl.currentPage)
+    }
+    
+    @objc func handleViewSpecifications() {
+        Analytics.logEvent("viewSpecifications", parameters: [:])
+        
+        let sprecificationView = SpecificationsViewController()
+        sprecificationView.specifications = deal.specifications
+        sprecificationView.theme = deal.theme
+        sprecificationView.modalPresentationStyle = .fullScreen
+        sprecificationView.modalTransitionStyle = .coverVertical
+        
+        present(sprecificationView, animated: true, completion: nil)
     }
     
     @objc func handleViewStory() {
@@ -253,8 +275,14 @@ class DealViewController: UIViewController {
         descriptionView.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
         descriptionView.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
         
+        itemView.addSubview(viewSpecificationsButton)
+        viewSpecificationsButton.topAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: 10).isActive = true
+        viewSpecificationsButton.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
+        viewSpecificationsButton.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
+        viewSpecificationsButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
         itemView.addSubview(viewStoryButton)
-        viewStoryButton.topAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: 10).isActive = true
+        viewStoryButton.topAnchor.constraint(equalTo: viewSpecificationsButton.bottomAnchor, constant: 10).isActive = true
         viewStoryButton.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
         viewStoryButton.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
         viewStoryButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -320,6 +348,9 @@ class DealViewController: UIViewController {
             self.mehButton.backgroundColor = theme.backgroundColor
             self.mehButton.tintColor = theme.accentColor
             self.mehButton.setTitleColor(theme.accentColor, for: .normal)
+            self.viewSpecificationsButton.backgroundColor = theme.backgroundColor
+            self.viewSpecificationsButton.tintColor = theme.accentColor
+            self.viewSpecificationsButton.setTitleColor(theme.accentColor, for: .normal)
             self.viewStoryButton.backgroundColor = theme.backgroundColor
             self.viewStoryButton.tintColor = theme.accentColor
             self.viewStoryButton.setTitleColor(theme.accentColor, for: .normal)
