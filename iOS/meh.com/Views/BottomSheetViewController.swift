@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import SwiftyMarkdown
 
 class BottomSheetViewController: UIViewController {
     
-    var deal: Deal! {
+    var deal: Deal? {
         didSet {
             animateView()
         }
@@ -30,7 +31,82 @@ class BottomSheetViewController: UIViewController {
     
     let titleLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Deal Information"
+        label.numberOfLines = 1
+        label.font = UIFont.systemFont(ofSize: 36, weight: .medium)
         return label
+    }()
+    
+    let segmentControl: UISegmentedControl = {
+        let segmentControl = UISegmentedControl()
+        segmentControl.translatesAutoresizingMaskIntoConstraints = false
+        segmentControl.insertSegment(withTitle: "Features", at: 0, animated: true)
+        segmentControl.insertSegment(withTitle: "Spec", at: 1, animated: true)
+        segmentControl.insertSegment(withTitle: "Story", at: 2, animated: true)
+        segmentControl.addTarget(self, action: #selector(handleSegmentChange), for: .valueChanged)
+        return segmentControl
+    }()
+    
+    let featureScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.bounces = true
+        scrollView.backgroundColor = .clear
+        return scrollView
+    }()
+    
+    let descriptionTextView: UITextView = {
+        let tv = UITextView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.isEditable = false
+        tv.isScrollEnabled = false
+        tv.backgroundColor = .clear
+        return tv
+    }()
+    
+    let specsScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.bounces = true
+        scrollView.backgroundColor = .clear
+        scrollView.isHidden = true
+        return scrollView
+    }()
+    
+    let specTextView: UITextView = {
+        let tv = UITextView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.isEditable = false
+        tv.isScrollEnabled = false
+        tv.backgroundColor = .clear
+        return tv
+    }()
+    
+    let storyScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.bounces = true
+        scrollView.backgroundColor = .clear
+        scrollView.isHidden = true
+        return scrollView
+    }()
+    
+    let storyTitleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 36, weight: .medium)
+        return label
+    }()
+    
+    let storyTextView: UITextView = {
+        let tv = UITextView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.isEditable = false
+        tv.isScrollEnabled = false
+        tv.backgroundColor = .clear
+        return tv
     }()
     
     override func viewDidLoad() {
@@ -63,13 +139,47 @@ class BottomSheetViewController: UIViewController {
         }
     }
     
+    @objc func handleSegmentChange() {
+        switch self.segmentControl.selectedSegmentIndex {
+        case 1:
+            self.featureScrollView.isHidden = true;
+            self.specsScrollView.isHidden = false;
+            self.storyScrollView.isHidden = true;
+            break;
+        case 2:
+            self.featureScrollView.isHidden = true;
+            self.specsScrollView.isHidden = true;
+            self.storyScrollView.isHidden = false;
+            break;
+        default:
+            self.featureScrollView.isHidden = false;
+            self.specsScrollView.isHidden = true;
+            self.storyScrollView.isHidden = true;
+            break;
+        }
+    }
+    
     fileprivate func animateView() {
-        UIView.animate(withDuration: 0.15, animations: {
-            self.view.frame = CGRect(origin: CGPoint(x: 0, y: self.minimumY),
-                                     size: CGSize(width: self.view.frame.width, height: self.view.frame.height))
-            self.view.backgroundColor = self.deal.theme.accentColor
-            self.pullTab.backgroundColor = self.deal.theme.backgroundColor
-        })
+        if let deal = deal {
+            let textColor: UIColor = deal.theme.dark ? .white : .black
+            setupDeal()
+            UIView.animate(withDuration: 0.15, animations: {
+                self.view.frame = CGRect(origin: CGPoint(x: 0, y: self.minimumY),
+                                         size: CGSize(width: self.view.frame.width, height: self.view.frame.height))
+                self.view.backgroundColor = deal.theme.accentColor
+                self.pullTab.backgroundColor = deal.theme.backgroundColor
+                self.segmentControl.tintColor = deal.theme.backgroundColor
+                self.segmentControl.selectedSegmentIndex = 0
+                self.titleLabel.textColor = textColor
+                self.descriptionTextView.textColor = textColor
+                self.descriptionTextView.tintColor = deal.theme.backgroundColor
+                self.specTextView.textColor = textColor
+                self.specTextView.tintColor = deal.theme.backgroundColor
+                self.storyTitleLabel.textColor = textColor
+                self.storyTextView.textColor = textColor
+                self.storyTextView.tintColor = deal.theme.backgroundColor
+            })
+        }
     }
     
     fileprivate func roundCorners() {
@@ -93,5 +203,89 @@ class BottomSheetViewController: UIViewController {
         pullTab.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor).isActive = true
         pullTab.widthAnchor.constraint(equalToConstant: 40).isActive = true
         pullTab.heightAnchor.constraint(equalToConstant: 5).isActive = true
+        
+        view.addSubview(titleLabel)
+        titleLabel.topAnchor.constraint(equalTo: pullTab.bottomAnchor, constant: 15).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        
+        view.addSubview(segmentControl)
+        segmentControl.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 27).isActive = true
+        segmentControl.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        segmentControl.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        
+        view.addSubview(featureScrollView)
+        featureScrollView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 10).isActive = true
+        featureScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150).isActive = true
+        featureScrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0).isActive = true
+        featureScrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0).isActive = true
+        
+        featureScrollView.addSubview(descriptionTextView)
+        descriptionTextView.topAnchor.constraint(equalTo: featureScrollView.topAnchor, constant: 0).isActive = true
+        descriptionTextView.bottomAnchor.constraint(equalTo: featureScrollView.bottomAnchor, constant: 0).isActive = true
+        descriptionTextView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        descriptionTextView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        
+        featureScrollView.bounds = view.bounds
+        featureScrollView.contentSize = CGSize(width: view.bounds.width, height: .infinity)
+        
+        view.addSubview(specsScrollView)
+        specsScrollView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 10).isActive = true
+        specsScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150).isActive = true
+        specsScrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0).isActive = true
+        specsScrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0).isActive = true
+        
+        specsScrollView.addSubview(specTextView)
+        specTextView.topAnchor.constraint(equalTo: specsScrollView.topAnchor, constant: 0).isActive = true
+        specTextView.bottomAnchor.constraint(equalTo: specsScrollView.bottomAnchor, constant: 0).isActive = true
+        specTextView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        specTextView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        
+        specsScrollView.bounds = view.bounds
+        specsScrollView.contentSize = CGSize(width: view.bounds.width, height: .infinity)
+        
+        view.addSubview(storyScrollView)
+        storyScrollView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 10).isActive = true
+        storyScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150).isActive = true
+        storyScrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0).isActive = true
+        storyScrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0).isActive = true
+        
+        storyScrollView.addSubview(storyTitleLabel)
+        storyTitleLabel.topAnchor.constraint(equalTo: storyScrollView.topAnchor, constant: 0).isActive = true
+        storyTitleLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        storyTitleLabel.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        
+        storyScrollView.addSubview(storyTextView)
+        storyTextView.topAnchor.constraint(equalTo: storyTitleLabel.bottomAnchor, constant: 0).isActive = true
+        storyTextView.bottomAnchor.constraint(equalTo: storyScrollView.bottomAnchor, constant: 0).isActive = true
+        storyTextView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        storyTextView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        
+        storyScrollView.bounds = view.bounds
+        storyScrollView.contentSize = CGSize(width: view.bounds.width, height: .infinity)
+    }
+    
+    fileprivate func setupDeal() {
+        if let deal = deal {
+            let descriptionMD = SwiftyMarkdown(string: deal.features)
+            descriptionTextView.dataDetectorTypes = UIDataDetectorTypes.all
+            descriptionTextView.attributedText = descriptionMD.attributedString()
+            descriptionTextView.sizeToFit()
+            descriptionTextView.layoutIfNeeded()
+            
+            let specMD = SwiftyMarkdown(string: deal.specifications.replacingOccurrences(of: "\\", with: ""))
+            specTextView.dataDetectorTypes = UIDataDetectorTypes.all
+            specTextView.attributedText = specMD.attributedString()
+            specTextView.sizeToFit()
+            specTextView.layoutIfNeeded()
+            
+            storyTitleLabel.text = deal.story.title
+            
+            let storyMD = SwiftyMarkdown(string: deal.story.body)
+            storyTextView.dataDetectorTypes = UIDataDetectorTypes.all
+            storyTextView.attributedText = storyMD.attributedString()
+            storyTextView.sizeToFit()
+            storyTextView.layoutIfNeeded()
+        }
     }
 }

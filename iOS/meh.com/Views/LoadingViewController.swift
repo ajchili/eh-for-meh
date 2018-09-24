@@ -37,14 +37,16 @@ class LoadingViewController: UIViewController {
     }
     
     fileprivate func loadMainViewController() {
-        DealLoader.sharedInstance.loadCurrentDeal { deal in
-            let mainViewController = MainViewController()
-            
-            mainViewController.deal = deal
-            mainViewController.modalPresentationStyle = .fullScreen
-            mainViewController.modalTransitionStyle = .crossDissolve
-            
-            self.present(mainViewController, animated: true, completion: nil)
-        }
+        ThemeLoader.sharedInstance.loadTheme(completion: { theme in
+            UIView.animate(withDuration: 0.5, animations: {
+                self.view.backgroundColor = theme.backgroundColor
+                self.titleLabel.alpha = 0
+            }, completion: { _ in
+                let mainViewController = MainViewController()
+                mainViewController.view.backgroundColor = theme.backgroundColor
+                
+                self.present(mainViewController, animated: false)
+            })
+        })
     }
 }

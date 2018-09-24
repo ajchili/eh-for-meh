@@ -151,8 +151,8 @@ class DealViewController: UIViewController {
         
         itemView.addSubview(titleLabel)
         titleLabel.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 10).isActive = true
-        titleLabel.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 0).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: 0).isActive = true
         
         let buttonView = UIView()
         buttonView.translatesAutoresizingMaskIntoConstraints = false
@@ -161,7 +161,7 @@ class DealViewController: UIViewController {
         buttonView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10).isActive = true
         buttonView.bottomAnchor.constraint(equalTo: itemView.bottomAnchor, constant: 0).isActive = true
         buttonView.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 0).isActive = true
-        buttonView.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
+        buttonView.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: 0).isActive = true
         buttonView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         buttonView.addSubview(priceLabel)

@@ -12,13 +12,15 @@ import FirebaseDatabase
 class MainViewController: UIViewController {
     
     var hasAddedBottomSheet: Bool = false
-    var deal: Deal! {
+    var deal: Deal? {
         didSet {
-            dealView.deal = deal
-            bottomSheet.deal = deal
-            UIView.animate(withDuration: 0.5, animations: {
-                self.view.backgroundColor = self.deal.theme.backgroundColor
-            })
+            if let deal = deal {
+                dealView.deal = deal
+                bottomSheet.deal = deal
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.view.backgroundColor = deal.theme.backgroundColor
+                })
+            }
         }
     }
     
@@ -28,11 +30,12 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-        
         setupDealView()
         addBottomSheet()
-        setupDealObserver()
+        
+        if deal == nil {
+            setupDealObserver()
+        }
     }
     
     fileprivate func setupDealObserver() {
