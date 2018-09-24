@@ -24,7 +24,7 @@ class ImagePageViewController: UIPageViewController {
     var currentIndex = 0
     var orderedViewControllers = [UIViewController]()
     
-    var itemViewPageControlDelegate: ItemViewPageControlDelegate!
+    var itemViewPageControlDelegate: ItemViewPageControlDelegate?
 
     override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
@@ -53,7 +53,9 @@ class ImagePageViewController: UIPageViewController {
                                     completion: nil)
             }
             
-            itemViewPageControlDelegate.itemCountChanged(orderedViewControllers.count)
+            if let delegate = itemViewPageControlDelegate {
+                delegate.itemCountChanged(orderedViewControllers.count)
+            }
         }
     }
     
@@ -115,7 +117,9 @@ extension ImagePageViewController: UIPageViewControllerDataSource {
     }
     
     func setPageControlIndex(_ index: Int) {
-        itemViewPageControlDelegate.itemIndexChanged(index)
+        if let delegate = itemViewPageControlDelegate {
+            delegate.itemIndexChanged(index)
+        }
     }
 }
 

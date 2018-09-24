@@ -28,6 +28,7 @@
 		78952D9B1FD5BDCF000E0AAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78952D991FD5BDCF000E0AAC /* LaunchScreen.storyboard */; };
 		78AD53AE2102F4AF0031E9B0 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD53AD2102F4AF0031E9B0 /* LoadingViewController.swift */; };
 		78AE690A213F382F00A01C65 /* SpecificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AE6909213F382F00A01C65 /* SpecificationsViewController.swift */; };
+		78B799172158852D00526816 /* BottomSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78B799162158852D00526816 /* BottomSheetViewController.swift */; };
 		78C110CD211B8C7C00622810 /* HistoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110CC211B8C7C00622810 /* HistoryTableViewController.swift */; };
 		78C110CF211B8D3600622810 /* HistoryNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110CE211B8D3600622810 /* HistoryNavigationViewController.swift */; };
 		78C110D2211B948C00622810 /* Deal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110D1211B948C00622810 /* Deal.swift */; };
@@ -93,6 +94,7 @@
 		78952D9C1FD5BDCF000E0AAC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		78AD53AD2102F4AF0031E9B0 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		78AE6909213F382F00A01C65 /* SpecificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecificationsViewController.swift; sourceTree = "<group>"; };
+		78B799162158852D00526816 /* BottomSheetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetViewController.swift; sourceTree = "<group>"; };
 		78C110CC211B8C7C00622810 /* HistoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewController.swift; sourceTree = "<group>"; };
 		78C110CE211B8D3600622810 /* HistoryNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryNavigationViewController.swift; sourceTree = "<group>"; };
 		78C110D1211B948C00622810 /* Deal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deal.swift; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 		7830BD951FD5C07B00F3D371 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				78B799162158852D00526816 /* BottomSheetViewController.swift */,
 				7830BD961FD5C0AB00F3D371 /* BuyViewController.swift */,
 				7830BD981FD5C1EB00F3D371 /* DealViewController.swift */,
 				78C110CE211B8D3600622810 /* HistoryNavigationViewController.swift */,
@@ -448,6 +451,7 @@
 				78C110D6211B955700622810 /* Story.swift in Sources */,
 				7826E0EA1FD655400011AA23 /* ImagePageViewController.swift in Sources */,
 				78C110CF211B8D3600622810 /* HistoryNavigationViewController.swift in Sources */,
+				78B799172158852D00526816 /* BottomSheetViewController.swift in Sources */,
 				78C110CD211B8C7C00622810 /* HistoryTableViewController.swift in Sources */,
 				78C110D4211B94E200622810 /* Item.swift in Sources */,
 				7826E0EE1FD659320011AA23 /* ImageViewController.swift in Sources */,

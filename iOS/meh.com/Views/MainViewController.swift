@@ -9,63 +9,53 @@
 import UIKit
 import FirebaseDatabase
 
-class MainViewController: UITabBarController, UITabBarControllerDelegate {
+class MainViewController: UIViewController {
     
-    let itemTab = DealViewController()
-    let buyTab = BuyViewController()
-    let historyTab = HistoryNavigationViewController()
-    let settingsTab = SettingsViewController()
-    var theme: Theme! {
+    var hasAddedBottomSheet: Bool = false
+    var deal: Deal! {
         didSet {
-            setTheme()
+            dealView.deal = deal
+            bottomSheet.deal = deal
+            UIView.animate(withDuration: 0.5, animations: {
+                self.view.backgroundColor = self.deal.theme.backgroundColor
+            })
         }
     }
+    
+    let bottomSheet = BottomSheetViewController()
+    let dealView = DealViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         
-        setupView()
-        setupThemeObserver()
+        setupDealView()
+        addBottomSheet()
         setupDealObserver()
     }
     
-    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-        return true;
-    }
-    
-    fileprivate func setupView() {
-        itemTab.tabBarItem = UITabBarItem(title: "Deal", image: UIImage(named: "view"), selectedImage: nil)
-        buyTab.tabBarItem = UITabBarItem(title: "Buy", image: UIImage(named: "buy"), selectedImage: nil)
-        historyTab.tabBarItem = UITabBarItem(tabBarSystemItem: .history, tag: 0)
-        settingsTab.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "settings"), selectedImage: nil)
-        
-        viewControllers = [itemTab, buyTab, historyTab, settingsTab]
-        selectedIndex = 0
-    }
-    
-    fileprivate func setTheme() {
-        UIView.animate(withDuration: 0.5) {
-            self.tabBar.tintColor = self.theme.backgroundColor
-            self.tabBar.barTintColor = self.theme.accentColor
-            self.view.backgroundColor = self.theme.backgroundColor
-        }
-        
-        buyTab.theme = theme
-        historyTab.theme = theme
-        settingsTab.theme = theme
-    }
-    
-    fileprivate func setupThemeObserver() {
-        ThemeLoader.sharedInstance.setupThemeListener { theme in
-            self.theme = theme
-        }
-    }
-    
     fileprivate func setupDealObserver() {
-        DealLoader.sharedInstance.loadCurrentDeal { deal in
-            self.itemTab.deal = deal
-        }
+        DealLoader.sharedInstance.loadCurrentDeal(completion: { deal in
+            self.deal = deal
+        })
+    }
+    
+    fileprivate func addBottomSheet() {
+        if hasAddedBottomSheet { return }
+        
+        addChildViewController(bottomSheet)
+        view.addSubview(bottomSheet.view)
+        bottomSheet.didMove(toParentViewController: self)
+        bottomSheet.view.frame = CGRect(origin: CGPoint(x: 0, y: view.frame.maxY),
+                                        size: CGSize(width: view.frame.width, height: view.frame.height))
+    }
+    
+    fileprivate func setupDealView() {
+        addChildViewController(dealView)
+        view.addSubview(dealView.view)
+        dealView.didMove(toParentViewController: self)
+        dealView.view.frame = CGRect(origin: CGPoint(x: 0, y: 0),
+                                     size: CGSize(width: view.frame.width, height: view.frame.height - 100))
     }
 }

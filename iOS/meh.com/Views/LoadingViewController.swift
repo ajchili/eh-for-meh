@@ -37,10 +37,10 @@ class LoadingViewController: UIViewController {
     }
     
     fileprivate func loadMainViewController() {
-        ThemeLoader.sharedInstance.loadTheme { theme in
+        DealLoader.sharedInstance.loadCurrentDeal { deal in
             let mainViewController = MainViewController()
             
-            mainViewController.theme = theme
+            mainViewController.deal = deal
             mainViewController.modalPresentationStyle = .fullScreen
             mainViewController.modalTransitionStyle = .crossDissolve
             

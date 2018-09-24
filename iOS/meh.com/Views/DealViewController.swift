@@ -18,15 +18,6 @@ protocol ItemViewPageControlDelegate: class {
 
 class DealViewController: UIViewController {
     
-    let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.bounces = true
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.backgroundColor = .clear
-        return scrollView
-    }()
-    
     let imagePageViewController = ImagePageViewController()
     
     let pageControl: UIPageControl = {
@@ -40,8 +31,6 @@ class DealViewController: UIViewController {
     let itemView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 6
         view.alpha = 0
         return view
     }()
@@ -50,26 +39,16 @@ class DealViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 30, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 36, weight: .medium)
         return label
-    }()
-    
-    let descriptionView: UITextView = {
-        let tv = UITextView()
-        tv.translatesAutoresizingMaskIntoConstraints = false
-        tv.isEditable = false
-        tv.isScrollEnabled = false
-        tv.backgroundColor = .white
-        tv.layer.cornerRadius = 6
-        return tv
     }()
     
     let mehButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         button.setTitle("meh", for: .normal)
-        button.layer.cornerRadius = 25
+        button.layer.cornerRadius = 30
         button.addTarget(self, action: #selector(handleMeh), for: .touchUpInside)
         return button
     }()
@@ -78,41 +57,11 @@ class DealViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = UIFont.systemFont(ofSize: 20)
         label.textAlignment = .center
         label.layer.masksToBounds = true
-        label.layer.cornerRadius = 25
+        label.layer.cornerRadius = 30
         return label
-    }()
-    
-    let viewInFormButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitle("View Deal on Forum", for: .normal)
-        button.layer.cornerRadius = 25
-        button.addTarget(self, action: #selector(handleViewOnForm), for: .touchUpInside)
-        return button
-    }()
-    
-    let viewSpecificationsButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitle("View Specifications", for: .normal)
-        button.layer.cornerRadius = 25
-        button.addTarget(self, action: #selector(handleViewSpecifications), for: .touchUpInside)
-        return button
-    }()
-    
-    let viewStoryButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        button.setTitle("View Story", for: .normal)
-        button.layer.cornerRadius = 25
-        button.addTarget(self, action: #selector(handleViewStory), for: .touchUpInside)
-        return button
     }()
     
     let effectView: UIVisualEffectView = {
@@ -156,11 +105,6 @@ class DealViewController: UIViewController {
         webView.delegate = self
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        setPriceLabelConstraints()
-    }
-    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         if deal != nil {
             return deal.theme.dark ? .lightContent : .default
@@ -182,51 +126,13 @@ class DealViewController: UIViewController {
     @objc func handlePageChange() {
         itemPageViewDelegate.setCurrentImage(pageControl.currentPage)
     }
-    
-    @objc func handleViewSpecifications() {
-        Analytics.logEvent("viewSpecifications", parameters: [:])
-        
-        let sprecificationView = SpecificationsViewController()
-        sprecificationView.specifications = deal.specifications
-        sprecificationView.theme = deal.theme
-        sprecificationView.modalPresentationStyle = .fullScreen
-        sprecificationView.modalTransitionStyle = .coverVertical
-        
-        present(sprecificationView, animated: true, completion: nil)
-    }
-    
-    @objc func handleViewStory() {
-        Analytics.logEvent("viewStory", parameters: [:])
-        
-        let storyView = StoryViewController()
-        storyView.theme = deal.theme
-        storyView.story = deal.story
-        storyView.modalPresentationStyle = .fullScreen
-        storyView.modalTransitionStyle = .coverVertical
-        
-        present(storyView, animated: true, completion: nil)
-    }
-    
-    @objc func handleViewOnForm() {
-        if forumPostURL != nil {
-            UIApplication.shared.open(forumPostURL!, options: [:]) { _ in
-                Analytics.logEvent("viewForm", parameters: [:])
-            }
-        }
-    }
 
     private func setupView() {
         view.backgroundColor = .clear
         
-        view.addSubview(scrollView)
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
-        scrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0).isActive = true
-        scrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0).isActive = true
-        
-        scrollView.addSubview(itemView)
-        itemView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 20).isActive = true
-        itemView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -20).isActive = true
+        view.addSubview(itemView)
+        itemView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        itemView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
         itemView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         itemView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         
@@ -234,10 +140,9 @@ class DealViewController: UIViewController {
         itemPageViewDelegate = imagePageViewController.self
         itemView.addSubview(imagePageViewController.view)
         imagePageViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        imagePageViewController.view.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 10).isActive = true
+        imagePageViewController.view.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 0).isActive = true
         imagePageViewController.view.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 0).isActive = true
         imagePageViewController.view.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: 0).isActive = true
-        imagePageViewController.view.heightAnchor.constraint(equalToConstant: ((view.frame.width - 40) / 4) * 3).isActive = true
         
         itemView.addSubview(pageControl)
         pageControl.topAnchor.constraint(equalTo: imagePageViewController.view.bottomAnchor, constant: 10).isActive = true
@@ -254,48 +159,22 @@ class DealViewController: UIViewController {
         buttonView.backgroundColor = .clear
         itemView.addSubview(buttonView)
         buttonView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10).isActive = true
-        buttonView.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
+        buttonView.bottomAnchor.constraint(equalTo: itemView.bottomAnchor, constant: 0).isActive = true
+        buttonView.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 0).isActive = true
         buttonView.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
-        buttonView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        buttonView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         buttonView.addSubview(priceLabel)
         priceLabel.topAnchor.constraint(equalTo: buttonView.topAnchor, constant: 0).isActive = true
         priceLabel.bottomAnchor.constraint(equalTo: buttonView.bottomAnchor, constant: 0).isActive = true
         priceLabel.leftAnchor.constraint(equalTo: buttonView.leftAnchor, constant: 0).isActive = true
-        priceLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        priceLabel.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
         buttonView.addSubview(mehButton)
         mehButton.topAnchor.constraint(equalTo: buttonView.topAnchor, constant: 0).isActive = true
         mehButton.bottomAnchor.constraint(equalTo: buttonView.bottomAnchor, constant: 0).isActive = true
         mehButton.rightAnchor.constraint(equalTo: buttonView.rightAnchor, constant: 0).isActive = true
-        mehButton.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        itemView.addSubview(descriptionView)
-        descriptionView.topAnchor.constraint(equalTo: buttonView.bottomAnchor, constant: 10).isActive = true
-        descriptionView.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
-        descriptionView.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
-        
-        itemView.addSubview(viewSpecificationsButton)
-        viewSpecificationsButton.topAnchor.constraint(equalTo: descriptionView.bottomAnchor, constant: 10).isActive = true
-        viewSpecificationsButton.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
-        viewSpecificationsButton.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
-        viewSpecificationsButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        itemView.addSubview(viewStoryButton)
-        viewStoryButton.topAnchor.constraint(equalTo: viewSpecificationsButton.bottomAnchor, constant: 10).isActive = true
-        viewStoryButton.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
-        viewStoryButton.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
-        viewStoryButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        itemView.addSubview(viewInFormButton)
-        viewInFormButton.topAnchor.constraint(equalTo: viewStoryButton.bottomAnchor, constant: 10).isActive = true
-        viewInFormButton.bottomAnchor.constraint(equalTo: itemView.bottomAnchor, constant: -10).isActive = true
-        viewInFormButton.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 10).isActive = true
-        viewInFormButton.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -10).isActive = true
-        viewInFormButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        
-        scrollView.bounds = view.bounds
-        scrollView.contentSize = CGSize(width: view.bounds.width, height: .infinity)
+        mehButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
         view.addSubview(effectView)
         effectView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
@@ -318,19 +197,14 @@ class DealViewController: UIViewController {
     
     fileprivate func setupDeal() {
         titleLabel.text = deal.title
-        
-        let md = SwiftyMarkdown(string: deal.features)
-        descriptionView.dataDetectorTypes = UIDataDetectorTypes.all
-        descriptionView.attributedText = md.attributedString()
-        descriptionView.sizeToFit()
-        descriptionView.layoutIfNeeded()
+        titleLabel.setNeedsLayout()
+        titleLabel.setNeedsDisplay()
         
         if deal.soldOut {
             priceLabel.text = "SOLD OUT"
         } else {
             priceLabel.text = calculatePrices(deal.items)
         }
-        setPriceLabelConstraints()
         
         mehButton.isHidden = deal.isPreviousDeal
         
@@ -343,39 +217,20 @@ class DealViewController: UIViewController {
     
     fileprivate func animateUI(theme: Theme) {
         UIView.animate(withDuration: 0.5, animations: {
-            self.view.backgroundColor = theme.backgroundColor
+            self.itemView.alpha = 1
             self.pageControl.pageIndicatorTintColor = theme.accentColor
-            self.mehButton.backgroundColor = theme.backgroundColor
-            self.mehButton.tintColor = theme.accentColor
-            self.mehButton.setTitleColor(theme.accentColor, for: .normal)
-            self.viewSpecificationsButton.backgroundColor = theme.backgroundColor
-            self.viewSpecificationsButton.tintColor = theme.accentColor
-            self.viewSpecificationsButton.setTitleColor(theme.accentColor, for: .normal)
-            self.viewStoryButton.backgroundColor = theme.backgroundColor
-            self.viewStoryButton.tintColor = theme.accentColor
-            self.viewStoryButton.setTitleColor(theme.accentColor, for: .normal)
-            self.viewInFormButton.backgroundColor = theme.backgroundColor
-            self.viewInFormButton.tintColor = theme.accentColor
-            self.viewInFormButton.setTitleColor(theme.accentColor, for: .normal)
-            self.priceLabel.backgroundColor = theme.backgroundColor
+            self.mehButton.backgroundColor = theme.accentColor
+            self.mehButton.tintColor = theme.backgroundColor
+            self.mehButton.setTitleColor(theme.backgroundColor, for: .normal)
             self.priceLabel.textColor = theme.accentColor
             
             if theme.dark {
-                self.itemView.backgroundColor = .black
                 self.pageControl.currentPageIndicatorTintColor = .white
                 self.titleLabel.textColor = .white
             } else {
-                self.itemView.backgroundColor = .white
                 self.pageControl.currentPageIndicatorTintColor = .black
                 self.titleLabel.textColor = .black
             }
-        }, completion: { _ in
-            UIView.animate(withDuration: 0.5, animations: {
-                self.itemView.alpha = 1
-                
-                let offset = CGPoint(x: 0, y: -self.scrollView.adjustedContentInset.top)
-                self.scrollView.setContentOffset(offset, animated: false)
-            })
         })
     }
     
@@ -409,20 +264,6 @@ class DealViewController: UIViewController {
             return "$\(sMin)"
         } else {
             return "$\(sMin) - $\(sMax)"
-        }
-    }
-    
-    fileprivate func setPriceLabelConstraints() {
-        priceLabel.constraints.forEach {
-            (constraint) in
-            
-            if constraint.firstAttribute == .width {
-                if let text = self.priceLabel.text?.count {
-                    constraint.constant = CGFloat(50 + text * 6)
-                } else {
-                    constraint.constant = CGFloat(50)
-                }
-            }
         }
     }
 }
