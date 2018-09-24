@@ -9,7 +9,7 @@
 import UIKit
 import SwiftyMarkdown
 
-class BottomSheetViewController: UIViewController {
+class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
     
     var deal: Deal? {
         didSet {
@@ -123,6 +123,31 @@ class BottomSheetViewController: UIViewController {
         animateView()
     }
     
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        let gesture = (gestureRecognizer as! UIPanGestureRecognizer)
+        let direction = gesture.velocity(in: view).y
+        
+        let y = view.frame.minY
+        var offset = featureScrollView.contentOffset.y
+        if segmentControl.selectedSegmentIndex == 1 {
+            offset = specsScrollView.contentOffset.y
+        } else if segmentControl.selectedSegmentIndex == 2 {
+            offset = storyScrollView.contentOffset.y
+        }
+        
+        if (y == maximumY && offset == 0 && direction > 0) || (y == minimumY) {
+            featureScrollView.isScrollEnabled = false
+            specsScrollView.isScrollEnabled = false
+            storyScrollView.isScrollEnabled = false
+        } else {
+            featureScrollView.isScrollEnabled = true
+            specsScrollView.isScrollEnabled = true
+            storyScrollView.isScrollEnabled = true
+        }
+        
+        return false
+    }
+    
     @objc func panGesture(recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: view)
         let y = self.view.frame.minY
@@ -194,6 +219,7 @@ class BottomSheetViewController: UIViewController {
     
     fileprivate func setupGestureListener() {
         let gesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture))
+        gesture.delegate = self
         view.addGestureRecognizer(gesture)
     }
     
