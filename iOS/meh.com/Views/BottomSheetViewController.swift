@@ -248,7 +248,7 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         
         featureScrollView.addSubview(descriptionTextView)
         descriptionTextView.topAnchor.constraint(equalTo: featureScrollView.topAnchor, constant: 0).isActive = true
-        descriptionTextView.bottomAnchor.constraint(equalTo: featureScrollView.bottomAnchor, constant: 0).isActive = true
+        descriptionTextView.bottomAnchor.constraint(equalTo: featureScrollView.bottomAnchor, constant: -150).isActive = true
         descriptionTextView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         descriptionTextView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         

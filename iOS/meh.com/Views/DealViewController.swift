@@ -168,7 +168,6 @@ class DealViewController: UIViewController {
         priceLabel.topAnchor.constraint(equalTo: buttonView.topAnchor, constant: 0).isActive = true
         priceLabel.bottomAnchor.constraint(equalTo: buttonView.bottomAnchor, constant: 0).isActive = true
         priceLabel.leftAnchor.constraint(equalTo: buttonView.leftAnchor, constant: 0).isActive = true
-        priceLabel.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
         buttonView.addSubview(mehButton)
         mehButton.topAnchor.constraint(equalTo: buttonView.topAnchor, constant: 0).isActive = true

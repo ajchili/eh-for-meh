@@ -29,13 +29,10 @@ class HistoryTableViewController: UITableViewController {
         
         tableView.register(HistoryTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
         
+        let backButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(handleBack))
+        navigationController?.navigationBar.topItem?.leftBarButtonItem = backButton
+        
         loadData()
-    }
-    
-    fileprivate func setTheme() {
-        UIView.animate(withDuration: 0.5) {
-            self.view.backgroundColor = self.theme.backgroundColor
-        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -58,8 +55,10 @@ class HistoryTableViewController: UITableViewController {
         let dealView = MainViewController()
         let previousDeal = previousDeals[indexPath.row]
         dealView.deal = previousDeal
-        dealView.navigationItem.title = previousDeal.title
-        navigationController?.pushViewController(dealView, animated: true)
+        dealView.view.backgroundColor = previousDeal.theme.backgroundColor
+        dealView.modalPresentationStyle = .currentContext
+        dealView.modalTransitionStyle = .crossDissolve
+        present(dealView, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -68,6 +67,16 @@ class HistoryTableViewController: UITableViewController {
         cell.deal = previousDeals[indexPath.row]
         
         return cell
+    }
+    
+    @objc func handleBack() {
+        dismiss(animated: true)
+    }
+    
+    fileprivate func setTheme() {
+        UIView.animate(withDuration: 0.5) {
+            self.view.backgroundColor = self.theme.backgroundColor
+        }
     }
     
     fileprivate func loadData() {

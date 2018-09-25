@@ -24,6 +24,8 @@ class MainViewController: UIViewController {
                     self.settingsButton.tintColor = deal.theme.accentColor
                     self.historyButton.alpha = 1
                     self.historyButton.tintColor = deal.theme.accentColor
+                    self.closeButton.alpha = 1
+                    self.closeButton.tintColor = deal.theme.accentColor
                 })
             }
         }
@@ -56,6 +58,15 @@ class MainViewController: UIViewController {
         return button
     }()
     
+    let closeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.alpha = 0
+        button.setTitle("Back", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        button.addTarget(self, action: #selector(handleClose), for: .touchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -68,17 +79,29 @@ class MainViewController: UIViewController {
         }
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        if let deal = deal {
+            return deal.theme.dark ? .lightContent : .default
+        }
+        
+        return .default
+    }
+    
     @objc func handleViewHistory() {
         if let deal = deal {
             let historyView = HistoryNavigationViewController()
             
-            historyView.view.backgroundColor = deal.theme.backgroundColor
+            historyView.theme = deal.theme
             
             historyView.modalPresentationStyle = .fullScreen
             historyView.modalTransitionStyle = .flipHorizontal
             
             present(historyView, animated: true)
         }
+    }
+    
+    @objc func handleClose() {
+        dismiss(animated: true)
     }
     
     fileprivate func setupDealObserver() {
@@ -108,10 +131,14 @@ class MainViewController: UIViewController {
     fileprivate func setupView() {
         view.addSubview(optionsStackView)
         optionsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        optionsStackView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
-        optionsStackView.addArrangedSubview(settingsButton)
+        
         if deal == nil {
+            optionsStackView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+            optionsStackView.addArrangedSubview(settingsButton)
             optionsStackView.addArrangedSubview(historyButton)
+        } else {
+            optionsStackView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+            optionsStackView.addArrangedSubview(closeButton)
         }
     }
 }
