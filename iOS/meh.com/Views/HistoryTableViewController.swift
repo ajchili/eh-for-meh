@@ -55,7 +55,7 @@ class HistoryTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let dealView = DealViewController()
+        let dealView = MainViewController()
         let previousDeal = previousDeals[indexPath.row]
         dealView.deal = previousDeal
         dealView.navigationItem.title = previousDeal.title
