@@ -27,6 +27,7 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 2.5
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -46,6 +47,7 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         button.setTitle("Buy", for: .normal)
         button.layer.cornerRadius = 30
         button.addTarget(self, action: #selector(handleBuy), for: .touchUpInside)
+        button.backgroundColor = .clear
         return button
     }()
     
@@ -123,6 +125,8 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .clear
+        
         roundCorners()
         setupView()
         setupGestureListener()
@@ -164,7 +168,12 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         let y = self.view.frame.minY
         let yPosition = y + translation.y
         if recognizer.state == .ended || recognizer.state == .cancelled {
-            UIView.animate(withDuration: 0.15, animations: {
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           usingSpringWithDamping: 0.5,
+                           initialSpringVelocity: 0.25,
+                           options: .curveLinear,
+                           animations: {
                 self.view.frame = CGRect(origin: CGPoint(x: 0, y: yPosition > self.yCuttoff ? self.minimumY : self.maximumY),
                                          size: CGSize(width: self.view.frame.width, height: self.view.frame.height))
             })
@@ -205,7 +214,17 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         if let deal = deal {
             let textColor: UIColor = deal.theme.dark ? .white : .black
             setupDeal()
-            UIView.animate(withDuration: 0.15, animations: {
+            if view.backgroundColor == .clear {
+                view.backgroundColor = deal.theme.accentColor
+                pullTab.backgroundColor = deal.theme.backgroundColor
+                buyButton.backgroundColor = deal.theme.backgroundColor
+            }
+            UIView.animate(withDuration: 0.5,
+                           delay: 0,
+                           usingSpringWithDamping: 0.5,
+                           initialSpringVelocity: 0.25,
+                           options: .curveLinear,
+                           animations: {
                 self.view.frame = CGRect(origin: CGPoint(x: 0, y: self.minimumY),
                                          size: CGSize(width: self.view.frame.width, height: self.view.frame.height))
                 self.view.backgroundColor = deal.theme.accentColor

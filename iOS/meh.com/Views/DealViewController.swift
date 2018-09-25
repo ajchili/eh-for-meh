@@ -50,6 +50,9 @@ class DealViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
         button.setTitle("meh", for: .normal)
+        button.backgroundColor = .clear
+        button.tintColor = .clear
+        button.setTitleColor(.clear, for: .normal)
         button.layer.cornerRadius = 30
         button.addTarget(self, action: #selector(handleMeh), for: .touchUpInside)
         return button
