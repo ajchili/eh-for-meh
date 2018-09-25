@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 import SwiftyMarkdown
 
 class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -32,10 +33,20 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Deal Information"
+        label.text = "Deal Info"
         label.numberOfLines = 1
         label.font = UIFont.systemFont(ofSize: 36, weight: .medium)
         return label
+    }()
+    
+    let buyButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        button.setTitle("Buy", for: .normal)
+        button.layer.cornerRadius = 30
+        button.addTarget(self, action: #selector(handleBuy), for: .touchUpInside)
+        return button
     }()
     
     let segmentControl: UISegmentedControl = {
@@ -184,6 +195,12 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    @objc func handleBuy() {
+        UIApplication.shared.open(URL(string: "https://meh.com/account/signin?returnurl=https%3A%2F%2Fmeh.com%2F%23checkout")!, options: [:]) { _ in
+            Analytics.logEvent("buy", parameters: [:])
+        }
+    }
+    
     fileprivate func animateView() {
         if let deal = deal {
             let textColor: UIColor = deal.theme.dark ? .white : .black
@@ -196,6 +213,12 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.segmentControl.tintColor = deal.theme.backgroundColor
                 self.segmentControl.selectedSegmentIndex = 0
                 self.titleLabel.textColor = textColor
+                self.buyButton.backgroundColor = deal.theme.backgroundColor
+                self.buyButton.tintColor = deal.theme.accentColor
+                self.buyButton.setTitleColor(deal.theme.accentColor, for: .normal)
+                if deal.isPreviousDeal {
+                    self.buyButton.alpha = 0
+                }
                 self.descriptionTextView.textColor = textColor
                 self.descriptionTextView.tintColor = deal.theme.backgroundColor
                 self.specTextView.textColor = textColor
@@ -234,6 +257,12 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         titleLabel.topAnchor.constraint(equalTo: pullTab.bottomAnchor, constant: 15).isActive = true
         titleLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         titleLabel.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        
+        view.addSubview(buyButton)
+        buyButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        buyButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        buyButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        buyButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor, constant: 0).isActive = true
         
         view.addSubview(segmentControl)
         segmentControl.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 27).isActive = true
