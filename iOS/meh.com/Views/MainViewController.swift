@@ -46,6 +46,7 @@ class MainViewController: UIViewController {
     let settingsButton: UIButton = {
         let button = UIButton(type: .infoLight)
         button.alpha = 0
+        button.addTarget(self, action: #selector(handleViewSettings), for: .touchUpInside)
         return button
     }()
     
@@ -102,6 +103,19 @@ class MainViewController: UIViewController {
     
     @objc func handleClose() {
         dismiss(animated: true)
+    }
+    
+    @objc func handleViewSettings() {
+        if let deal = deal {
+            let settingsView = SettingsViewController()
+            
+            settingsView.theme = deal.theme
+            
+            settingsView.modalPresentationStyle = .currentContext
+            settingsView.modalTransitionStyle = .crossDissolve
+            
+            present(settingsView, animated: true)
+        }
     }
     
     fileprivate func setupDealObserver() {

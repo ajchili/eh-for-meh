@@ -31,20 +31,21 @@ class SettingsViewController: UIViewController {
         return label
     }()
     
-    let iconLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Icons obtained from icons8.com"
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        return label
-    }()
-    
     let notificationSwitch: UISwitch = {
         let s = UISwitch()
         s.translatesAutoresizingMaskIntoConstraints = false
         s.addTarget(self, action: #selector(handleSwitch), for: .valueChanged)
         return s
+    }()
+    
+    let saveButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
+        button.setTitle("Save", for: .normal)
+        button.layer.cornerRadius = 30
+        button.addTarget(self, action: #selector(handleSave), for: .touchUpInside)
+        return button
     }()
     
     var theme: Theme! {
@@ -74,10 +75,11 @@ class SettingsViewController: UIViewController {
         affiliateLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8).isActive = true
         affiliateLabel.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8).isActive = true
         
-        view.addSubview(iconLabel)
-        iconLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8).isActive = true
-        iconLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8).isActive = true
-        iconLabel.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8).isActive = true
+        view.addSubview(saveButton)
+        saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+        saveButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+        saveButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        saveButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -111,14 +113,19 @@ class SettingsViewController: UIViewController {
         Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").setValue(notificationSwitch.isOn ? true : nil)
     }
     
+    @objc func handleSave() {
+        dismiss(animated: true)
+    }
+    
     fileprivate func setTheme() {
-        UIView.animate(withDuration: 0.5) {
-            self.notificationSwitch.tintColor = self.theme.accentColor
-            self.notificationSwitch.onTintColor = self.theme.accentColor
-            self.settingsLabel.textColor = self.theme.accentColor
-            self.affiliateLabel.textColor = self.theme.accentColor
-            self.iconLabel.textColor = self.theme.accentColor
-        }
+        view.backgroundColor = theme.backgroundColor
+        notificationSwitch.tintColor = theme.accentColor
+        notificationSwitch.onTintColor = theme.accentColor
+        settingsLabel.textColor = theme.accentColor
+        affiliateLabel.textColor = theme.accentColor
+        saveButton.backgroundColor = theme.accentColor
+        saveButton.tintColor = theme.backgroundColor
+        saveButton.setTitleColor(theme.backgroundColor, for: .normal)
     }
     
     fileprivate func displayDatabaseErrorAlert(receiveNotifications: Bool) {
