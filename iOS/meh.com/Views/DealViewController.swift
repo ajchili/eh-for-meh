@@ -292,6 +292,15 @@ extension DealViewController: UIWebViewDelegate {
                 
                 self.present(alert, animated: true, completion: nil)
             } else if url!.range(of: "vote") != nil || url!.range(of: "deals") != nil {
+                if !UserDefaults.standard.bool(forKey: "mehDisclaimer") {
+                    let alert = UIAlertController(title: "The meh Button",
+                                                  message: "The meh button now remembers if you have pressed it for the currently active deal. If you have, it will not appear until there is a new deal.",
+                                                  preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: { _ in
+                        UserDefaults.standard.set(true, forKey: "mehDisclaimer")
+                    }))
+                    present(alert, animated: true)
+                }
                 UserDefaults.standard.set(deal.id, forKey: "meh")
                 Analytics.logEvent("meh", parameters: [:])
                 self.effectView.isHidden = true
