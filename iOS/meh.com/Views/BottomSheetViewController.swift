@@ -182,7 +182,10 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
                            delay: 0,
                            usingSpringWithDamping: 1.5,
                            initialSpringVelocity: 0.25,
-                           options: .curveLinear,
+                           options: [
+                            .curveLinear,
+                            .allowUserInteraction
+                            ],
                            animations: {
                             self.view.frame = CGRect(origin: CGPoint(x: 0, y: newY),
                                                      size: CGSize(width: self.view.frame.width,
