@@ -210,8 +210,6 @@ class DealViewController: UIViewController {
             priceLabel.text = calculatePrices(deal.items)
         }
         
-        mehButton.isHidden = deal.isPreviousDeal
-        
         if let topic = deal.topic {
             forumPostURL = topic.url
         }
@@ -220,12 +218,14 @@ class DealViewController: UIViewController {
     }
     
     fileprivate func animateUI(theme: Theme) {
+        let mehPressedFor = UserDefaults.standard.string(forKey: "meh")
         UIView.animate(withDuration: 0.5, animations: {
             self.itemView.alpha = 1
             self.pageControl.pageIndicatorTintColor = theme.accentColor
             self.mehButton.backgroundColor = theme.accentColor
             self.mehButton.tintColor = theme.backgroundColor
             self.mehButton.setTitleColor(theme.backgroundColor, for: .normal)
+            self.mehButton.isHidden = mehPressedFor == self.deal.id || self.deal.isPreviousDeal
             self.priceLabel.textColor = theme.accentColor
             
             if theme.dark {
@@ -292,6 +292,7 @@ extension DealViewController: UIWebViewDelegate {
                 
                 self.present(alert, animated: true, completion: nil)
             } else if url!.range(of: "vote") != nil || url!.range(of: "deals") != nil {
+                UserDefaults.standard.set(deal.id, forKey: "meh")
                 Analytics.logEvent("meh", parameters: [:])
                 self.effectView.isHidden = true
                 self.mehButton.isHidden = true
