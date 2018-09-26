@@ -17,11 +17,13 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
             animateView()
         }
     }
+    var isOpen: Bool = false
     
     let cornerRadius: CGFloat = 20
-    let maximumY = CGFloat(100)
-    let minimumY = UIScreen.main.bounds.height - 100
-    let yCuttoff = UIScreen.main.bounds.height / 2
+    let yMin = CGFloat(100)
+    let yMax = UIScreen.main.bounds.height - 100
+    let yMiddle = UIScreen.main.bounds.height / 2
+    let yCuttoff = UIScreen.main.bounds.height / 3
     
     let pullTab: UIView = {
         let view = UIView()
@@ -150,7 +152,7 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
             offset = storyScrollView.contentOffset.y
         }
         
-        if (y == maximumY && offset == 0 && direction > 0) || (y == minimumY) {
+        if (y == yMin && offset == 0 && direction > 0) || (y == yMax) {
             featureScrollView.isScrollEnabled = false
             specsScrollView.isScrollEnabled = false
             storyScrollView.isScrollEnabled = false
@@ -167,18 +169,30 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         let translation = recognizer.translation(in: view)
         let y = self.view.frame.minY
         let yPosition = y + translation.y
-        if recognizer.state == .ended || recognizer.state == .cancelled {
+        
+        if recognizer.state == .began {
+            isOpen = yPosition < yMiddle
+        }
+        
+        if recognizer.state == .ended
+            || recognizer.state == .cancelled
+            || recognizer.state == .failed {
+            let newY = isOpen ? yPosition > yCuttoff - yMin ? yMax : yMin : yPosition < 2 * yCuttoff + yMin ? yMin : yMax
             UIView.animate(withDuration: 0.5,
                            delay: 0,
-                           usingSpringWithDamping: 0.5,
+                           usingSpringWithDamping: 1.5,
                            initialSpringVelocity: 0.25,
                            options: .curveLinear,
                            animations: {
-                self.view.frame = CGRect(origin: CGPoint(x: 0, y: yPosition > self.yCuttoff ? self.minimumY : self.maximumY),
-                                         size: CGSize(width: self.view.frame.width, height: self.view.frame.height))
-            })
+                            self.view.frame = CGRect(origin: CGPoint(x: 0, y: newY),
+                                                     size: CGSize(width: self.view.frame.width,
+                                                                  height: self.view.frame.height))
+            }) { _ in
+                self.isOpen = yPosition < self.yMiddle
+            }
         } else {
-            self.view.frame = CGRect(origin: CGPoint(x: 0, y: yPosition < maximumY ? maximumY : yPosition > minimumY ? minimumY : yPosition),
+            let newY = yPosition < yMin ? yMin : yPosition > yMax ? yMax : yPosition
+            self.view.frame = CGRect(origin: CGPoint(x: 0, y: newY),
                                      size: CGSize(width: view.frame.width, height: view.frame.height))
             recognizer.setTranslation(.zero, in: view)
         }
@@ -225,7 +239,7 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
                            initialSpringVelocity: 0.25,
                            options: .curveLinear,
                            animations: {
-                self.view.frame = CGRect(origin: CGPoint(x: 0, y: self.minimumY),
+                self.view.frame = CGRect(origin: CGPoint(x: 0, y: self.yMax),
                                          size: CGSize(width: self.view.frame.width, height: self.view.frame.height))
                 self.view.backgroundColor = deal.theme.accentColor
                 self.pullTab.backgroundColor = deal.theme.backgroundColor
@@ -235,7 +249,7 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.buyButton.backgroundColor = deal.theme.backgroundColor
                 self.buyButton.tintColor = deal.theme.accentColor
                 self.buyButton.setTitleColor(deal.theme.accentColor, for: .normal)
-                if deal.isPreviousDeal {
+                if deal.isPreviousDeal || deal.soldOut {
                     self.buyButton.alpha = 0
                 }
                 self.descriptionTextView.textColor = textColor
