@@ -182,7 +182,7 @@ class DealViewController: UIViewController {
         
         view.addSubview(effectView)
         effectView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-        effectView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0).isActive = true
+        effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         effectView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         effectView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         
