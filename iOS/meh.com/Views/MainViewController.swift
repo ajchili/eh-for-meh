@@ -95,7 +95,7 @@ class MainViewController: UIViewController {
             historyView.theme = deal.theme
             
             historyView.modalPresentationStyle = .fullScreen
-            historyView.modalTransitionStyle = .flipHorizontal
+            historyView.modalTransitionStyle = .crossDissolve
             
             present(historyView, animated: true)
         }
