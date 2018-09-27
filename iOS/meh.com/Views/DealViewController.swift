@@ -204,7 +204,9 @@ class DealViewController: UIViewController {
         titleLabel.setNeedsLayout()
         titleLabel.setNeedsDisplay()
         
-        if deal.soldOut {
+        // Checks to see if deal is sold out. If it is AND it is the current
+        // deal, then the price will be shown as "SOLD OUT".
+        if deal.soldOut && !deal.isPreviousDeal {
             priceLabel.text = "SOLD OUT"
         } else {
             priceLabel.text = calculatePrices(deal.items)
