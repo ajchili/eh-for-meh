@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Nuke
 
 class ImageViewController: UIViewController {
     
@@ -25,38 +26,16 @@ class ImageViewController: UIViewController {
     }()
     
     open var image: URL!
-    var didLoad: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
+        downloadImage()
         
-        if (!didLoad) {
-            didLoad = true
-            
-            if (!self.image.absoluteString.contains("https")) {
-                let s = self.image.absoluteString.replacingOccurrences(of: "http", with: "https")
-                self.image = URL(string: s)
-            }
-            
-            URLSession.shared.dataTask(with: image, completionHandler: { (data, response, error) in
-                if error != nil {
-                    print(error!)
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    if let image = UIImage(data: data!) {
-                        self.imageView.image = image
-                        self.progressView.stopAnimating()
-                    }
-                }
-            }).resume()
-        }
     }
     
-    private func setupView() {
+    fileprivate func setupView() {
         view.backgroundColor = nil
         
         view.addSubview(imageView)
@@ -69,5 +48,22 @@ class ImageViewController: UIViewController {
         progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         progressView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         progressView.startAnimating()
+    }
+    
+    fileprivate func downloadImage() {
+        if !image.absoluteString.contains("https") {
+            image = URL(string: image.absoluteString.replacingOccurrences(of: "http", with: "https"))
+        }
+        
+        ImagePipeline.shared.loadImage(
+            with: image,
+            progress: { response, _, _ in
+                self.imageView.image = response?.image
+            },
+            completion: { response, _ in
+                self.progressView.stopAnimating()
+                self.imageView.image = response?.image
+            }
+        )
     }
 }

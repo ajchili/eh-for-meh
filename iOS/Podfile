@@ -12,6 +12,7 @@ target 'meh.com' do
   pod 'Firebase/Core'
   pod 'Firebase/Database'
   pod 'Firebase/Messaging'
+  pod 'Nuke'
   pod 'SwiftyMarkdown'
 end
 
