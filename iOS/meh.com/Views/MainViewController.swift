@@ -111,7 +111,7 @@ class MainViewController: UIViewController {
             
             settingsView.theme = deal.theme
             
-            settingsView.modalPresentationStyle = .currentContext
+            settingsView.modalPresentationStyle = .overCurrentContext
             settingsView.modalTransitionStyle = .crossDissolve
             
             present(settingsView, animated: true)

@@ -13,6 +13,13 @@ import FirebaseMessaging
 
 class SettingsViewController: UIViewController {
     
+    let effectView: UIVisualEffectView = {
+        let vev = UIVisualEffectView()
+        vev.translatesAutoresizingMaskIntoConstraints = false
+        vev.effect = UIBlurEffect(style: .light)
+        return vev
+    }()
+    
     let settingsLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -58,6 +65,12 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .clear
+        
+        view.addSubview(effectView)
+        effectView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+        effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        effectView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        effectView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         
         view.addSubview(notificationSwitch)
         notificationSwitch.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -118,7 +131,6 @@ class SettingsViewController: UIViewController {
     }
     
     fileprivate func setTheme() {
-        view.backgroundColor = theme.backgroundColor
         notificationSwitch.tintColor = theme.accentColor
         notificationSwitch.onTintColor = theme.accentColor
         settingsLabel.textColor = theme.accentColor
