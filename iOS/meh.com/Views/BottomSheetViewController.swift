@@ -8,6 +8,7 @@
 
 import UIKit
 import FirebaseAnalytics
+import GoogleMobileAds
 import SwiftyMarkdown
 
 class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -63,38 +64,22 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         return segmentControl
     }()
     
-    let featureScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.bounces = true
-        scrollView.backgroundColor = .clear
-        return scrollView
-    }()
-    
     let descriptionTextView: UITextView = {
         let tv = UITextView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.isEditable = false
-        tv.isScrollEnabled = false
+        tv.isScrollEnabled = true
         tv.backgroundColor = .clear
         return tv
-    }()
-    
-    let specsScrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.bounces = true
-        scrollView.backgroundColor = .clear
-        scrollView.isHidden = true
-        return scrollView
     }()
     
     let specTextView: UITextView = {
         let tv = UITextView()
         tv.translatesAutoresizingMaskIntoConstraints = false
         tv.isEditable = false
-        tv.isScrollEnabled = false
+        tv.isScrollEnabled = true
         tv.backgroundColor = .clear
+        tv.isHidden = true
         return tv
     }()
     
@@ -124,12 +109,15 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         return tv
     }()
     
+    var bannerView: GADBannerView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .clear
         
         roundCorners()
+        loadBannerView()
         setupView()
         setupGestureListener()
     }
@@ -145,20 +133,20 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         let direction = gesture.velocity(in: view).y
         
         let y = view.frame.minY
-        var offset = featureScrollView.contentOffset.y
+        var offset = descriptionTextView.contentOffset.y
         if segmentControl.selectedSegmentIndex == 1 {
-            offset = specsScrollView.contentOffset.y
+            offset = specTextView.contentOffset.y
         } else if segmentControl.selectedSegmentIndex == 2 {
-            offset = storyScrollView.contentOffset.y
+            offset = storyTextView.contentOffset.y
         }
         
         if (y == yMin && offset == 0 && direction > 0) || (y == yMax) {
-            featureScrollView.isScrollEnabled = false
-            specsScrollView.isScrollEnabled = false
+            descriptionTextView.isScrollEnabled = false
+            specTextView.isScrollEnabled = false
             storyScrollView.isScrollEnabled = false
         } else {
-            featureScrollView.isScrollEnabled = true
-            specsScrollView.isScrollEnabled = true
+            descriptionTextView.isScrollEnabled = true
+            specTextView.isScrollEnabled = true
             storyScrollView.isScrollEnabled = true
         }
         
@@ -204,18 +192,18 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
     @objc func handleSegmentChange() {
         switch self.segmentControl.selectedSegmentIndex {
         case 1:
-            self.featureScrollView.isHidden = true;
-            self.specsScrollView.isHidden = false;
+            self.descriptionTextView.isHidden = true;
+            self.specTextView.isHidden = false;
             self.storyScrollView.isHidden = true;
             break;
         case 2:
-            self.featureScrollView.isHidden = true;
-            self.specsScrollView.isHidden = true;
+            self.descriptionTextView.isHidden = true;
+            self.specTextView.isHidden = true;
             self.storyScrollView.isHidden = false;
             break;
         default:
-            self.featureScrollView.isHidden = false;
-            self.specsScrollView.isHidden = true;
+            self.descriptionTextView.isHidden = false;
+            self.specTextView.isHidden = true;
             self.storyScrollView.isHidden = true;
             break;
         }
@@ -300,44 +288,31 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         buyButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
         buyButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor, constant: 0).isActive = true
         
+        view.addSubview(bannerView)
+        bannerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150).isActive = true
+        bannerView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0).isActive = true
+        bannerView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0).isActive = true
+        
         view.addSubview(segmentControl)
         segmentControl.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 27).isActive = true
         segmentControl.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         segmentControl.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         
-        view.addSubview(featureScrollView)
-        featureScrollView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 10).isActive = true
-        featureScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150).isActive = true
-        featureScrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0).isActive = true
-        featureScrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0).isActive = true
-        
-        featureScrollView.addSubview(descriptionTextView)
-        descriptionTextView.topAnchor.constraint(equalTo: featureScrollView.topAnchor, constant: 0).isActive = true
-        descriptionTextView.bottomAnchor.constraint(equalTo: featureScrollView.bottomAnchor, constant: -150).isActive = true
+        view.addSubview(descriptionTextView)
+        descriptionTextView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 10).isActive = true
+        descriptionTextView.bottomAnchor.constraint(equalTo: bannerView.topAnchor, constant: 0).isActive = true
         descriptionTextView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         descriptionTextView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         
-        featureScrollView.bounds = view.bounds
-        featureScrollView.contentSize = CGSize(width: view.bounds.width, height: .infinity)
-        
-        view.addSubview(specsScrollView)
-        specsScrollView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 10).isActive = true
-        specsScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150).isActive = true
-        specsScrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0).isActive = true
-        specsScrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0).isActive = true
-        
-        specsScrollView.addSubview(specTextView)
-        specTextView.topAnchor.constraint(equalTo: specsScrollView.topAnchor, constant: 0).isActive = true
-        specTextView.bottomAnchor.constraint(equalTo: specsScrollView.bottomAnchor, constant: 0).isActive = true
+        view.addSubview(specTextView)
+        specTextView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 10).isActive = true
+        specTextView.bottomAnchor.constraint(equalTo: bannerView.topAnchor, constant: 0).isActive = true
         specTextView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         specTextView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         
-        specsScrollView.bounds = view.bounds
-        specsScrollView.contentSize = CGSize(width: view.bounds.width, height: .infinity)
-        
         view.addSubview(storyScrollView)
         storyScrollView.topAnchor.constraint(equalTo: segmentControl.bottomAnchor, constant: 10).isActive = true
-        storyScrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -150).isActive = true
+        storyScrollView.bottomAnchor.constraint(equalTo: bannerView.topAnchor, constant: 0).isActive = true
         storyScrollView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 0).isActive = true
         storyScrollView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: 0).isActive = true
         
@@ -378,5 +353,13 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
             storyTextView.sizeToFit()
             storyTextView.layoutIfNeeded()
         }
+    }
+    
+    fileprivate func loadBannerView() {
+        bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait)
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        bannerView.adUnitID = "ca-app-pub-9026572937829340/4650231965"
+        bannerView.rootViewController = self
+        bannerView.isAutoloadEnabled = true
     }
 }
