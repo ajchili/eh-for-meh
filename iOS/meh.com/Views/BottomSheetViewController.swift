@@ -137,7 +137,7 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
         if segmentControl.selectedSegmentIndex == 1 {
             offset = specTextView.contentOffset.y
         } else if segmentControl.selectedSegmentIndex == 2 {
-            offset = storyTextView.contentOffset.y
+            offset = storyScrollView.contentOffset.y
         }
         
         if (y == yMin && offset == 0 && direction > 0) || (y == yMax) {
