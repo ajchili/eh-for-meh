@@ -132,12 +132,10 @@ class SettingsViewController: UIViewController {
     
     fileprivate func setTheme() {
         notificationSwitch.tintColor = theme.accentColor
-        notificationSwitch.onTintColor = theme.accentColor
-        settingsLabel.textColor = theme.accentColor
-        affiliateLabel.textColor = theme.accentColor
-        saveButton.backgroundColor = theme.accentColor
-        saveButton.tintColor = theme.backgroundColor
-        saveButton.setTitleColor(theme.backgroundColor, for: .normal)
+        notificationSwitch.onTintColor = theme.backgroundColor
+        saveButton.backgroundColor = theme.backgroundColor
+        saveButton.tintColor = theme.accentColor
+        saveButton.setTitleColor(theme.accentColor, for: .normal)
     }
     
     fileprivate func displayDatabaseErrorAlert(receiveNotifications: Bool) {
