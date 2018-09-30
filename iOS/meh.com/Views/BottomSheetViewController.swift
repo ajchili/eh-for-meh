@@ -333,6 +333,8 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
     
     fileprivate func setupDeal() {
         if let deal = deal {
+            segmentControl.selectedSegmentIndex = 0
+            
             let descriptionMD = SwiftyMarkdown(string: deal.features)
             descriptionTextView.dataDetectorTypes = UIDataDetectorTypes.all
             descriptionTextView.attributedText = descriptionMD.attributedString()
@@ -352,6 +354,8 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
             storyTextView.attributedText = storyMD.attributedString()
             storyTextView.sizeToFit()
             storyTextView.layoutIfNeeded()
+            
+            storyScrollView.scrollsToTop = true
         }
     }
     
