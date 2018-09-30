@@ -10,8 +10,9 @@ import UIKit
 import FirebaseAnalytics
 import FirebaseDatabase
 import FirebaseMessaging
+import UserNotifications
 
-class SettingsViewController: UIViewController {
+class SettingsViewController: UIViewController, UNUserNotificationCenterDelegate {
     
     let effectView: UIVisualEffectView = {
         let vev = UIVisualEffectView()
@@ -122,8 +123,13 @@ class SettingsViewController: UIViewController {
         Analytics.logEvent("setNotifications", parameters: [
             "recieveNotifications": notificationSwitch.isOn
             ])
-        UserDefaults.standard.set(notificationSwitch.isOn, forKey: "receiveNotifications")
-        Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").setValue(notificationSwitch.isOn ? true : nil)
+        
+        if (notificationSwitch.isOn) {
+            setupFMC()
+        } else {
+            UserDefaults.standard.set(false, forKey: "receiveNotifications")
+            Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").removeValue()
+        }
     }
     
     @objc func handleSave() {
@@ -146,9 +152,7 @@ class SettingsViewController: UIViewController {
                 "recieveNotifications": true,
                 "error": "Was not set in database."
                 ])
-            UserDefaults.standard.set(true, forKey: "receiveNotifications")
-            Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").setValue(true)
-            self.notificationSwitch.isOn = true
+            self.setupFMC()
         })
         let noAction = UIAlertAction(title: "No", style: .cancel, handler: { _ in
             Analytics.logEvent("setNotifications", parameters: [
@@ -156,13 +160,40 @@ class SettingsViewController: UIViewController {
                 "error": "Was not set in database."
                 ])
             UserDefaults.standard.set(false, forKey: "receiveNotifications")
-            Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").setValue(nil)
+            Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").removeValue()
             self.notificationSwitch.isOn = false
         })
         
         alert.addAction(yesAction)
         alert.addAction(noAction)
         
-        present(alert, animated: true, completion: nil)
+        present(alert, animated: true)
+    }
+    
+    fileprivate func setupFMC() {
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .sound, .alert], completionHandler: {(granted, error) in
+            if granted {
+                DispatchQueue.main.async(execute: {
+                    UIApplication.shared.registerForRemoteNotifications()
+                    UserDefaults.standard.set(true, forKey: "receiveNotifications")
+                    Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").setValue(true)
+                    self.notificationSwitch.isOn = true
+                })
+            } else {
+                DispatchQueue.main.async(execute: {
+                    UserDefaults.standard.set(false, forKey: "receiveNotifications")
+                    Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").removeValue()
+                    self.notificationSwitch.isOn = false
+                    
+                    let alert = UIAlertController(title: "Notification Settings Error", message: "Notification permissions are required to receive notifications when new deals start. You can enable this in settings.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                    alert.addAction(UIAlertAction(title: "Settings", style: .default) { _ in
+                        UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+                    })
+                    self.present(alert, animated: true)
+                })
+            }
+        })
     }
 }
