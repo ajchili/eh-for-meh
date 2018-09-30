@@ -80,7 +80,9 @@ class HistoryTableViewController: UITableViewController {
     }
     
     fileprivate func loadData() {
-        Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toLast: 16).observe(.value) { snapshot in
+        let toLast: UInt = UIDevice.current.userInterfaceIdiom == .pad ? 31 : 16;
+        
+        Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toLast: toLast).observe(.value) { snapshot in
             self.previousDeals.removeAll()
             
             for child in snapshot.children.allObjects.reversed().dropFirst() {
