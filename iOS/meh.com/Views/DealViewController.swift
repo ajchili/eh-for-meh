@@ -146,8 +146,8 @@ class DealViewController: UIViewController {
         itemView.addSubview(imagePageViewController.view)
         imagePageViewController.view.translatesAutoresizingMaskIntoConstraints = false
         imagePageViewController.view.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 0).isActive = true
-        imagePageViewController.view.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 0).isActive = true
-        imagePageViewController.view.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: 0).isActive = true
+        imagePageViewController.view.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: -20).isActive = true
+        imagePageViewController.view.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: 20).isActive = true
         
         itemView.addSubview(pageControl)
         pageControl.topAnchor.constraint(equalTo: imagePageViewController.view.bottomAnchor, constant: 10).isActive = true
