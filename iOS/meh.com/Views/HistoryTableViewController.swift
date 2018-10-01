@@ -15,14 +15,10 @@ class HistoryTableViewController: UITableViewController {
     let cellIdentifier = "previousDealCell"
     var previousDeals = [Deal]()
     
-    var theme: Theme! {
-        didSet {
-            setTheme()
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = .clear
         
         navigationItem.title = "History"
         tableView.separatorStyle = .none
@@ -71,12 +67,6 @@ class HistoryTableViewController: UITableViewController {
     
     @objc func handleBack() {
         dismiss(animated: true)
-    }
-    
-    fileprivate func setTheme() {
-        UIView.animate(withDuration: 0.5) {
-            self.view.backgroundColor = self.theme.backgroundColor
-        }
     }
     
     fileprivate func loadData() {
