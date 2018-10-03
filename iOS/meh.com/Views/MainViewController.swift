@@ -144,7 +144,7 @@ class MainViewController: UIViewController {
     
     fileprivate func setupView() {
         view.addSubview(optionsStackView)
-        optionsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        optionsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
         
         if deal == nil {
             optionsStackView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
