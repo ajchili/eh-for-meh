@@ -340,12 +340,14 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
             descriptionTextView.attributedText = descriptionMD.attributedString()
             descriptionTextView.sizeToFit()
             descriptionTextView.layoutIfNeeded()
+            descriptionTextView.scrollsToTop = true
             
             let specMD = SwiftyMarkdown(string: deal.specifications.replacingOccurrences(of: "\\", with: ""))
             specTextView.dataDetectorTypes = UIDataDetectorTypes.all
             specTextView.attributedText = specMD.attributedString()
             specTextView.sizeToFit()
             specTextView.layoutIfNeeded()
+            specTextView.scrollsToTop = true
             
             storyTitleLabel.text = deal.story.title
             
