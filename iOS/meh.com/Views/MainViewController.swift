@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import FirebaseAnalytics
 import FirebaseDatabase
 
 class MainViewController: UIViewController {
@@ -26,6 +27,10 @@ class MainViewController: UIViewController {
                     self.historyButton.tintColor = deal.theme.accentColor
                     self.closeButton.alpha = 1
                     self.closeButton.tintColor = deal.theme.accentColor
+                    self.shareButton.alpha = 1
+                    self.shareButton.tintColor = deal.theme.accentColor
+                    self.viewForumButton.alpha = 1
+                    self.viewForumButton.tintColor = deal.theme.accentColor
                 })
             }
         }
@@ -45,6 +50,7 @@ class MainViewController: UIViewController {
     
     let settingsButton: UIButton = {
         let button = UIButton(type: .infoLight)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0
         button.addTarget(self, action: #selector(handleViewSettings), for: .touchUpInside)
         return button
@@ -59,8 +65,27 @@ class MainViewController: UIViewController {
         return button
     }()
     
+    let shareButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.alpha = 0
+        button.setTitle("Share", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        button.addTarget(self, action: #selector(handleShare), for: .touchUpInside)
+        return button
+    }()
+    
+    let viewForumButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.alpha = 0
+        button.setTitle("Forum", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .light)
+        button.addTarget(self, action: #selector(handleViewForum), for: .touchUpInside)
+        return button
+    }()
+    
     let closeButton: UIButton = {
         let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
         button.alpha = 0
         button.setTitle("Back", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .light)
@@ -90,6 +115,7 @@ class MainViewController: UIViewController {
     
     @objc func handleViewHistory() {
         if let deal = deal {
+            Analytics.logEvent("viewedHistory", parameters: [:])
             let historyView = HistoryNavigationViewController()
             
             historyView.theme = deal.theme
@@ -98,6 +124,24 @@ class MainViewController: UIViewController {
             historyView.modalTransitionStyle = .crossDissolve
             
             present(historyView, animated: true)
+        }
+    }
+    
+    @objc func handleShare() {
+        if let deal = deal {
+            let shareContent = "Chech out this deal from the eh for meh app. \(deal.url)"
+            Analytics.logEvent("shared", parameters: ["deal": deal.id])
+            let activityViewController = UIActivityViewController(activityItems: [shareContent as NSString], applicationActivities: nil)
+            present(activityViewController, animated: true)
+        }
+    }
+    
+    @objc func handleViewForum() {
+        if let deal = deal {
+            if let topic = deal.topic {
+                Analytics.logEvent("viewedForum", parameters: ["dea": deal.id])
+                UIApplication.shared.open(topic.url, options: [:])
+            }
         }
     }
     
@@ -144,15 +188,22 @@ class MainViewController: UIViewController {
     
     fileprivate func setupView() {
         view.addSubview(optionsStackView)
-        optionsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
+        optionsStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        optionsStackView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
         
         if deal == nil {
-            optionsStackView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
-            optionsStackView.addArrangedSubview(settingsButton)
+            view.addSubview(settingsButton)
+            settingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 6).isActive = true
+            settingsButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
+            
             optionsStackView.addArrangedSubview(historyButton)
         } else {
-            optionsStackView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
-            optionsStackView.addArrangedSubview(closeButton)
+            view.addSubview(closeButton)
+            closeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+            closeButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
         }
+        
+        optionsStackView.addArrangedSubview(shareButton)
+        optionsStackView.addArrangedSubview(viewForumButton)
     }
 }
