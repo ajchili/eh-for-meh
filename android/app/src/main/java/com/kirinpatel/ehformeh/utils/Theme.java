@@ -1,6 +1,8 @@
 package com.kirinpatel.ehformeh.utils;
 
-public class Theme {
+import java.io.Serializable;
+
+public class Theme implements Serializable {
 
     private String backgroundColor;
     private String accentColor;
