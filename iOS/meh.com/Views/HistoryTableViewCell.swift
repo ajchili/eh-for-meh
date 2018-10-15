@@ -17,13 +17,25 @@ class HistoryTableViewCell: UITableViewCell {
         return view
     }()
     
+    let dealImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
         return label
     }()
+    
+    var dealImageViewLeftConstraing: NSLayoutConstraint!
+    var dealImageViewWidthContraint: NSLayoutConstraint!
     
     var deal: Deal! {
         didSet {
@@ -32,6 +44,12 @@ class HistoryTableViewCell: UITableViewCell {
             backgroundColor = .clear
             contentView.backgroundColor = .clear
             card.backgroundColor = deal.theme.backgroundColor
+        }
+    }
+    var dealImage: Image! {
+        didSet {
+            dealImageView.image = dealImage
+            animateLoadedImage()
         }
     }
     
@@ -44,10 +62,19 @@ class HistoryTableViewCell: UITableViewCell {
         card.leftAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leftAnchor, constant: 8).isActive = true
         card.rightAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.rightAnchor, constant: -8).isActive = true
         
+        card.addSubview(dealImageView)
+        dealImageView.topAnchor.constraint(equalTo: card.topAnchor, constant: 8).isActive = true
+        dealImageView.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -8).isActive = true
+        dealImageViewLeftConstraing = dealImageView.leftAnchor.constraint(equalTo: card.leftAnchor, constant: 0)
+        dealImageViewLeftConstraing.isActive = true
+        dealImageViewWidthContraint = dealImageView.widthAnchor.constraint(equalToConstant: 0)
+        dealImageViewWidthContraint.isActive = true
+        dealImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        
         card.addSubview(titleLabel)
-        titleLabel.topAnchor.constraint(equalTo: card.topAnchor, constant: 4).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -4).isActive = true
-        titleLabel.leftAnchor.constraint(equalTo: card.leftAnchor, constant: 8).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: card.topAnchor, constant: 8).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -8).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: dealImageView.rightAnchor, constant: 8).isActive = true
         titleLabel.rightAnchor.constraint(equalTo: card.rightAnchor, constant: -8).isActive = true
     }
     
@@ -57,5 +84,16 @@ class HistoryTableViewCell: UITableViewCell {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    fileprivate func animateLoadedImage() {
+        dealImageViewLeftConstraing.constant = 8
+        dealImageViewWidthContraint.constant = 50
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       options: [.preferredFramesPerSecond60, .curveEaseOut, .allowUserInteraction],
+                       animations: {
+                        self.layoutIfNeeded()
+        })
     }
 }

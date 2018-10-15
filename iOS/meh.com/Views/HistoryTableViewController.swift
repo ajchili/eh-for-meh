@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Nuke
 import FirebaseAnalytics
 import FirebaseDatabase
 
@@ -61,6 +62,9 @@ class HistoryTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! HistoryTableViewCell
         
         cell.deal = previousDeals[indexPath.row]
+        loadImage(deal: cell.deal, completion: { image in
+            cell.dealImage = image
+        })
         
         return cell
     }
@@ -82,6 +86,24 @@ class HistoryTableViewController: UITableViewController {
                     self.previousDeals.append(deal)
                     
                     self.tableView.reloadData()
+                })
+            }
+        }
+    }
+    
+    fileprivate func loadImage(deal: Deal, loadLast: Bool = false, completion: @escaping (_ image: Image) -> Void) {
+        if let url = loadLast ? deal.photos.last : deal.photos.first {
+            if let image = URL(string: url.absoluteString.replacingOccurrences(of: "http", with: "https")) {
+                ImagePipeline.shared.loadImage(
+                    with: image,
+                    completion: { response, _ in
+                        if response != nil, let image = response?.image {
+                            completion(image)
+                        } else {
+                            self.loadImage(deal: deal,
+                                           loadLast: true,
+                                           completion: completion)
+                        }
                 })
             }
         }
