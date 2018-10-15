@@ -10,6 +10,7 @@ import UIKit
 import StoreKit
 import FirebaseAnalytics
 import FirebaseDatabase
+import Nuke
 
 class HistoryTableViewController: UITableViewController {
     
@@ -98,7 +99,7 @@ class HistoryTableViewController: UITableViewController {
         }
     }
     
-    fileprivate func loadImage(deal: Deal, loadLast: Bool = false, completion: @escaping (_ image: Image) -> Void) {
+    fileprivate func loadImage(deal: Deal, loadLast: Bool = false, completion: @escaping (_ image: UIImage) -> Void) {
         if let url = loadLast ? deal.photos.last : deal.photos.first {
             if let image = URL(string: url.absoluteString.replacingOccurrences(of: "http", with: "https")) {
                 ImagePipeline.shared.loadImage(
