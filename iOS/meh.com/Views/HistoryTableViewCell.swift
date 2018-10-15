@@ -46,7 +46,7 @@ class HistoryTableViewCell: UITableViewCell {
             card.backgroundColor = deal.theme.backgroundColor
         }
     }
-    var dealImage: Image! {
+    var dealImage: UIImage! {
         didSet {
             dealImageView.image = dealImage
             animateLoadedImage()
