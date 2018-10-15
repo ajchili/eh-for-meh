@@ -81,8 +81,6 @@ class HistoryTableViewController: UITableViewController {
                 DealLoader.sharedInstance.loadDeal(forDeal: childSnapshot.key, completion: { deal in
                     self.previousDeals.append(deal)
                     
-                    print("\(deal.id) \(deal.title)")
-                    
                     self.tableView.reloadData()
                 })
             }
