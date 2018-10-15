@@ -71,7 +71,9 @@ class HistoryTableViewController: UITableViewController {
         
         cell.deal = previousDeals[indexPath.row]
         loadImage(deal: cell.deal, completion: { image in
-            cell.dealImage = image
+            if cell.deal.id == self.previousDeals[indexPath.row].id {
+                cell.dealImage = image
+            }
         })
         
         return cell
