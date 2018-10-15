@@ -70,9 +70,9 @@ class HistoryTableViewController: UITableViewController {
     }
     
     fileprivate func loadData() {
-        let toLast: UInt = UIDevice.current.userInterfaceIdiom == .pad ? 31 : 16;
+        let toLast: UInt = UIDevice.current.userInterfaceIdiom == .pad ? 51 : 21;
         
-        Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toLast: toLast).observe(.value) { snapshot in
+        Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toLast: toLast).observeSingleEvent(of: .value) { snapshot in
             self.previousDeals.removeAll()
             
             for child in snapshot.children.allObjects.reversed().dropFirst() {
@@ -80,6 +80,8 @@ class HistoryTableViewController: UITableViewController {
                 
                 DealLoader.sharedInstance.loadDeal(forDeal: childSnapshot.key, completion: { deal in
                     self.previousDeals.append(deal)
+                    
+                    print("\(deal.id) \(deal.title)")
                     
                     self.tableView.reloadData()
                 })

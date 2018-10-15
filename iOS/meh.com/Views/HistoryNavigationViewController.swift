@@ -37,7 +37,7 @@ class HistoryNavigationViewController: UINavigationController {
     
     fileprivate func setTheme() {
         UIView.animate(withDuration: 0.5) {
-            self.view.backgroundColor = self.theme.backgroundColor
+            self.view.backgroundColor = self.theme.dark ? .black : .white
             let barStyle: UIBarStyle = self.theme.dark ? .black : .default
             let tintColor: UIColor = self.theme.dark ? .white : .black
             self.navigationBar.barStyle = barStyle

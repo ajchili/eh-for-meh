@@ -10,6 +10,13 @@ import UIKit
 
 class HistoryTableViewCell: UITableViewCell {
     
+    let card: UIView = {
+       let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 6
+        return view
+    }()
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -22,18 +29,26 @@ class HistoryTableViewCell: UITableViewCell {
         didSet {
             titleLabel.text = deal.title
             titleLabel.textColor = deal.theme.accentColor
-            contentView.backgroundColor = deal.theme.backgroundColor
+            backgroundColor = .clear
+            contentView.backgroundColor = .clear
+            card.backgroundColor = deal.theme.backgroundColor
         }
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.addSubview(titleLabel)
-        titleLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 4).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -4).isActive = true
-        titleLabel.leftAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leftAnchor, constant: 18.5).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.rightAnchor, constant: -18.5).isActive = true
+        contentView.addSubview(card)
+        card.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 4).isActive = true
+        card.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -4).isActive = true
+        card.leftAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leftAnchor, constant: 8).isActive = true
+        card.rightAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.rightAnchor, constant: -8).isActive = true
+        
+        card.addSubview(titleLabel)
+        titleLabel.topAnchor.constraint(equalTo: card.topAnchor, constant: 4).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -4).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: card.leftAnchor, constant: 8).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: card.rightAnchor, constant: -8).isActive = true
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
