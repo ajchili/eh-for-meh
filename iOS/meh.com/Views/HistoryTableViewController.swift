@@ -7,13 +7,15 @@
 //
 
 import UIKit
-import Nuke
+import StoreKit
 import FirebaseAnalytics
 import FirebaseDatabase
 
 class HistoryTableViewController: UITableViewController {
     
     let cellIdentifier = "previousDealCell"
+    let reviewAskInterval: Double = 86400.0
+    let lastTimeReviewAsked = UserDefaults.standard.double(forKey: "lastTimeReviewWasAsked")
     var previousDeals = [Deal]()
     
     override func viewDidLoad() {
@@ -30,6 +32,11 @@ class HistoryTableViewController: UITableViewController {
         navigationController?.navigationBar.topItem?.leftBarButtonItem = backButton
         
         loadData()
+        
+        if lastTimeReviewAsked == 0.0 || NSDate().timeIntervalSince1970 - lastTimeReviewAsked > reviewAskInterval {
+            UserDefaults.standard.set(NSDate().timeIntervalSince1970, forKey: "lastTimeReviewWasAsked")
+            SKStoreReviewController.requestReview()
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
