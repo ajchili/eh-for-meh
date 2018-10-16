@@ -34,6 +34,14 @@ class HistoryTableViewCell: UITableViewCell {
         return label
     }()
     
+    let dateLabel: UILabel = {
+       let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
+        return label
+    }()
+    
     var dealImageViewLeftConstraing: NSLayoutConstraint!
     var dealImageViewWidthContraint: NSLayoutConstraint!
     
@@ -41,6 +49,20 @@ class HistoryTableViewCell: UITableViewCell {
         didSet {
             titleLabel.text = deal.title
             titleLabel.textColor = deal.theme.accentColor
+            if let date = deal.date {
+                let currentDate = NSDate().timeIntervalSince1970
+                if currentDate - date.timeIntervalSince1970 > 2629743 {
+                    let months: Int = Int(currentDate - date.timeIntervalSince1970) / 2629743
+                    dateLabel.text = "\(months) month\(months > 1 ? "s" : "") ago"
+                } else if currentDate - date.timeIntervalSince1970 > 604800 {
+                    let weeks: Int = Int(currentDate - date.timeIntervalSince1970) / 604800
+                    dateLabel.text = "\(weeks) week\(weeks > 1 ? "s" : "") ago"
+                } else {
+                    let days: Int = Int(currentDate - date.timeIntervalSince1970) / 86400
+                    dateLabel.text = "\(days) day\(days > 1  ?"s" : "") ago"
+                }
+            }
+            dateLabel.textColor = deal.theme.accentColor
             backgroundColor = .clear
             contentView.backgroundColor = .clear
             card.backgroundColor = deal.theme.backgroundColor
@@ -64,18 +86,23 @@ class HistoryTableViewCell: UITableViewCell {
         
         card.addSubview(dealImageView)
         dealImageView.topAnchor.constraint(equalTo: card.topAnchor, constant: 8).isActive = true
-        dealImageView.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -8).isActive = true
         dealImageViewLeftConstraing = dealImageView.leftAnchor.constraint(equalTo: card.leftAnchor, constant: 0)
         dealImageViewLeftConstraing.isActive = true
         dealImageViewWidthContraint = dealImageView.widthAnchor.constraint(equalToConstant: 0)
         dealImageViewWidthContraint.isActive = true
-        dealImageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        dealImageView.heightAnchor.constraint(equalToConstant: 75).isActive = true
         
         card.addSubview(titleLabel)
-        titleLabel.topAnchor.constraint(equalTo: card.topAnchor, constant: 8).isActive = true
-        titleLabel.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -8).isActive = true
+        titleLabel.topAnchor.constraint(equalTo: dealImageView.topAnchor, constant: 0).isActive = true
+        titleLabel.bottomAnchor.constraint(equalTo: dealImageView.bottomAnchor, constant: 0).isActive = true
         titleLabel.leftAnchor.constraint(equalTo: dealImageView.rightAnchor, constant: 8).isActive = true
         titleLabel.rightAnchor.constraint(equalTo: card.rightAnchor, constant: -8).isActive = true
+        
+        card.addSubview(dateLabel)
+        dateLabel.topAnchor.constraint(equalTo: dealImageView.bottomAnchor, constant: 8).isActive = true
+        dateLabel.bottomAnchor.constraint(equalTo: card.bottomAnchor, constant: -8).isActive = true
+        dateLabel.leftAnchor.constraint(equalTo: dealImageView.rightAnchor, constant: 8).isActive = true
+        dateLabel.rightAnchor.constraint(equalTo: card.rightAnchor, constant: -8).isActive = true
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -88,7 +115,7 @@ class HistoryTableViewCell: UITableViewCell {
     
     fileprivate func animateLoadedImage() {
         dealImageViewLeftConstraing.constant = 8
-        dealImageViewWidthContraint.constant = 50
+        dealImageViewWidthContraint.constant = 75
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        options: [.preferredFramesPerSecond60, .curveEaseOut, .allowUserInteraction],
