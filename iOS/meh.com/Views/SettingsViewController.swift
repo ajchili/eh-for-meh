@@ -7,103 +7,58 @@
 //
 
 import UIKit
+import CTFeedback
 import FirebaseAnalytics
 import FirebaseDatabase
 import FirebaseMessaging
+import QuickTableViewController
 import UserNotifications
 
-class SettingsViewController: UIViewController, UNUserNotificationCenterDelegate {
+class SettingsViewController: QuickTableViewController, UNUserNotificationCenterDelegate {
     
-    let effectView: UIVisualEffectView = {
-        let vev = UIVisualEffectView()
-        vev.translatesAutoresizingMaskIntoConstraints = false
-        vev.effect = UIBlurEffect(style: .light)
-        return vev
-    }()
-    
-    let settingsLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Receive notifications of new deals?"
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        return label
-    }()
-    
-    let affiliateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "This app is not affiliated with meh.com and is created by a member of the Meh community. Any issues with this app should be reported to the developer (Kirin Patel), not to Meh."
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        return label
-    }()
-    
-    let notificationSwitch: UISwitch = {
-        let s = UISwitch()
-        s.translatesAutoresizingMaskIntoConstraints = false
-        s.addTarget(self, action: #selector(handleSwitch), for: .valueChanged)
-        return s
-    }()
-    
-    let saveButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 20)
-        button.setTitle("Save", for: .normal)
-        button.layer.cornerRadius = 30
-        button.addTarget(self, action: #selector(handleSave), for: .touchUpInside)
-        return button
-    }()
-    
-    var theme: Theme! {
-        didSet {
-            setTheme()
-        }
-    }
+    var notificationSwitch: SwitchRow<SwitchCell>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .clear
+        title = "Settings"
         
-        view.addSubview(effectView)
-        effectView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-        effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-        effectView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        effectView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        let backButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(handleBack))
+        navigationController?.navigationBar.topItem?.leftBarButtonItem = backButton
         
-        view.addSubview(notificationSwitch)
-        notificationSwitch.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        notificationSwitch.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        notificationSwitch =  SwitchRow(title: "Receive Notifications",
+                                        switchValue: UserDefaults.standard.bool(forKey: "receiveNotifications"),
+                                        action: didToggleSelection())
         
-        notificationSwitch.isOn = UserDefaults.standard.bool(forKey: "receiveNotifications")
-        
-        view.addSubview(settingsLabel)
-        settingsLabel.bottomAnchor.constraint(equalTo: notificationSwitch.topAnchor, constant: -8).isActive = true
-        settingsLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8).isActive = true
-        settingsLabel.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8).isActive = true
-        
-        view.addSubview(affiliateLabel)
-        affiliateLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8).isActive = true
-        affiliateLabel.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 8).isActive = true
-        affiliateLabel.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -8).isActive = true
-        
-        view.addSubview(saveButton)
-        saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -8).isActive = true
-        saveButton.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
-        saveButton.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
-        saveButton.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        tableContents = [
+            Section(title: "Notifications",
+                    rows: [ notificationSwitch ]),
+            Section(title: "Deal History",
+                    rows: [
+                        SwitchRow(title: "Load images",
+                                  switchValue: UserDefaults.standard.bool(forKey: "loadHistoryImages"),
+                                  action: didToggleSelection()),
+//                        NavigationRow(title: "Amount of previous deals", subtitle: .belowTitle("Choose how many deals to load"), action: nil),
+                        ],
+                    footer: "Please note, loading images has significantly high network usage and should not be used by users with limited data/bandwidth cellular plans."),
+            Section(title: "Feedback",
+                    rows: [
+                        NavigationRow(title: "Provide feedback",
+                                      subtitle: .belowTitle("Help improve the app"),
+                                      action: { _ in self.loadFeedback() }),
+                        ],
+                    footer: "Any feedback submitted is completely anonymous and will be used to improve the app."),
+        ]
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+
         let fmcToken = Messaging.messaging().fcmToken!
         Database.database().reference().child("notifications/\(fmcToken)").observeSingleEvent(of: .value, with: { (snapshot) in
             if snapshot.exists() {
                 if let receiveNotifications = snapshot.value as? Bool {
-                    if self.notificationSwitch.isOn != receiveNotifications {
+                    if UserDefaults.standard.bool(forKey: "receiveNotifications") != receiveNotifications {
                         self.displayDatabaseErrorAlert(receiveNotifications: receiveNotifications)
                     }
                 }
@@ -111,20 +66,33 @@ class SettingsViewController: UIViewController, UNUserNotificationCenterDelegate
         })
     }
     
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        if let theme = theme {
-            return theme.dark ? .lightContent : .default
-        }
-        
-        return .default
+    @objc func handleBack() {
+        dismiss(animated: true)
     }
-
-    @objc func handleSwitch() {
+    
+    fileprivate func didToggleSelection() -> (Row) -> Void {
+        return { [self] in
+            if let option = $0 as? SwitchRowCompatible {
+                switch option.title {
+                case "Receive Notifications":
+                    self.setNotificationsEnabled(enabled: option.switchValue)
+                    break;
+                case "Load images":
+                    UserDefaults.standard.set(option.switchValue, forKey: "loadHistoryImages")
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+    }
+    
+    fileprivate func setNotificationsEnabled(enabled: Bool) {
         Analytics.logEvent("setNotifications", parameters: [
-            "recieveNotifications": notificationSwitch.isOn
+            "recieveNotifications": enabled
             ])
         
-        if (notificationSwitch.isOn) {
+        if enabled {
             setupFMC()
         } else {
             UserDefaults.standard.set(false, forKey: "receiveNotifications")
@@ -132,21 +100,9 @@ class SettingsViewController: UIViewController, UNUserNotificationCenterDelegate
         }
     }
     
-    @objc func handleSave() {
-        dismiss(animated: true)
-    }
-    
-    fileprivate func setTheme() {
-        notificationSwitch.tintColor = theme.accentColor
-        notificationSwitch.onTintColor = theme.accentColor
-        saveButton.backgroundColor = theme.accentColor
-        saveButton.tintColor = theme.backgroundColor
-        saveButton.setTitleColor(theme.backgroundColor, for: .normal)
-    }
-    
     fileprivate func displayDatabaseErrorAlert(receiveNotifications: Bool) {
         let alert = UIAlertController(title: "Notification Settings Error", message: "Your notifications are \(receiveNotifications ? "not" : "") enabled in the app but are in our database. Would you still like to recieve notifications?", preferredStyle: .alert)
-        
+
         let yesAction = UIAlertAction(title: "Yes", style: .default, handler: { _ in
             Analytics.logEvent("setNotifications", parameters: [
                 "recieveNotifications": true,
@@ -161,39 +117,97 @@ class SettingsViewController: UIViewController, UNUserNotificationCenterDelegate
                 ])
             UserDefaults.standard.set(false, forKey: "receiveNotifications")
             Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").removeValue()
-            self.notificationSwitch.isOn = false
         })
-        
+
         alert.addAction(yesAction)
         alert.addAction(noAction)
-        
+
         present(alert, animated: true)
     }
     
     fileprivate func setupFMC() {
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.badge, .sound, .alert], completionHandler: {(granted, error) in
-            if granted {
-                DispatchQueue.main.async(execute: {
-                    UIApplication.shared.registerForRemoteNotifications()
-                    UserDefaults.standard.set(true, forKey: "receiveNotifications")
-                    Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").setValue(true)
-                    self.notificationSwitch.isOn = true
-                })
-            } else {
-                DispatchQueue.main.async(execute: {
+            if error == nil {
+                if granted {
+                    DispatchQueue.main.async(execute: {
+                        UIApplication.shared.registerForRemoteNotifications()
+                        UserDefaults.standard.set(true, forKey: "receiveNotifications")
+                        Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").setValue(true)
+                        self.notificationSwitch.switchValue = true
+                    })
+                } else {
                     UserDefaults.standard.set(false, forKey: "receiveNotifications")
                     Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").removeValue()
-                    self.notificationSwitch.isOn = false
-                    
-                    let alert = UIAlertController(title: "Notification Settings Error", message: "Notification permissions are required to receive notifications when new deals start. You can enable this in settings.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-                    alert.addAction(UIAlertAction(title: "Settings", style: .default) { _ in
-                        UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+                    DispatchQueue.main.async(execute: {
+                        self.notificationSwitch.switchValue = false
+                        
+                        let alert = UIAlertController(title: "Notification Settings Error", message: "Notification permissions are required to receive notifications when new deals start. You can enable this in settings.", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                        alert.addAction(UIAlertAction(title: "Settings", style: .default) { _ in
+                            UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
+                        })
+                        self.present(alert, animated: true)
                     })
+                }
+            } else {
+                UserDefaults.standard.set(false, forKey: "receiveNotifications")
+                Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").removeValue()
+                DispatchQueue.main.async(execute: {
+                    self.notificationSwitch.switchValue = false
+                    
+                    let alert = UIAlertController(title: "Notification Settings Error", message: "Notification were unable to be enabled.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                    alert.addAction(UIAlertAction(title: "Okay", style: .default))
                     self.present(alert, animated: true)
                 })
             }
         })
+    }
+    
+    fileprivate func loadFeedback() {
+        let feedbackView = CTFeedbackViewController()
+        feedbackView.useHTML = false
+        feedbackView.hidesTopicCell = true
+        feedbackView.useCustomCallback = true
+        feedbackView.delegate = self
+        feedbackView.hidesAppNameCell = true
+        navigationController?.pushViewController(feedbackView, animated: true)
+    }
+}
+
+extension SettingsViewController: CTFeedbackViewControllerDelegate {
+    
+    func feedbackViewController(_ controller: CTFeedbackViewController!, didFinishWithCustomCallback email: String!, topic: String!, content: String!, attachment: UIImage!) {
+        if let content = content {
+            let key = Database.database().reference().child("feedback").childByAutoId().key
+            Database.database().reference().child("feedback/\(key)").setValue([
+                "time": NSDate().timeIntervalSince1970 * 1000,
+                "email": email,
+                "topic": "Feedback",
+                "content": content,
+                "hasAttachments": attachment != nil,
+                "appBuild": controller.appBuild,
+                "appVersion": controller.appVersion,
+                "systemVersion": controller.systemVersion,
+                "platformString": controller.platformString
+                ],withCompletionBlock: { (error, _) in
+                    if let error = error {
+                        let alert = UIAlertController(title: "Error Submitting Feedback", message: error.localizedDescription, preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Okay", style: .default))
+                        self.present(alert, animated: true)
+                    } else {
+                        let alert = UIAlertController(title: "Thnak you for the Feedback", message: "Your message will be reviewed and addressed asap.", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Okay", style: .default) { _ in
+                            self.navigationController?.popViewController(animated: true)
+                        })
+                        self.present(alert, animated: true)
+                    }
+            })
+        } else {
+            let alert = UIAlertController(title: "Unable to Submit Feedback", message: "A message must be provided to submit feedback.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .default))
+            self.present(alert, animated: true)
+        }
     }
 }

@@ -151,14 +151,8 @@ class MainViewController: UIViewController {
     
     @objc func handleViewSettings() {
         if let deal = deal {
-            let settingsView = SettingsViewController()
-            
-            settingsView.theme = deal.theme
-            
-            settingsView.modalPresentationStyle = .overCurrentContext
-            settingsView.modalTransitionStyle = .crossDissolve
-            
-            present(settingsView, animated: true)
+            Analytics.logEvent("viewedSettings", parameters: [:])
+            present(SettingsNavigationViewController(), animated: true)
         }
     }
     

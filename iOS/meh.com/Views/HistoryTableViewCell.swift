@@ -42,6 +42,8 @@ class HistoryTableViewCell: UITableViewCell {
         return label
     }()
     
+    let size: CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 125 : 50;
+    
     var dealImageViewLeftConstraing: NSLayoutConstraint!
     var dealImageViewWidthContraint: NSLayoutConstraint!
     
@@ -90,7 +92,7 @@ class HistoryTableViewCell: UITableViewCell {
         dealImageViewLeftConstraing.isActive = true
         dealImageViewWidthContraint = dealImageView.widthAnchor.constraint(equalToConstant: 0)
         dealImageViewWidthContraint.isActive = true
-        dealImageView.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        dealImageView.heightAnchor.constraint(equalToConstant: size).isActive = true
         
         card.addSubview(titleLabel)
         titleLabel.topAnchor.constraint(equalTo: dealImageView.topAnchor, constant: 0).isActive = true
@@ -115,7 +117,7 @@ class HistoryTableViewCell: UITableViewCell {
     
     fileprivate func animateLoadedImage() {
         dealImageViewLeftConstraing.constant = 8
-        dealImageViewWidthContraint.constant = 75
+        dealImageViewWidthContraint.constant = size
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        options: [.preferredFramesPerSecond60, .curveEaseOut, .allowUserInteraction],

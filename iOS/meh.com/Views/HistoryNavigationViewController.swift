@@ -11,8 +11,6 @@ import GoogleMobileAds
 
 class HistoryNavigationViewController: UINavigationController {
     
-    let mainView = HistoryTableViewController()
-    
     var theme: Theme! {
         didSet {
             setTheme()
@@ -24,7 +22,7 @@ class HistoryNavigationViewController: UINavigationController {
         
         navigationBar.prefersLargeTitles = true
         loadBannerView()
-        pushViewController(mainView, animated: true)
+        pushViewController(HistoryTableViewController(), animated: true)
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {

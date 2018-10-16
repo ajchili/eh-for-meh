@@ -70,11 +70,13 @@ class HistoryTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! HistoryTableViewCell
         
         cell.deal = previousDeals[indexPath.row]
-        loadImage(deal: cell.deal, completion: { image in
-            if cell.deal.id == self.previousDeals[indexPath.row].id {
-                cell.dealImage = image
-            }
-        })
+        if UserDefaults.standard.bool(forKey: "loadHistoryImages") {
+            loadImage(deal: cell.deal, completion: { image in
+                if cell.deal.id == self.previousDeals[indexPath.row].id {
+                    cell.dealImage = image
+                }
+            })
+        }
         
         return cell
     }
