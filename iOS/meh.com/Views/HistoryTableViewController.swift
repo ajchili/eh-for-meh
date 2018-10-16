@@ -86,19 +86,35 @@ class HistoryTableViewController: UITableViewController {
     }
     
     fileprivate func loadData() {
-        let toLast: UInt = UIDevice.current.userInterfaceIdiom == .pad ? 51 : 21;
-        
-        Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toLast: toLast).observeSingleEvent(of: .value) { snapshot in
-            self.previousDeals.removeAll()
-            
-            for child in snapshot.children.allObjects.reversed().dropFirst() {
-                let childSnapshot = child as! DataSnapshot
+        if let toLast = UserDefaults.standard.object(forKey: "dealHistoryCount") as? Int {
+            Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toLast: UInt(toLast) + 1).observeSingleEvent(of: .value) { snapshot in
+                self.previousDeals.removeAll()
                 
-                DealLoader.sharedInstance.loadDeal(forDeal: childSnapshot.key, completion: { deal in
-                    self.previousDeals.append(deal)
+                for child in snapshot.children.allObjects.reversed().dropFirst() {
+                    let childSnapshot = child as! DataSnapshot
                     
-                    self.tableView.reloadData()
-                })
+                    DealLoader.sharedInstance.loadDeal(forDeal: childSnapshot.key, completion: { deal in
+                        self.previousDeals.append(deal)
+                        
+                        self.tableView.reloadData()
+                    })
+                }
+            }
+        } else {
+            let toLast: UInt = UIDevice.current.userInterfaceIdiom == .pad ? 51 : 21
+            
+            Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toLast: toLast).observeSingleEvent(of: .value) { snapshot in
+                self.previousDeals.removeAll()
+                
+                for child in snapshot.children.allObjects.reversed().dropFirst() {
+                    let childSnapshot = child as! DataSnapshot
+                    
+                    DealLoader.sharedInstance.loadDeal(forDeal: childSnapshot.key, completion: { deal in
+                        self.previousDeals.append(deal)
+                        
+                        self.tableView.reloadData()
+                    })
+                }
             }
         }
     }

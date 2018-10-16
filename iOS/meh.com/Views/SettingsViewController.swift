@@ -17,6 +17,7 @@ import UserNotifications
 class SettingsViewController: QuickTableViewController, UNUserNotificationCenterDelegate {
     
     var notificationSwitch: SwitchRow<SwitchCell>!
+    var radios: RadioSection!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +31,28 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
                                         switchValue: UserDefaults.standard.bool(forKey: "receiveNotifications"),
                                         action: didToggleSelection())
         
+        if let dealHistoryCount: Int = UserDefaults.standard.object(forKey: "dealHistoryCount") as? Int {
+            radios = RadioSection(title: "",
+                                  options: [
+                                    OptionRow(title: "5 Deals", isSelected: dealHistoryCount == 5, action: didToggleOption()),
+                                    OptionRow(title: "10 Deals", isSelected: dealHistoryCount == 10, action: didToggleOption()),
+                                    OptionRow(title: "20 Deals", isSelected: dealHistoryCount == 20, action: didToggleOption()),
+                                    OptionRow(title: "50 Deals", isSelected: dealHistoryCount == 50, action: didToggleOption())
+                ],
+                                  footer: "Number of deals to display in history screen. Please note that the more deals you load, the more data/bandwidh will be used.")
+        } else {
+            radios = RadioSection(title: "",
+                                  options: [
+                                    OptionRow(title: "5 Deals", isSelected: false, action: didToggleOption()),
+                                    OptionRow(title: "10 Deals", isSelected: false, action: didToggleOption()),
+                                    OptionRow(title: "20 Deals", isSelected: UIDevice.current.userInterfaceIdiom != .pad, action: didToggleOption()),
+                                    OptionRow(title: "50 Deals", isSelected: UIDevice.current.userInterfaceIdiom == .pad, action: didToggleOption())
+                ],
+                                  footer: "Number of deals to display in history screen. Please note that the more deals you load, the more data/bandwidh will be used.")
+        }
+        
+        radios.alwaysSelectsOneOption = true
+        
         tableContents = [
             Section(title: "Notifications",
                     rows: [ notificationSwitch ]),
@@ -38,9 +61,9 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
                         SwitchRow(title: "Load images",
                                   switchValue: UserDefaults.standard.bool(forKey: "loadHistoryImages"),
                                   action: didToggleSelection()),
-//                        NavigationRow(title: "Amount of previous deals", subtitle: .belowTitle("Choose how many deals to load"), action: nil),
                         ],
                     footer: "Please note, loading images has significantly high network usage and should not be used by users with limited data/bandwidth cellular plans."),
+            radios,
             Section(title: "Feedback",
                     rows: [
                         NavigationRow(title: "Provide feedback",
@@ -83,6 +106,25 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
                 default:
                     break;
                 }
+            }
+        }
+    }
+    
+    private func didToggleOption() -> (Row) -> Void {
+        return { [self] row in
+            switch row.title.split(separator: " ")[0] {
+            case "5":
+                UserDefaults.standard.set(5, forKey: "dealHistoryCount")
+                break;
+            case "10":
+                UserDefaults.standard.set(10, forKey: "dealHistoryCount")
+                break;
+            case "50":
+                UserDefaults.standard.set(50, forKey: "dealHistoryCount")
+                break;
+            default:
+                UserDefaults.standard.set(20, forKey: "dealHistoryCount")
+                break;
             }
         }
     }
@@ -183,7 +225,6 @@ extension SettingsViewController: CTFeedbackViewControllerDelegate {
             let key = Database.database().reference().child("feedback").childByAutoId().key
             Database.database().reference().child("feedback/\(key)").setValue([
                 "time": NSDate().timeIntervalSince1970 * 1000,
-                "email": email,
                 "topic": "Feedback",
                 "content": content,
                 "hasAttachments": attachment != nil,
