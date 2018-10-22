@@ -238,7 +238,7 @@ extension SettingsViewController: CTFeedbackViewControllerDelegate {
                         alert.addAction(UIAlertAction(title: "Okay", style: .default))
                         self.present(alert, animated: true)
                     } else {
-                        let alert = UIAlertController(title: "Thnak you for the Feedback", message: "Your message will be reviewed and addressed asap.", preferredStyle: .alert)
+                        let alert = UIAlertController(title: "Thank you for the Feedback", message: "Your message will be reviewed and addressed asap.", preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "Okay", style: .default) { _ in
                             self.navigationController?.popViewController(animated: true)
                         })
