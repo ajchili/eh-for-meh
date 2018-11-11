@@ -111,7 +111,7 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
     }
     
     private func didToggleOption() -> (Row) -> Void {
-        return { [self] row in
+        return { row in
             switch row.title.split(separator: " ")[0] {
             case "5":
                 UserDefaults.standard.set(5, forKey: "dealHistoryCount")
@@ -210,6 +210,7 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
     fileprivate func loadFeedback() {
         let feedbackView = CTFeedbackViewController()
         feedbackView.useHTML = false
+        feedbackView.hidesAdditionalContent = true
         feedbackView.hidesTopicCell = true
         feedbackView.useCustomCallback = true
         feedbackView.delegate = self
@@ -227,7 +228,6 @@ extension SettingsViewController: CTFeedbackViewControllerDelegate {
                 "time": NSDate().timeIntervalSince1970 * 1000,
                 "topic": "Feedback",
                 "content": content,
-                "hasAttachments": attachment != nil,
                 "appBuild": controller.appBuild,
                 "appVersion": controller.appVersion,
                 "systemVersion": controller.systemVersion,
