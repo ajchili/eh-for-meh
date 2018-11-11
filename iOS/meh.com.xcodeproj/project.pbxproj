@@ -36,6 +36,7 @@
 		78C110DE211B97D100622810 /* DealLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110DD211B97D100622810 /* DealLoader.swift */; };
 		78C110E0211B99BB00622810 /* ThemeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110DF211B99BB00622810 /* ThemeLoader.swift */; };
 		78D5D7A7211D472C0085D4E2 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */; };
+		78E2712721759202008375E0 /* SettingsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E2712621759202008375E0 /* SettingsNavigationViewController.swift */; };
 		A9E3D3EBBF74004850F4629F /* Pods_meh_com.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9B8600787B1AEA09CCDBB8F /* Pods_meh_com.framework */; };
 /* End PBXBuildFile section */
 
@@ -99,6 +100,7 @@
 		78C110DD211B97D100622810 /* DealLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealLoader.swift; sourceTree = "<group>"; };
 		78C110DF211B99BB00622810 /* ThemeLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeLoader.swift; sourceTree = "<group>"; };
 		78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
+		78E2712621759202008375E0 /* SettingsNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationViewController.swift; sourceTree = "<group>"; };
 		903BF7FAD035129F02A7C4FD /* Pods-Meh Deal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meh Deal.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Meh Deal/Pods-Meh Deal.debug.xcconfig"; sourceTree = "<group>"; };
 		AD64933D1800455A5CA2E589 /* Pods_Meh_Deal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Meh_Deal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9B8600787B1AEA09CCDBB8F /* Pods_meh_com.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_meh_com.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +167,7 @@
 				7826E0ED1FD659320011AA23 /* ImageViewController.swift */,
 				78AD53AD2102F4AF0031E9B0 /* LoadingViewController.swift */,
 				781FCC5E20FE5D63009F35ED /* MainViewController.swift */,
+				78E2712621759202008375E0 /* SettingsNavigationViewController.swift */,
 				785C37FB1FD76D0D002CE08C /* SettingsViewController.swift */,
 			);
 			path = Views;
@@ -393,18 +396,22 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-meh.com/Pods-meh.com-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CTFeedback/CTFeedback.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Nuke/Nuke.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/QuickTableViewController/QuickTableViewController.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyMarkdown/SwiftyMarkdown.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CTFeedback.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nuke.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/QuickTableViewController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyMarkdown.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
@@ -446,6 +453,7 @@
 				7826E0EE1FD659320011AA23 /* ImageViewController.swift in Sources */,
 				78AD53AE2102F4AF0031E9B0 /* LoadingViewController.swift in Sources */,
 				781FCC5F20FE5D63009F35ED /* MainViewController.swift in Sources */,
+				78E2712721759202008375E0 /* SettingsNavigationViewController.swift in Sources */,
 				78C110D2211B948C00622810 /* Deal.swift in Sources */,
 				78C110E0211B99BB00622810 /* ThemeLoader.swift in Sources */,
 				78C110D8211B958D00622810 /* Topic.swift in Sources */,

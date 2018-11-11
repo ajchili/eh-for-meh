@@ -1,6 +1,7 @@
 PODS:
   - Crashlytics (3.10.5):
     - Fabric (~> 1.7.9)
+  - CTFeedback (1.1.1)
   - Fabric (1.7.9)
   - Firebase/AdMob (5.7.0):
     - Firebase/Core
@@ -69,21 +70,25 @@ PODS:
   - nanopb/encode (0.3.8)
   - Nuke (7.3.2)
   - Protobuf (3.6.1)
+  - QuickTableViewController (1.0.0)
   - SwiftyMarkdown (0.5.1)
 
 DEPENDENCIES:
   - Crashlytics (~> 3.10.5)
+  - CTFeedback
   - Fabric (~> 1.7.9)
   - Firebase/AdMob
   - Firebase/Core
   - Firebase/Database
   - Firebase/Messaging
   - Nuke
+  - QuickTableViewController
   - SwiftyMarkdown
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Crashlytics
+    - CTFeedback
     - Fabric
     - Firebase
     - FirebaseAnalytics
@@ -98,10 +103,12 @@ SPEC REPOS:
     - nanopb
     - Nuke
     - Protobuf
+    - QuickTableViewController
     - SwiftyMarkdown
 
 SPEC CHECKSUMS:
   Crashlytics: 7f2e38d302d9da96475b3d64d86fb29e31a542b7
+  CTFeedback: 6f128606e0d26d46075c3fa9fc33884372df8675
   Fabric: a2917d3895e4c1569b9c3170de7320ea1b1e6661
   Firebase: 734a4f92957aa6c40e7ae3fda3d9359e1890aa87
   FirebaseAnalytics: 993577e91157feb40945abedd6ab346d8a4b6ac8
@@ -116,8 +123,9 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Nuke: a9a31bbd6c6723753ab024ef22057dcaaf046c1b
   Protobuf: 1eb9700044745f00181c136ef21b8ff3ad5a0fd5
+  QuickTableViewController: a49fb6dc5623b9dbe301a03ac5c563099e234fbc
   SwiftyMarkdown: 743af3e87931391bc4836b825fec3d98785b2e3a
 
-PODFILE CHECKSUM: 16e887ede3cb4d2b393c9bd9bf07c0940c112f86
+PODFILE CHECKSUM: 19a27e0bd7f030bef7a395fdb478bfaf9f37049d
 
 COCOAPODS: 1.5.3

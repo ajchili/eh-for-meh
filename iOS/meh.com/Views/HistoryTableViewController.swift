@@ -7,12 +7,16 @@
 //
 
 import UIKit
+import StoreKit
 import FirebaseAnalytics
 import FirebaseDatabase
+import Nuke
 
 class HistoryTableViewController: UITableViewController {
     
     let cellIdentifier = "previousDealCell"
+    let reviewAskInterval: Double = 86400.0
+    let lastTimeReviewAsked = UserDefaults.standard.double(forKey: "lastTimeReviewWasAsked")
     var previousDeals = [Deal]()
     
     override func viewDidLoad() {
@@ -29,6 +33,11 @@ class HistoryTableViewController: UITableViewController {
         navigationController?.navigationBar.topItem?.leftBarButtonItem = backButton
         
         loadData()
+        
+        if lastTimeReviewAsked == 0.0 || NSDate().timeIntervalSince1970 - lastTimeReviewAsked > reviewAskInterval {
+            UserDefaults.standard.set(NSDate().timeIntervalSince1970, forKey: "lastTimeReviewWasAsked")
+            SKStoreReviewController.requestReview()
+        }
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,6 +70,13 @@ class HistoryTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! HistoryTableViewCell
         
         cell.deal = previousDeals[indexPath.row]
+        if UserDefaults.standard.bool(forKey: "loadHistoryImages") {
+            loadImage(deal: cell.deal, completion: { image in
+                if cell.deal.id == self.previousDeals[indexPath.row].id {
+                    cell.dealImage = image
+                }
+            })
+        }
         
         return cell
     }
@@ -70,18 +86,52 @@ class HistoryTableViewController: UITableViewController {
     }
     
     fileprivate func loadData() {
-        let toLast: UInt = UIDevice.current.userInterfaceIdiom == .pad ? 31 : 16;
-        
-        Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toLast: toLast).observe(.value) { snapshot in
-            self.previousDeals.removeAll()
-            
-            for child in snapshot.children.allObjects.reversed().dropFirst() {
-                let childSnapshot = child as! DataSnapshot
+        if let toLast = UserDefaults.standard.object(forKey: "dealHistoryCount") as? Int {
+            Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toLast: UInt(toLast) + 1).observeSingleEvent(of: .value) { snapshot in
+                self.previousDeals.removeAll()
                 
-                DealLoader.sharedInstance.loadDeal(forDeal: childSnapshot.key, completion: { deal in
-                    self.previousDeals.append(deal)
+                for child in snapshot.children.allObjects.reversed().dropFirst() {
+                    let childSnapshot = child as! DataSnapshot
                     
-                    self.tableView.reloadData()
+                    DealLoader.sharedInstance.loadDeal(forDeal: childSnapshot.key, completion: { deal in
+                        self.previousDeals.append(deal)
+                        
+                        self.tableView.reloadData()
+                    })
+                }
+            }
+        } else {
+            let toLast: UInt = UIDevice.current.userInterfaceIdiom == .pad ? 51 : 21
+            
+            Database.database().reference().child("previousDeal").queryOrdered(byChild: "time").queryLimited(toLast: toLast).observeSingleEvent(of: .value) { snapshot in
+                self.previousDeals.removeAll()
+                
+                for child in snapshot.children.allObjects.reversed().dropFirst() {
+                    let childSnapshot = child as! DataSnapshot
+                    
+                    DealLoader.sharedInstance.loadDeal(forDeal: childSnapshot.key, completion: { deal in
+                        self.previousDeals.append(deal)
+                        
+                        self.tableView.reloadData()
+                    })
+                }
+            }
+        }
+    }
+    
+    fileprivate func loadImage(deal: Deal, loadLast: Bool = false, completion: @escaping (_ image: UIImage) -> Void) {
+        if let url = loadLast ? deal.photos.last : deal.photos.first {
+            if let image = URL(string: url.absoluteString.replacingOccurrences(of: "http", with: "https")) {
+                ImagePipeline.shared.loadImage(
+                    with: image,
+                    completion: { response, _ in
+                        if response != nil, let image = response?.image {
+                            completion(image)
+                        } else {
+                            self.loadImage(deal: deal,
+                                           loadLast: true,
+                                           completion: completion)
+                        }
                 })
             }
         }

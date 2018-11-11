@@ -22,6 +22,7 @@ class Deal {
     var title: String
     var topic: Topic?
     var url: URL
+    var date: Date?
     
     init(id: String, title: String, features: String, specifications: String, story: Story, theme: Theme, url: URL) {
         self.id = id

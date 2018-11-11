@@ -217,7 +217,7 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
     
     fileprivate func animateView() {
         if let deal = deal {
-            let textColor: UIColor = deal.theme.dark ? .white : .black
+            let textColor: UIColor = deal.theme.backgroundColor
             setupDeal()
             if view.backgroundColor == .clear {
                 view.backgroundColor = deal.theme.accentColor

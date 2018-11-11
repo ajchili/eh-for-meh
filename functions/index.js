@@ -91,3 +91,29 @@ exports.sendDealUpdate = functions.database.ref("deal").onUpdate((change, contex
     return sendNewDealNotification(deal.title);
   }
 });
+
+exports.sendFeedbackSubmittedNotification = functions.database.ref("feedback/{feedback}").onCreate((snapshot, context) => {
+  let feedbackId = context.params.feedback;
+  const payload = {
+    notification: {
+      title: `New feedback submitted (${feedbackId})!`,
+      body: snapshot.child("content").val(),
+      content_available: "false"
+    }
+  };
+
+  return admin.database().ref("/feedback/tokens").once("value", snapshot => {
+    let tokens = [];
+    snapshot.forEach(childSnapshot => {
+      tokens.push(childSnapshot.key);
+    });
+
+    return admin.messaging().sendToDevice(tokens, payload).then(res => {
+      console.log("Successfully sent message:", JSON.stringify(res));
+      return true;
+    }).catch(err => {
+      console.error("Error sending message:", JSON.stringify(err));
+      return false;
+    });
+  });
+});
