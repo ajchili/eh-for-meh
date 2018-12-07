@@ -1,5 +1,7 @@
 package com.kirinpatel.ehformeh.utils;
 
+import com.google.firebase.database.DataSnapshot;
+
 import java.io.Serializable;
 import java.net.URL;
 
@@ -42,6 +44,37 @@ public class Deal implements Serializable {
         this.title = title;
         this.topic = topic;
         this.url = url;
+    }
+
+    static Deal parseDeal(DataSnapshot dataSnapshot) throws Exception {
+        if (dataSnapshot.hasChild("features") &&
+                dataSnapshot.hasChild("id") &&
+                dataSnapshot.hasChild("items") &&
+                dataSnapshot.hasChild("photos") &&
+                dataSnapshot.hasChild("specifications") &&
+                dataSnapshot.hasChild("story") &&
+                dataSnapshot.hasChild("theme") &&
+                dataSnapshot.hasChild("title") &&
+                dataSnapshot.hasChild("topic") &&
+                dataSnapshot.hasChild("url")) {
+            boolean isPreviousDeal = dataSnapshot.getRef().getParent().getKey().equals("currentDeal");
+            Item[] items = Item.parseItems(dataSnapshot.child("items"));
+            boolean soldOut = dataSnapshot.hasChild("soldOutAt");
+            Story story = Story.parseStory(dataSnapshot.child("story"));
+            Theme theme = Theme.parseTheme(dataSnapshot.child("theme"));
+            return new Deal(dataSnapshot.child("id").getValue().toString(),
+                    dataSnapshot.child("features").getValue().toString(),
+                    isPreviousDeal,
+                    items,
+                    null,
+                    soldOut,
+                    dataSnapshot.child("specifications").getValue().toString(),
+                    story,
+                    theme,
+                    dataSnapshot.child("title").getValue().toString(),
+                    null,
+                    null);
+        } else throw new Exception("Provided DataSnapshot is not parsable!");
     }
 
     public String getId() {

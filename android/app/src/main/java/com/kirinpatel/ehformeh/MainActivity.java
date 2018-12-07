@@ -6,34 +6,24 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.kirinpatel.ehformeh.utils.Deal;
+import com.kirinpatel.ehformeh.utils.DealLoader;
+import com.kirinpatel.ehformeh.utils.DealLoaderInterface;
 import com.kirinpatel.ehformeh.utils.Item;
-import com.kirinpatel.ehformeh.utils.Theme;
 import com.pierfrancescosoffritti.slidingdrawer.SlidingDrawer;
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
-    private DatabaseReference databaseReference;
-    private ValueEventListener dealEventListener;
     private Deal deal;
     private boolean hasAnimated = false;
 
@@ -46,26 +36,17 @@ public class MainActivity extends AppCompatActivity {
 
         mainLayout = findViewById(R.id.mainLayout);
         setupSlidingView();
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("currentDeal/deal");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
         setupCurrentDealListener();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-
-        databaseReference.removeEventListener(dealEventListener);
     }
 
     private void setupSlidingView() {
         mainLayout.setDragView(findViewById(R.id.slidableViewContent));
+        findViewById(R.id.dealInfoTextView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainLayout.slideTo(mainLayout.getState() == SlidingDrawer.EXPANDED ? 0 : 1);
+            }
+        });
         calculateScreenHeight();
     }
 
@@ -76,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        params.height = (int) (size.y * .8);
+        params.height = (int) (size.y * .85);
 
         contentView.setLayoutParams(new LinearLayout.LayoutParams(params));
     }
@@ -151,58 +132,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupCurrentDealListener() {
-        dealEventListener = new ValueEventListener() {
+        DealLoader loader = new DealLoader(new DealLoaderInterface() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                try {
-                    Theme dealTheme = new Theme(dataSnapshot.child("theme").child("backgroundColor").getValue().toString(),
-                            dataSnapshot.child("theme").child("accentColor").getValue().toString(),
-                            dataSnapshot.child("theme").child("foreground").getValue().toString().equals("dark"));
+            public void dealLoaded(Deal loadedDeal) {
+                deal = loadedDeal;
 
-                    int itemLength = (int) dataSnapshot.child("items").getChildrenCount();
-                    Item[] items = new Item[itemLength];
-                    Iterable<DataSnapshot> iterable = dataSnapshot.child("items").getChildren();
-                    for (int i = 0; i < items.length; i++) {
-                        DataSnapshot childSnapshot = iterable.iterator().next();
-                        items[i] = new Item(childSnapshot.child("id").getValue().toString(),
-                                childSnapshot.child("condition").getValue().toString(),
-                                Float.parseFloat(childSnapshot.child("price").getValue().toString()));
-                    }
-
-                    URL url = null;
-
-                    try {
-                        url = new URL(dataSnapshot.child("url").getValue().toString());
-                    } catch (MalformedURLException e) {
-                        // TODO: handle error
-                    }
-
-                    deal = new Deal(dataSnapshot.child("id").getValue().toString(),
-                            dataSnapshot.child("features").getValue().toString(),
-                            false,
-                            items,
-                            null,
-                            dataSnapshot.child("soldOut").exists(),
-                            null,
-                            null,
-                            dealTheme,
-                            dataSnapshot.child("title").getValue().toString(),
-                            null,
-                            url);
-
-                    animateStart();
-                    updateUIWithCurrentDeal();
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
+                animateStart();
+                updateUIWithCurrentDeal();
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void dealUpdated(Deal deal) {
 
             }
-        };
-        databaseReference.addValueEventListener(dealEventListener);
+
+            @Override
+            public void dealLoadFailed(DatabaseError databaseError) {
+
+            }
+
+            @Override
+            public void dealNotLoadable(Exception e) {
+
+            }
+        });
+        loader.loadCurrentDeal();
     }
 
     private void updateUIWithCurrentDeal() {
@@ -224,6 +178,10 @@ public class MainActivity extends AppCompatActivity {
             String price = "$" + maxPrice;
             if (maxPrice != minPrice) price += " - $" + minPrice;
             dealPrice.setText(price);
+
+            // Deal Info
+            TextView dealInfo = findViewById(R.id.dealInfoTextView);
+            dealInfo.setTextColor(Color.parseColor(deal.getTheme().getBackgroundColor()));
         }
     }
 }
