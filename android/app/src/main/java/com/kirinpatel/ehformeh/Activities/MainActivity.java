@@ -1,4 +1,4 @@
-package com.kirinpatel.ehformeh;
+package com.kirinpatel.ehformeh.Activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -7,6 +7,8 @@ import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.view.PagerTabStrip;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Display;
@@ -16,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseError;
+import com.kirinpatel.ehformeh.Adapters.BottomSheetPagerAdapter;
+import com.kirinpatel.ehformeh.R;
 import com.kirinpatel.ehformeh.utils.Deal;
 import com.kirinpatel.ehformeh.utils.DealLoader;
 import com.kirinpatel.ehformeh.utils.DealLoaderInterface;
@@ -37,6 +41,12 @@ public class MainActivity extends AppCompatActivity {
         mainLayout = findViewById(R.id.mainLayout);
         setupSlidingView();
         setupCurrentDealListener();
+    }
+
+    private void setupViewPager() {
+        ViewPager viewPager = findViewById(R.id.viewPager);
+        BottomSheetPagerAdapter adapter = new BottomSheetPagerAdapter(deal, getSupportFragmentManager());
+        viewPager.setAdapter(adapter);
     }
 
     private void setupSlidingView() {
@@ -139,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
                 animateStart();
                 updateUIWithCurrentDeal();
+                setupViewPager();
             }
 
             @Override
@@ -182,6 +193,11 @@ public class MainActivity extends AppCompatActivity {
             // Deal Info
             TextView dealInfo = findViewById(R.id.dealInfoTextView);
             dealInfo.setTextColor(Color.parseColor(deal.getTheme().getBackgroundColor()));
+
+            // View Pager
+            PagerTabStrip tabStrip = findViewById(R.id.viewPagerTabs);
+            tabStrip.setTabIndicatorColor(Color.parseColor(deal.getTheme().getBackgroundColor()));
+            tabStrip.setTextColor(Color.parseColor(deal.getTheme().getBackgroundColor()));
         }
     }
 }
