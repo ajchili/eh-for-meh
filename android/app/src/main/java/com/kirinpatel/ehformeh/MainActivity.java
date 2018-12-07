@@ -18,7 +18,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kirinpatel.ehformeh.utils.Deal;
+import com.kirinpatel.ehformeh.utils.Item;
 import com.kirinpatel.ehformeh.utils.Theme;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -129,10 +135,28 @@ public class MainActivity extends AppCompatActivity {
                             dataSnapshot.child("theme").child("accentColor").getValue().toString(),
                             dataSnapshot.child("theme").child("foreground").getValue().toString().equals("dark"));
 
+                    int itemLength = (int) dataSnapshot.child("items").getChildrenCount();
+                    Item[] items = new Item[itemLength];
+                    Iterable<DataSnapshot> iterable = dataSnapshot.child("items").getChildren();
+                    for (int i = 0; i < items.length; i++) {
+                        DataSnapshot childSnapshot = iterable.iterator().next();
+                        items[i] = new Item(childSnapshot.child("id").getValue().toString(),
+                                childSnapshot.child("condition").getValue().toString(),
+                                Float.parseFloat(childSnapshot.child("price").getValue().toString()));
+                    }
+
+                    URL url = null;
+
+                    try {
+                        url = new URL(dataSnapshot.child("url").getValue().toString());
+                    } catch (MalformedURLException e) {
+                        // TODO: handle error
+                    }
+
                     deal = new Deal(dataSnapshot.child("id").getValue().toString(),
                             dataSnapshot.child("features").getValue().toString(),
                             false,
-                            null,
+                            items,
                             null,
                             dataSnapshot.child("soldOut").exists(),
                             null,
@@ -140,9 +164,10 @@ public class MainActivity extends AppCompatActivity {
                             dealTheme,
                             dataSnapshot.child("title").getValue().toString(),
                             null,
-                            null);
+                            url);
 
                     animateStart();
+                    updateUIWithCurrentDeal();
                 } catch (NullPointerException e) {
                     e.printStackTrace();
                 }
@@ -154,5 +179,27 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         databaseReference.addValueEventListener(dealEventListener);
+    }
+
+    private void updateUIWithCurrentDeal() {
+        if (deal != null) {
+            // Title
+            TextView dealTitle = findViewById(R.id.dealTitleTextView);
+            dealTitle.setText(deal.getTitle());
+            dealTitle.setTextColor(Color.parseColor(deal.getTheme().getAccentColor()));
+
+            // Price
+            TextView dealPrice = findViewById(R.id.dealPriceTextView);
+            Float minPrice = Float.MAX_VALUE;
+            Float maxPrice = Float.MIN_VALUE;
+            for (Item item : deal.getItems()) {
+                Float price = item.getPrice();
+                if (price < minPrice) minPrice = price;
+                if (price > maxPrice) maxPrice = price;
+            }
+            String price = "$" + maxPrice;
+            if (maxPrice != minPrice) price += " - $" + minPrice;
+            dealPrice.setText(price);
+        }
     }
 }
