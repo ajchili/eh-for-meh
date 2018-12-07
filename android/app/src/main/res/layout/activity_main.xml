@@ -26,45 +26,73 @@
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <com.pierfrancescosoffritti.slidingdrawer.SlidingDrawer
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:visibility="gone">
+        android:visibility="gone"
+        app:elevation="4dp">
 
-        <TextView
-            android:id="@+id/dealTitleTextView"
+        <LinearLayout
+            android:id="@id/non_slidable_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/contentView"
+                android:layout_width="match_parent"
+                android:layout_height="100dp">
+
+                <TextView
+                    android:id="@+id/dealTitleTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="32sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@id/dealPriceTextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/dealPriceTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/dealMehButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="meh"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintTop_toTopOf="@id/dealPriceTextView"
+                    app:layout_constraintBottom_toBottomOf="@id/dealPriceTextView"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@id/slidable_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@id/dealPriceTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_height="match_parent"
+            android:background="#ffffff" >
 
-        <TextView
-            android:id="@+id/dealPriceTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="80dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/slidableViewContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clickable="true">
 
-        <Button
-            android:id="@+id/dealMehButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="meh"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintTop_toTopOf="@id/dealPriceTextView"
-            app:layout_constraintBottom_toBottomOf="@id/dealPriceTextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            />
-    </android.support.constraint.ConstraintLayout>
-
+            </android.support.constraint.ConstraintLayout>
+        </FrameLayout>
+    </com.pierfrancescosoffritti.slidingdrawer.SlidingDrawer>
 </android.support.constraint.ConstraintLayout>

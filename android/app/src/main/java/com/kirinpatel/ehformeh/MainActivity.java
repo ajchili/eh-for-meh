@@ -5,11 +5,16 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,11 +25,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.kirinpatel.ehformeh.utils.Deal;
 import com.kirinpatel.ehformeh.utils.Item;
 import com.kirinpatel.ehformeh.utils.Theme;
+import com.pierfrancescosoffritti.slidingdrawer.SlidingDrawer;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private Deal deal;
     private boolean hasAnimated = false;
 
-    private ConstraintLayout mainLayout;
+    private SlidingDrawer mainLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mainLayout = findViewById(R.id.mainLayout);
+        setupSlidingView();
 
         databaseReference = FirebaseDatabase.getInstance().getReference("currentDeal/deal");
     }
@@ -59,10 +64,28 @@ public class MainActivity extends AppCompatActivity {
         databaseReference.removeEventListener(dealEventListener);
     }
 
+    private void setupSlidingView() {
+        mainLayout.setDragView(findViewById(R.id.slidableViewContent));
+        calculateScreenHeight();
+    }
+
+    private void calculateScreenHeight() {
+        ConstraintLayout contentView = findViewById(R.id.contentView);
+        ViewGroup.LayoutParams params = contentView.getLayoutParams();
+
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        params.height = (int) (size.y * .8);
+
+        contentView.setLayoutParams(new LinearLayout.LayoutParams(params));
+    }
+
     private void animateStart() {
         if (deal != null && !hasAnimated) {
             hasAnimated = true;
             final ConstraintLayout loadingBackground = findViewById(R.id.loadingLayout);
+            final ConstraintLayout slidingView = findViewById(R.id.slidableViewContent);
             final TextView loadingTitle = findViewById(R.id.titleTextView);
 
             ValueAnimator backgroundColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),
@@ -101,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                     loadingBackground.setVisibility(View.GONE);
                     mainLayout.setBackgroundColor(Color.parseColor(deal.getTheme().getBackgroundColor()));
                     mainLayout.setVisibility(View.VISIBLE);
+                    slidingView.setBackgroundColor(Color.parseColor(deal.getTheme().getAccentColor()));
                 }
 
                 @Override
