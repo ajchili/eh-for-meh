@@ -92,6 +92,26 @@
                 android:layout_height="match_parent"
                 android:clickable="true">
 
+                <TextView
+                    android:id="@+id/dealInfoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="32sp"
+                    android:text="Deal Info"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="15dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Buy"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="21dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
             </android.support.constraint.ConstraintLayout>
         </FrameLayout>
     </com.pierfrancescosoffritti.slidingdrawer.SlidingDrawer>
