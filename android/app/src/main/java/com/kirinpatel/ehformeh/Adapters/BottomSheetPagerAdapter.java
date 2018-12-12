@@ -24,6 +24,13 @@ public class BottomSheetPagerAdapter extends FragmentPagerAdapter {
                 return MarkdownViewFragment.newInstance(deal.getFeatures());
             case 1:
                 return MarkdownViewFragment.newInstance(deal.getSpecifications());
+            case 2:
+                String markdown = new StringBuilder()
+                        .append(deal.getStory().getTitle())
+                        .append("\n===\n")
+                        .append(deal.getStory().getBody())
+                        .toString();
+                return MarkdownViewFragment.newInstance(markdown);
             default:
                 return null;
         }
@@ -31,7 +38,7 @@ public class BottomSheetPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 2;
+        return 3;
     }
 
     @Override

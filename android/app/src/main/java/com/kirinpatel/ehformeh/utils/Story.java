@@ -20,4 +20,12 @@ public class Story implements Serializable {
                     dataSnapshot.child("body").getValue().toString());
         } else throw new Exception("Provided DataSnapshot is not parsable!");
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getBody() {
+        return body;
+    }
 }
