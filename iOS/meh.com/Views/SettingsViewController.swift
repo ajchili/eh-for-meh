@@ -11,6 +11,7 @@ import CTFeedback
 import FirebaseAnalytics
 import FirebaseDatabase
 import FirebaseMessaging
+import GoogleMobileAds
 import QuickTableViewController
 import UserNotifications
 
@@ -18,6 +19,7 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
     
     var notificationSwitch: SwitchRow<SwitchCell>!
     var radios: RadioSection!
+    var interstitial: GADInterstitial!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +32,8 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
         notificationSwitch =  SwitchRow(title: "Receive Notifications",
                                         switchValue: UserDefaults.standard.bool(forKey: "receiveNotifications"),
                                         action: didToggleSelection())
+        
+        interstitial = loadInterstitial()
         
         if let dealHistoryCount: Int = UserDefaults.standard.object(forKey: "dealHistoryCount") as? Int {
             radios = RadioSection(title: "",
@@ -71,6 +75,13 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
                                       action: { _ in self.loadFeedback() }),
                         ],
                     footer: "Any feedback submitted is completely anonymous and will be used to improve the app."),
+            Section(title: "Support the Developer",
+                    rows: [
+                        NavigationRow(title: "Watch Ad",
+                                      subtitle: .belowTitle(""),
+                                      action: { _ in self.displayAd() }),
+                        ],
+                    footer: "Watch an ad that helps the developer cover development (Kirin Patel) costs and time. This is no required and is only somethinf that should be done by users who are willing to watch ads to support the developer (Kirin Patel).")
         ]
     }
     
@@ -217,6 +228,40 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
         feedbackView.hidesAppNameCell = true
         navigationController?.pushViewController(feedbackView, animated: true)
     }
+    
+    fileprivate func loadInterstitial() -> GADInterstitial {
+        Analytics.logEvent("loaded_ad", parameters: [
+            "type":"interstitial",
+            "location":"SettingsViewController"
+            ])
+        let interstitial = GADInterstitial(adUnitID: "ca-app-pub-9026572937829340/2237689912")
+        interstitial.delegate = self
+        let request = GADRequest()
+        interstitial.load(request)
+        return interstitial
+    }
+    
+    fileprivate func displayAd() {
+        if interstitial.isReady {
+            Analytics.logEvent("viewed_ad", parameters: [
+                "type":"interstitial",
+                "location":"SettingsViewController",
+                "successful": true
+                ])
+            interstitial.present(fromRootViewController: self)
+        } else {
+            Analytics.logEvent("viewed_ad", parameters: [
+                "type":"interstitial",
+                "location":"SettingsViewController",
+                "successful": false
+                ])
+            let alert = UIAlertController(title: "Unable To Load Ad",
+                                          message: "The ad was unable to load. Thank you for showing your support! You can try again after a few seconds if you would like, but it is not necessary.",
+                                          preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+            present(alert, animated: true)
+        }
+    }
 }
 
 extension SettingsViewController: CTFeedbackViewControllerDelegate {
@@ -250,5 +295,19 @@ extension SettingsViewController: CTFeedbackViewControllerDelegate {
             alert.addAction(UIAlertAction(title: "Okay", style: .default))
             self.present(alert, animated: true)
         }
+    }
+}
+
+extension SettingsViewController: GADInterstitialDelegate {
+    
+    func interstitialDidReceiveAd(_ ad: GADInterstitial) {
+        Analytics.logEvent("received_ad", parameters: [
+            "type":"interstitial",
+            "location":"SettingsViewController"
+            ])
+    }
+    
+    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
+        interstitial = loadInterstitial()
     }
 }
