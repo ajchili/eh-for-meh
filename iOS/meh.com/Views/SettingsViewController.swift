@@ -81,7 +81,7 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
                                       subtitle: .belowTitle(""),
                                       action: { _ in self.displayAd() }),
                         ],
-                    footer: "Watch an ad that helps the developer cover development (Kirin Patel) costs and time. This is no required and is only somethinf that should be done by users who are willing to watch ads to support the developer (Kirin Patel).")
+                    footer: "Watch an ad that helps the developer (Kirin Patel) cover development costs and time. This is not required and is only something that should be done by users who are willing to watch ads to support the developer (Kirin Patel).")
         ]
     }
     
