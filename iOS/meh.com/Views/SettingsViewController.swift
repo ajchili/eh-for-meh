@@ -18,6 +18,7 @@ import UserNotifications
 class SettingsViewController: QuickTableViewController, UNUserNotificationCenterDelegate {
     
     var notificationSwitch: SwitchRow<SwitchCell>!
+    var mehReminderSwitch: SwitchRow<SwitchCell>!
     var radios: RadioSection!
     var interstitial: GADInterstitial!
     
@@ -28,10 +29,6 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
         
         let backButton = UIBarButtonItem(barButtonSystemItem: .stop, target: self, action: #selector(handleBack))
         navigationController?.navigationBar.topItem?.leftBarButtonItem = backButton
-        
-        notificationSwitch =  SwitchRow(title: "Receive Notifications",
-                                        switchValue: UserDefaults.standard.bool(forKey: "receiveNotifications"),
-                                        action: didToggleSelection())
         
         interstitial = loadInterstitial()
         
@@ -57,32 +54,7 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
         
         radios.alwaysSelectsOneOption = true
         
-        tableContents = [
-            Section(title: "Notifications",
-                    rows: [ notificationSwitch ]),
-            Section(title: "Deal History",
-                    rows: [
-                        SwitchRow(title: "Load images",
-                                  switchValue: UserDefaults.standard.bool(forKey: "loadHistoryImages"),
-                                  action: didToggleSelection()),
-                        ],
-                    footer: "Please note, loading images has significantly high network usage and should not be used by users with limited data/bandwidth cellular plans."),
-            radios,
-            Section(title: "Feedback",
-                    rows: [
-                        NavigationRow(title: "Provide feedback",
-                                      subtitle: .belowTitle("Help improve the app"),
-                                      action: { _ in self.loadFeedback() }),
-                        ],
-                    footer: "Any feedback submitted is completely anonymous and will be used to improve the app."),
-            Section(title: "Support the Developer",
-                    rows: [
-                        NavigationRow(title: "Watch Ad",
-                                      subtitle: .belowTitle(""),
-                                      action: { _ in self.displayAd() }),
-                        ],
-                    footer: "Watch an ad that helps the developer (Kirin Patel) cover development costs and time. This is not required and is only something that should be done by users who are willing to watch ads to support the developer (Kirin Patel).")
-        ]
+        setSectionOneRows()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -110,6 +82,9 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
                 switch option.title {
                 case "Receive Notifications":
                     self.setNotificationsEnabled(enabled: option.switchValue)
+                    break;
+                case "Get Reminded to Press Meh":
+                    self.setMehRemindersEnabled(enabled: option.switchValue)
                     break;
                 case "Load images":
                     UserDefaults.standard.set(option.switchValue, forKey: "loadHistoryImages")
@@ -148,8 +123,48 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
         if enabled {
             setupFMC()
         } else {
+            let center = UNUserNotificationCenter.current()
+            center.removeAllPendingNotificationRequests()
             UserDefaults.standard.set(false, forKey: "receiveNotifications")
+            setSectionOneRows()
             Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").removeValue()
+        }
+    }
+    
+    fileprivate func setMehRemindersEnabled(enabled: Bool) {
+        if UserDefaults.standard.bool(forKey: "receiveNotifications") == true {
+            Analytics.logEvent("setMehReminders", parameters: [
+                "recieveNotifications": enabled
+                ])
+            
+            UserDefaults.standard.set(enabled, forKey: "remindForMeh")
+            let center = UNUserNotificationCenter.current()
+            
+            if enabled {
+                let content = UNMutableNotificationContent()
+                content.title = "Today's deal is almost over!"
+                content.body = "Don't forget to press meh today!"
+                content.sound = UNNotificationSound.default()
+                let date = Date(timeIntervalSinceReferenceDate: 82800)
+                let triggerDate = Calendar.current.dateComponents([.hour,.minute,.second], from: date)
+                let trigger = UNCalendarNotificationTrigger(dateMatching: triggerDate, repeats: true)
+                let request = UNNotificationRequest(identifier: "com.kirinpatel.meh", content: content, trigger: trigger)
+                center.add(request, withCompletionHandler: { (error) in
+                    if error != nil {
+                        UserDefaults.standard.set(false, forKey: "remindForMeh")
+                        self.setSectionOneRows()
+                        let alert = UIAlertController(title: "An Error Occurred", message: "An unexpected error occurred while enabling notifications.", preferredStyle: .alert)
+                        alert.addAction(UIAlertAction(title: "Ok", style: .default))
+                        self.present(alert, animated: true)
+                    }
+                })
+            } else {
+                center.removeAllPendingNotificationRequests()
+            }
+        } else if enabled == true {
+            let alert = UIAlertController(title: "Notifications Must Be Enabled", message: "In order to receive notifications to press meh for a deal, you must have notifications enabled!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+            present(alert, animated: true)
         }
     }
     
@@ -186,17 +201,17 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
                     DispatchQueue.main.async(execute: {
                         UIApplication.shared.registerForRemoteNotifications()
                         UserDefaults.standard.set(true, forKey: "receiveNotifications")
+                        self.setSectionOneRows()
                         Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").setValue(true)
-                        self.notificationSwitch.switchValue = true
                     })
                 } else {
                     UserDefaults.standard.set(false, forKey: "receiveNotifications")
                     Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").removeValue()
                     DispatchQueue.main.async(execute: {
-                        self.notificationSwitch.switchValue = false
-                        
                         let alert = UIAlertController(title: "Notification Settings Error", message: "Notification permissions are required to receive notifications when new deals start. You can enable this in settings.", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+                        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in
+                            self.setSectionOneRows()
+                        })
                         alert.addAction(UIAlertAction(title: "Settings", style: .default) { _ in
                             UIApplication.shared.open(URL(string: UIApplicationOpenSettingsURLString)!)
                         })
@@ -207,8 +222,6 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
                 UserDefaults.standard.set(false, forKey: "receiveNotifications")
                 Database.database().reference().child("notifications/\(Messaging.messaging().fcmToken!)").removeValue()
                 DispatchQueue.main.async(execute: {
-                    self.notificationSwitch.switchValue = false
-                    
                     let alert = UIAlertController(title: "Notification Settings Error", message: "Notification were unable to be enabled.", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
                     alert.addAction(UIAlertAction(title: "Okay", style: .default))
@@ -258,9 +271,54 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
             let alert = UIAlertController(title: "Unable To Load Ad",
                                           message: "The ad was unable to load. Thank you for showing your support! You can try again after a few seconds if you would like, but it is not necessary.",
                                           preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default))
+            alert.addAction(UIAlertAction(title: "Ok", style: .default) { _ in
+                self.setSectionOneRows()
+            })
             present(alert, animated: true)
         }
+    }
+    
+    fileprivate func setSectionOneRows() {
+        notificationSwitch = SwitchRow(title: "Receive Notifications",
+                                       switchValue: UserDefaults.standard.bool(forKey: "receiveNotifications"),
+                                       action: didToggleSelection())
+        
+        mehReminderSwitch = SwitchRow(title: "Get Reminded to Press Meh",
+                                      switchValue: UserDefaults.standard.bool(forKey: "remindForMeh"),
+                                      action: didToggleSelection())
+        
+        var sectionOneRows: [SwitchRow<SwitchCell>] = [ notificationSwitch ]
+        if notificationSwitch.switchValue == true {
+            sectionOneRows.append(mehReminderSwitch)
+        }
+        
+        tableContents = [
+            Section(title: "Notifications",
+                    rows: sectionOneRows,
+                    footer: sectionOneRows.count > 1 ? "Mehathons are currently not supported by the reminder notifications. This is a limitation of meh.com, please comment on their forms, requesting them to add support for end dates on deals." : ""),
+            Section(title: "Deal History",
+                    rows: [
+                        SwitchRow(title: "Load images",
+                                  switchValue: UserDefaults.standard.bool(forKey: "loadHistoryImages"),
+                                  action: didToggleSelection()),
+                        ],
+                    footer: "Please note, loading images has significantly high network usage and should not be used by users with limited data/bandwidth cellular plans."),
+            radios,
+            Section(title: "Feedback",
+                    rows: [
+                        NavigationRow(title: "Provide feedback",
+                                      subtitle: .belowTitle("Help improve the app"),
+                                      action: { _ in self.loadFeedback() }),
+                        ],
+                    footer: "Any feedback submitted is completely anonymous and will be used to improve the app."),
+            Section(title: "Support the Developer",
+                    rows: [
+                        NavigationRow(title: "Watch Ad",
+                                      subtitle: .belowTitle("Help pay for a coffee"),
+                                      action: { _ in self.displayAd() }),
+                        ],
+                    footer: "Watch an ad that helps the developer (Kirin Patel) cover development costs and time. This is not required and is only something that should be done by users who are willing to watch ads to support the developer (Kirin Patel).")
+        ]
     }
 }
 
