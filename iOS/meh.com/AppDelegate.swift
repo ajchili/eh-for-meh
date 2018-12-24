@@ -47,7 +47,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-        completionHandler([.alert, .badge, .sound])
+        
+        if notification.request.content.title == "Today's deal is almost over!" {
+            DealLoader.sharedInstance.loadCurrentDeal(completion: { deal in
+                let dealId: String = UserDefaults.standard.string(forKey: "meh") ?? ""
+                
+                // Only show notification to press meh for day if it has not
+                // already been pressed by a user.
+                if deal.id != dealId {
+                    completionHandler([.alert, .badge, .sound])
+                }
+            })
+        } else {
+            completionHandler([.alert, .badge, .sound])
+        }
     }
 }
 
