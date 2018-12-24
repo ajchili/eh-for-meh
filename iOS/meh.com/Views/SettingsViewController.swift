@@ -224,7 +224,7 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
                 DispatchQueue.main.async(execute: {
                     let alert = UIAlertController(title: "Notification Settings Error", message: "Notification were unable to be enabled.", preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-                    alert.addAction(UIAlertAction(title: "Okay", style: .default))
+                    alert.addAction(UIAlertAction(title: "Ok", style: .default))
                     self.present(alert, animated: true)
                 })
             }
@@ -338,11 +338,11 @@ extension SettingsViewController: CTFeedbackViewControllerDelegate {
                 ],withCompletionBlock: { (error, _) in
                     if let error = error {
                         let alert = UIAlertController(title: "Error Submitting Feedback", message: error.localizedDescription, preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Okay", style: .default))
+                        alert.addAction(UIAlertAction(title: "Ok", style: .default))
                         self.present(alert, animated: true)
                     } else {
                         let alert = UIAlertController(title: "Thank you for the Feedback", message: "Your message will be reviewed and addressed asap.", preferredStyle: .alert)
-                        alert.addAction(UIAlertAction(title: "Okay", style: .default) { _ in
+                        alert.addAction(UIAlertAction(title: "Ok", style: .default) { _ in
                             self.navigationController?.popViewController(animated: true)
                         })
                         self.present(alert, animated: true)
@@ -350,7 +350,7 @@ extension SettingsViewController: CTFeedbackViewControllerDelegate {
             })
         } else {
             let alert = UIAlertController(title: "Unable to Submit Feedback", message: "A message must be provided to submit feedback.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Okay", style: .default))
+            alert.addAction(UIAlertAction(title: "Ok", style: .default))
             self.present(alert, animated: true)
         }
     }
