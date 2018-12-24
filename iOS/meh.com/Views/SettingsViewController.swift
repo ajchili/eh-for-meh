@@ -143,7 +143,7 @@ class SettingsViewController: QuickTableViewController, UNUserNotificationCenter
             if enabled {
                 let content = UNMutableNotificationContent()
                 content.title = "Today's deal is almost over!"
-                content.body = "Don't forget to press meh today!"
+                content.body = "Don't forget to press the meh button today"
                 content.sound = UNNotificationSound.default()
                 let date = Date(timeIntervalSinceReferenceDate: 82800)
                 let triggerDate = Calendar.current.dateComponents([.hour,.minute,.second], from: date)
