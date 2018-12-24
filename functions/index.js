@@ -18,7 +18,7 @@ const sendNewDealNotification = (deal) => {
   return sendNotification(payload);
 };
 
-const sendDealSoldoutNotification = (deal) => {
+const sendDealSoldOutNotification = (deal) => {
   const payload = {
     notification: {
       title: "The current deal has sold out!",
@@ -34,14 +34,13 @@ const sendNotification = (payload) => {
   let tokens = [];
 
   return admin.database().ref("/notifications").once("value", (snapshot) => {
-    snapshot.forEach(function (childSnapshot) {
-      if (childSnapshot.val()) {
-        tokens.push(childSnapshot.key);
-      }
+    snapshot.forEach(childSnapshot => {
+      if (childSnapshot.val() === true) tokens.push(childSnapshot.key);
     });
 
     return admin.messaging().sendToDevice(tokens, payload).then((res) => {
       console.log("Successfully sent message:", JSON.stringify(res));
+      return trur;
     }).catch((err) => {
       console.log("Error sending message:", JSON.stringify(err));
       return err;
@@ -55,21 +54,27 @@ exports.updateItem = functions.https.onRequest((request, response) => {
     return axios.get(`https://api.meh.com/1/current.json?apikey=${API_KEY}`).then((res) => {
       return ref.child("currentDeal").once("value").then((snapshot) => {
         let dealId = snapshot.child("deal/id").val();
-        ref.child(`previousDeal/${dealId}`).update(snapshot.val());
-        return ref.child(`previousDeal/${dealId}/time`).once("value").then(childSnapshot => {
-          if (!childSnapshot.exists()) {
-            let date = new Date();
-            ref.child(`previousDeal/${dealId}/time`).set(date.getTime());
-            ref.child(`previousDeal/${dealId}/date`).set({
-              day: date.getDate(),
-              month: date.getMonth(),
-              year: date.getFullYear()
-            });
-          }
-          ref.child("deal").set(res.data.deal);
-          Object.keys(res.data).forEach(key => ref.child(`currentDeal/${key}`).set(res.data[key]));
-          response.send("Updated.");
-          return true;
+        return ref.child(`previousDeal/${dealId}`).update(snapshot.val()).then(() => {
+          return ref.child(`previousDeal/${dealId}/time`).once("value").then(childSnapshot => {
+            if (!childSnapshot.exists()) {
+              let date = new Date();
+              ref.child(`previousDeal/${dealId}/time`).set(date.getTime());
+              ref.child(`previousDeal/${dealId}/date`).set({
+                day: date.getDate(),
+                month: date.getMonth(),
+                year: date.getFullYear()
+              });
+            }
+            Object.keys(res.data).forEach(key => ref.child(`currentDeal/${key}`).set(res.data[key]));
+            response.send("Updated.");
+            return true;
+          }).catch(err => {
+            console.error("Unable to update previous deal time:", err);
+            return err;
+          });
+        }).catch(err => {
+          console.error("Unable to update previous deal:", err);
+          return err;
         });
       });
     }).catch((err) => {
@@ -84,12 +89,10 @@ exports.sendDealUpdate = functions.database.ref("deal").onUpdate((change, contex
   const deal = change.after.val();
 
   if (previousDeal.title === deal.title) {
-    return true;
-  } else if (!previousDeal.soldOutAt && deal.soldOutAt) {
-    return sendDealSoldoutNotification(deal.title);
-  } else {
-    return sendNewDealNotification(deal.title);
-  }
+    if (!previousDeal.soldOutAt && deal.soldOutAt) {
+      return sendDealSoldOutNotification(deal.title);
+    } else return true;
+  } else return sendNewDealNotification(deal.title);
 });
 
 exports.sendFeedbackSubmittedNotification = functions.database.ref("feedback/{feedback}").onCreate((snapshot, context) => {
@@ -113,7 +116,7 @@ exports.sendFeedbackSubmittedNotification = functions.database.ref("feedback/{fe
       return true;
     }).catch(err => {
       console.error("Error sending message:", JSON.stringify(err));
-      return false;
+      return err;
     });
   });
 });
