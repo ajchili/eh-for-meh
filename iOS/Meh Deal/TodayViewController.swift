@@ -104,12 +104,12 @@ class TodayViewController: UIViewController, NCWidgetProviding {
     fileprivate func loadData() {
         buyButton.isHidden = true
         viewButton.isHidden = true
-        Database.database().reference().child("deal/title").observeSingleEvent(of: .value) { (snapshot) in
+        Database.database().reference().child("currentDeal/deal/title").observeSingleEvent(of: .value) { (snapshot) in
             self.titleLabel.text = (snapshot.value as! String)
             self.buyButton.isHidden = false
             self.viewButton.isHidden = false
         }
-        Database.database().reference().child("deal/items").observeSingleEvent(of: .value) { (snapshot) in
+        Database.database().reference().child("currentDeal/deal/items").observeSingleEvent(of: .value) { (snapshot) in
             self.calculatePrices(snapshot)
         }
     }
