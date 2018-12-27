@@ -6,7 +6,7 @@ admin.initializeApp(functions.config().firebase);
 
 const ref = admin.database().ref();
 
-const sendNewDealNotification = (deal) => {
+const sendNewDealNotification = deal => {
   const payload = {
     notification: {
       title: "Check out this new deal!",
@@ -18,11 +18,11 @@ const sendNewDealNotification = (deal) => {
   return sendNotification(payload);
 };
 
-const sendDealSoldOutNotification = (deal) => {
+const sendDealSoldOutNotification = deal => {
   const payload = {
     notification: {
       title: "The current deal has sold out!",
-      body: `There are no more ${deal}'s left!`,
+      body: `There are no more ${deal} left`,
       content_available: "true"
     }
   };
@@ -40,7 +40,7 @@ const sendNotification = (payload) => {
 
     return admin.messaging().sendToDevice(tokens, payload).then((res) => {
       console.log("Successfully sent message:", JSON.stringify(res));
-      return trur;
+      return true;
     }).catch((err) => {
       console.log("Error sending message:", JSON.stringify(err));
       return err;
@@ -84,15 +84,22 @@ exports.updateItem = functions.https.onRequest((request, response) => {
   });
 });
 
-exports.sendDealUpdate = functions.database.ref("deal").onUpdate((change, context) => {
+exports.sendDealUpdate = functions.database.ref("currentDeal/deal").onUpdate((change, context) => {
   const previousDeal = change.before.val();
   const deal = change.after.val();
 
   if (previousDeal.title === deal.title) {
     if (!previousDeal.soldOutAt && deal.soldOutAt) {
+      console.log(`${deal.id} has sold out.`);
       return sendDealSoldOutNotification(deal.title);
-    } else return true;
-  } else return sendNewDealNotification(deal.title);
+    } else {
+      console.log('No notification required.');
+      return true;
+    }
+  } else {
+    console.log(`${previousDeal.id} has ended, ${deal.id} has started.`);
+    return sendNewDealNotification(deal.title);
+  }
 });
 
 exports.sendFeedbackSubmittedNotification = functions.database.ref("feedback/{feedback}").onCreate((snapshot, context) => {
