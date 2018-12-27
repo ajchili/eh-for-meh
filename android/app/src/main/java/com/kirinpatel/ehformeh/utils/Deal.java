@@ -3,7 +3,9 @@ package com.kirinpatel.ehformeh.utils;
 import com.google.firebase.database.DataSnapshot;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class Deal implements Serializable {
 
@@ -11,7 +13,7 @@ public class Deal implements Serializable {
     private String features;
     private boolean isPreviousDeal;
     private Item[] items;
-    private URL[] urls;
+    private URL[] photos;
     private boolean soldOut;
     private String specifications;
     private Story story;
@@ -24,7 +26,7 @@ public class Deal implements Serializable {
                 String features,
                 boolean isPreviousDeal,
                 Item[] items,
-                URL[] urls,
+                URL[] photos,
                 boolean soldOut,
                 String specifications,
                 Story story,
@@ -36,7 +38,7 @@ public class Deal implements Serializable {
         this.features = features;
         this.isPreviousDeal = isPreviousDeal;
         this.items = items;
-        this.urls = urls;
+        this.photos = photos;
         this.soldOut = soldOut;
         this.specifications = specifications;
         this.story = story;
@@ -59,22 +61,35 @@ public class Deal implements Serializable {
                 dataSnapshot.hasChild("url")) {
             boolean isPreviousDeal = dataSnapshot.getRef().getParent().getKey().equals("currentDeal");
             Item[] items = Item.parseItems(dataSnapshot.child("items"));
+            URL[] photos = parsePhotos(dataSnapshot.child("photos"));
             boolean soldOut = dataSnapshot.hasChild("soldOutAt");
             Story story = Story.parseStory(dataSnapshot.child("story"));
             Theme theme = Theme.parseTheme(dataSnapshot.child("theme"));
+            URL url = new URL(dataSnapshot.child("url").getValue().toString());
             return new Deal(dataSnapshot.child("id").getValue().toString(),
                     dataSnapshot.child("features").getValue().toString(),
                     isPreviousDeal,
                     items,
-                    null,
+                    photos,
                     soldOut,
                     dataSnapshot.child("specifications").getValue().toString(),
                     story,
                     theme,
                     dataSnapshot.child("title").getValue().toString(),
                     null,
-                    null);
+                    url);
         } else throw new Exception("Provided DataSnapshot is not parsable!");
+    }
+
+    private static URL[] parsePhotos(DataSnapshot dataSnapshot) throws MalformedURLException {
+        int itemLength = (int) dataSnapshot.getChildrenCount();
+        URL[] photos = new URL[itemLength];
+        Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
+        for (int i = 0; i < photos.length; i++) {
+            DataSnapshot childSnapshot = iterable.iterator().next();
+            photos[i] = new URL(childSnapshot.getValue().toString());
+        }
+        return photos;
     }
 
     public String getId() {
@@ -93,8 +108,8 @@ public class Deal implements Serializable {
         return items;
     }
 
-    public URL[] getUrls() {
-        return urls;
+    public URL[] getPhotos() {
+        return photos;
     }
 
     public boolean isSoldOut() {

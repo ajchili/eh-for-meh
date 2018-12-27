@@ -38,13 +38,23 @@
 
         <LinearLayout
             android:id="@id/non_slidable_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/contentView"
                 android:layout_width="match_parent"
-                android:layout_height="100dp">
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="500dp"
+                    android:minHeight="200dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/dealTitleTextView" />
 
                 <TextView
                     android:id="@+id/dealTitleTextView"
@@ -100,16 +110,17 @@
                     android:textSize="32sp"
                     android:text="Deal Info"
                     android:layout_marginTop="8dp"
-                    android:layout_marginStart="15dp"
+                    android:layout_marginStart="16dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"/>
 
                 <Button
+                    android:id="@+id/buyDealButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Buy"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="21dp"
+                    android:layout_marginEnd="16dp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 

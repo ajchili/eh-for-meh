@@ -4,8 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -14,8 +17,10 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseError;
 import com.kirinpatel.ehformeh.Adapters.BottomSheetPagerAdapter;
@@ -25,6 +30,8 @@ import com.kirinpatel.ehformeh.utils.DealLoader;
 import com.kirinpatel.ehformeh.utils.DealLoaderInterface;
 import com.kirinpatel.ehformeh.utils.Item;
 import com.pierfrancescosoffritti.slidingdrawer.SlidingDrawer;
+
+import java.net.URISyntaxException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +54,16 @@ public class MainActivity extends AppCompatActivity {
         ViewPager viewPager = findViewById(R.id.viewPager);
         BottomSheetPagerAdapter adapter = new BottomSheetPagerAdapter(deal, getSupportFragmentManager());
         viewPager.setAdapter(adapter);
+
+        Button buyButton = findViewById(R.id.buyDealButton);
+        buyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(deal.getURL().toString()));
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupSlidingView() {
@@ -186,8 +203,8 @@ public class MainActivity extends AppCompatActivity {
                 if (price < minPrice) minPrice = price;
                 if (price > maxPrice) maxPrice = price;
             }
-            String price = "$" + maxPrice;
-            if (maxPrice != minPrice) price += " - $" + minPrice;
+            String price = "$" + minPrice;
+            if (maxPrice != minPrice) price += " - $" + maxPrice;
             dealPrice.setText(price);
 
             // Deal Info
