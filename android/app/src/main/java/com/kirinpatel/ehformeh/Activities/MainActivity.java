@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setupDealListener();
     }
 
-    private void animateStart() {
+    private void animateUI() {
         if (deal != null && !hasAnimated) {
             hasAnimated = true;
             final ConstraintLayout loadingBackground = findViewById(R.id.loadingLayout);
@@ -95,6 +97,24 @@ public class MainActivity extends AppCompatActivity {
                     super.onAnimationResume(animation);
                 }
             });
+        } else if (deal != null) {
+            final ConstraintLayout mainLayout = findViewById(R.id.mainLayout);
+
+            int color = Color.TRANSPARENT;
+            Drawable background = mainLayout.getBackground();
+            if (background instanceof ColorDrawable) color = ((ColorDrawable) background).getColor();
+            ValueAnimator backgroundColorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(),
+                    color,
+                    Color.parseColor(deal.getTheme().getBackgroundColor()));
+            backgroundColorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    mainLayout.setBackgroundColor((int) animation.getAnimatedValue());
+                }
+            });
+            backgroundColorAnimation.setDuration(500);
+
+            backgroundColorAnimation.start();
         }
     }
 
@@ -103,12 +123,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void dealLoaded(Deal loadedDeal) {
                 deal = loadedDeal;
-                animateStart();
+                animateUI();
             }
 
             @Override
-            public void dealUpdated(Deal deal) {
-
+            public void dealUpdated(Deal updatedDeal) {
+                deal = updatedDeal;
+                animateUI();
             }
 
             @Override
@@ -122,6 +143,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loader.loadCurrentDeal();
+        loader.watchCurrentDeal();
+    }
+
+    private void setupView() {
+
     }
 }
