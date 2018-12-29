@@ -120,6 +120,7 @@ class DealViewController: UIViewController {
     
     @objc func handleMeh() {
         Analytics.logEvent("pressedMeh", parameters: [:])
+        rotateMehButton()
         webView.loadRequest(URLRequest(url: URL(string: "https://meh.com/")!))
     }
     
@@ -268,16 +269,32 @@ class DealViewController: UIViewController {
             return "$\(sMin) - $\(sMax)"
         }
     }
+    
+    fileprivate func rotateMehButton() {
+        let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rotateAnimation.fromValue = 0
+        rotateAnimation.toValue = CGFloat.pi * 2
+        rotateAnimation.duration = 0.75
+        rotateAnimation.repeatCount = Float.infinity
+        
+        mehButton.isEnabled = false
+        mehButton.layer.add(rotateAnimation, forKey: nil)
+    }
+    
+    fileprivate func resetMehButton() {
+        mehButton.isEnabled = true
+        mehButton.layer.removeAllAnimations()
+    }
 }
 
 extension DealViewController: UIWebViewDelegate {
     
     func webViewDidFinishLoad(_ webView: UIWebView) {
-        let url: String? = webView.request?.url?.absoluteString
-        if url != nil {
-            if url! == "https://meh.com/" {
+        if let url: String = webView.request?.url?.absoluteString {
+            if url == "https://meh.com/" {
                 webView.stringByEvaluatingJavaScript(from: "document.getElementsByTagName('form')[1].submit();")
-            } else if url!.range(of: "signin") != nil {
+            } else if url.range(of: "signin") != nil {
+                resetMehButton()
                 let alert = UIAlertController(title: "Sign in Required", message: "You must be signed in to meh.com in order to rate this deal.", preferredStyle: .alert)
                 
                 let okAction = UIAlertAction(title: "Ok", style: .default) { _ in
@@ -288,8 +305,9 @@ extension DealViewController: UIWebViewDelegate {
                 alert.addAction(okAction)
                 alert.addAction(cancelAction)
                 
-                self.present(alert, animated: true, completion: nil)
-            } else if url!.range(of: "vote") != nil || url!.range(of: "deals") != nil {
+                self.present(alert, animated: true)
+            } else if url.range(of: "vote") != nil || url.range(of: "deals") != nil {
+                resetMehButton()
                 if !UserDefaults.standard.bool(forKey: "mehDisclaimer") {
                     let alert = UIAlertController(title: "The meh Button",
                                                   message: "The meh button now remembers if you have pressed it for the currently active deal. If you have, it will not appear until there is a new deal.",
