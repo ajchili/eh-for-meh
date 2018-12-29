@@ -139,7 +139,7 @@ class MainViewController: UIViewController {
     @objc func handleViewForum() {
         if let deal = deal {
             if let topic = deal.topic {
-                Analytics.logEvent("viewedForum", parameters: ["dea": deal.id])
+                Analytics.logEvent("viewedForum", parameters: ["deal": deal.id])
                 UIApplication.shared.open(topic.url, options: [:])
             }
         }
