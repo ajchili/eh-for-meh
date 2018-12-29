@@ -24,7 +24,13 @@ class ImagePageViewController: UIPageViewController {
     var currentIndex = 0
     var orderedViewControllers = [UIViewController]()
     
-    var itemViewPageControlDelegate: ItemViewPageControlDelegate?
+    var itemViewPageControlDelegate: ItemViewPageControlDelegate? {
+        didSet {
+            if let delegate = itemViewPageControlDelegate, let deal = deal {
+                delegate.itemCountChanged(deal.photos.count)
+            }
+        }
+    }
 
     override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: options)
@@ -43,6 +49,10 @@ class ImagePageViewController: UIPageViewController {
     fileprivate func setup() {
         orderedViewControllers.removeAll()
         
+        if let delegate = itemViewPageControlDelegate {
+            delegate.itemCountChanged(deal.photos.count)
+        }
+        
         for photo in deal.photos {
             orderedViewControllers.append(newImageViewController(image: photo))
             
@@ -51,10 +61,6 @@ class ImagePageViewController: UIPageViewController {
                                     direction: .forward,
                                     animated: true,
                                     completion: nil)
-            }
-            
-            if let delegate = itemViewPageControlDelegate {
-                delegate.itemCountChanged(orderedViewControllers.count)
             }
         }
     }
