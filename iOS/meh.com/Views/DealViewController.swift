@@ -135,62 +135,64 @@ class DealViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = .clear
         
+        let padding: CGFloat = 20
+        
         view.addSubview(itemView)
         itemView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true
         itemView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
-        itemView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor, constant: 20).isActive = true
-        itemView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor, constant: -20).isActive = true
+        itemView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor).isActive = true
+        itemView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor).isActive = true
         
         imagePageViewController.itemViewPageControlDelegate = self
         itemPageViewDelegate = imagePageViewController.self
         itemView.addSubview(imagePageViewController.view)
         imagePageViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        imagePageViewController.view.topAnchor.constraint(equalTo: itemView.topAnchor, constant: 0).isActive = true
-        imagePageViewController.view.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: -20).isActive = true
-        imagePageViewController.view.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: 20).isActive = true
+        imagePageViewController.view.topAnchor.constraint(equalTo: itemView.topAnchor).isActive = true
+        imagePageViewController.view.leftAnchor.constraint(equalTo: itemView.leftAnchor).isActive = true
+        imagePageViewController.view.rightAnchor.constraint(equalTo: itemView.rightAnchor).isActive = true
         
         itemView.addSubview(pageControl)
         pageControl.topAnchor.constraint(equalTo: imagePageViewController.view.bottomAnchor, constant: 10).isActive = true
-        pageControl.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 0).isActive = true
-        pageControl.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: 0).isActive = true
+        pageControl.leftAnchor.constraint(equalTo: itemView.leftAnchor).isActive = true
+        pageControl.rightAnchor.constraint(equalTo: itemView.rightAnchor).isActive = true
         
         itemView.addSubview(titleLabel)
         titleLabel.topAnchor.constraint(equalTo: pageControl.bottomAnchor, constant: 10).isActive = true
-        titleLabel.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 0).isActive = true
-        titleLabel.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: 0).isActive = true
+        titleLabel.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: padding).isActive = true
+        titleLabel.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -padding).isActive = true
         
         let buttonView = UIView()
         buttonView.translatesAutoresizingMaskIntoConstraints = false
         buttonView.backgroundColor = .clear
         itemView.addSubview(buttonView)
         buttonView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10).isActive = true
-        buttonView.bottomAnchor.constraint(equalTo: itemView.bottomAnchor, constant: 0).isActive = true
-        buttonView.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: 0).isActive = true
-        buttonView.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: 0).isActive = true
+        buttonView.bottomAnchor.constraint(equalTo: itemView.bottomAnchor).isActive = true
+        buttonView.leftAnchor.constraint(equalTo: itemView.leftAnchor, constant: padding).isActive = true
+        buttonView.rightAnchor.constraint(equalTo: itemView.rightAnchor, constant: -padding).isActive = true
         buttonView.heightAnchor.constraint(equalToConstant: 60).isActive = true
         
         buttonView.addSubview(priceLabel)
-        priceLabel.topAnchor.constraint(equalTo: buttonView.topAnchor, constant: 0).isActive = true
-        priceLabel.bottomAnchor.constraint(equalTo: buttonView.bottomAnchor, constant: 0).isActive = true
-        priceLabel.leftAnchor.constraint(equalTo: buttonView.leftAnchor, constant: 0).isActive = true
+        priceLabel.topAnchor.constraint(equalTo: buttonView.topAnchor).isActive = true
+        priceLabel.bottomAnchor.constraint(equalTo: buttonView.bottomAnchor).isActive = true
+        priceLabel.leftAnchor.constraint(equalTo: buttonView.leftAnchor).isActive = true
         
         buttonView.addSubview(mehButton)
-        mehButton.topAnchor.constraint(equalTo: buttonView.topAnchor, constant: 0).isActive = true
-        mehButton.bottomAnchor.constraint(equalTo: buttonView.bottomAnchor, constant: 0).isActive = true
-        mehButton.rightAnchor.constraint(equalTo: buttonView.rightAnchor, constant: 0).isActive = true
+        mehButton.topAnchor.constraint(equalTo: buttonView.topAnchor).isActive = true
+        mehButton.bottomAnchor.constraint(equalTo: buttonView.bottomAnchor).isActive = true
+        mehButton.rightAnchor.constraint(equalTo: buttonView.rightAnchor).isActive = true
         mehButton.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
         view.addSubview(effectView)
-        effectView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
-        effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-        effectView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        effectView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        effectView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        effectView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        effectView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        effectView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
         effectView.contentView.addSubview(closeButton)
-        closeButton.topAnchor.constraint(equalTo: effectView.contentView.topAnchor, constant: 0).isActive = true
-        closeButton.bottomAnchor.constraint(equalTo: effectView.contentView.bottomAnchor, constant: 0).isActive = true
-        closeButton.leftAnchor.constraint(equalTo: effectView.contentView.leftAnchor, constant: 0).isActive = true
-        closeButton.rightAnchor.constraint(equalTo: effectView.contentView.rightAnchor, constant: 0).isActive = true
+        closeButton.topAnchor.constraint(equalTo: effectView.contentView.topAnchor).isActive = true
+        closeButton.bottomAnchor.constraint(equalTo: effectView.contentView.bottomAnchor).isActive = true
+        closeButton.leftAnchor.constraint(equalTo: effectView.contentView.leftAnchor).isActive = true
+        closeButton.rightAnchor.constraint(equalTo: effectView.contentView.rightAnchor).isActive = true
         
         effectView.contentView.addSubview(webView)
         webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30).isActive = true

@@ -38,11 +38,13 @@ class ImageViewController: UIViewController {
     fileprivate func setupView() {
         view.backgroundColor = nil
         
+        let padding: CGFloat = 20
+        
         view.addSubview(imageView)
-        imageView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        imageView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        imageView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        imageView.topAnchor.constraint(equalTo: view.topAnchor, constant: padding).isActive = true
+        imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -padding).isActive = true
+        imageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding).isActive = true
+        imageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding).isActive = true
         
         view.addSubview(progressView)
         progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
