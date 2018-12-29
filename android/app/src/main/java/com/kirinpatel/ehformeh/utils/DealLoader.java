@@ -10,6 +10,7 @@ import com.google.firebase.database.ValueEventListener;
 public class DealLoader {
 
     private DealLoaderInterface listener;
+    private boolean isInitialLoad = true;
 
     public DealLoader(DealLoaderInterface listener) {
         this.listener = listener;
@@ -38,6 +39,29 @@ public class DealLoader {
     }
 
     public void watchCurrentDeal() {
-        boolean isInitialLoad = false;
+        isInitialLoad = true;
+        FirebaseDatabase
+                .getInstance()
+                .getReference("currentDeal/deal")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        try {
+                            Deal deal = Deal.parseDeal(dataSnapshot);
+                            if (isInitialLoad) {
+                                listener.dealLoaded(deal);
+                            } else {
+                                listener.dealUpdated(deal);
+                            }
+                        } catch (Exception e) {
+                            listener.dealNotLoadable(e);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        listener.dealLoadFailed(databaseError);
+                    }
+                });
     }
 }
