@@ -13,6 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.database.DatabaseError;
 import com.kirinpatel.ehformeh.R;
 import com.kirinpatel.ehformeh.utils.Deal;
@@ -28,6 +31,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        MobileAds.initialize(this, "ca-app-pub-9026572937829340~5362610343");
+
+        AdView AdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        AdView.loadAd(adRequest);
 
         Toolbar mehToolbar = findViewById(R.id.mehToolbar);
         setSupportActionBar(mehToolbar);
