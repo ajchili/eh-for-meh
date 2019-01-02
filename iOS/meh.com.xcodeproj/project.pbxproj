@@ -158,17 +158,12 @@
 		7830BD951FD5C07B00F3D371 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				78B799162158852D00526816 /* BottomSheetViewController.swift */,
-				7830BD981FD5C1EB00F3D371 /* DealViewController.swift */,
-				78C110CE211B8D3600622810 /* HistoryNavigationViewController.swift */,
-				78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */,
-				78C110CC211B8C7C00622810 /* HistoryTableViewController.swift */,
+				78E1AFFC21DC53B800703777 /* Deal */,
+				78E1AFFD21DC53C200703777 /* History */,
+				78E1AFFE21DC53E000703777 /* Settings */,
 				7826E0E91FD655400011AA23 /* ImagePageViewController.swift */,
 				7826E0ED1FD659320011AA23 /* ImageViewController.swift */,
 				78AD53AD2102F4AF0031E9B0 /* LoadingViewController.swift */,
-				781FCC5E20FE5D63009F35ED /* MainViewController.swift */,
-				78E2712621759202008375E0 /* SettingsNavigationViewController.swift */,
-				785C37FB1FD76D0D002CE08C /* SettingsViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -231,6 +226,35 @@
 				78C110D9211B974100622810 /* Poll.swift */,
 			);
 			path = Objects;
+			sourceTree = "<group>";
+		};
+		78E1AFFC21DC53B800703777 /* Deal */ = {
+			isa = PBXGroup;
+			children = (
+				78B799162158852D00526816 /* BottomSheetViewController.swift */,
+				7830BD981FD5C1EB00F3D371 /* DealViewController.swift */,
+				781FCC5E20FE5D63009F35ED /* MainViewController.swift */,
+			);
+			path = Deal;
+			sourceTree = "<group>";
+		};
+		78E1AFFD21DC53C200703777 /* History */ = {
+			isa = PBXGroup;
+			children = (
+				78C110CE211B8D3600622810 /* HistoryNavigationViewController.swift */,
+				78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */,
+				78C110CC211B8C7C00622810 /* HistoryTableViewController.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		78E1AFFE21DC53E000703777 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				78E2712621759202008375E0 /* SettingsNavigationViewController.swift */,
+				785C37FB1FD76D0D002CE08C /* SettingsViewController.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		BBFE7EFBD100451A811A6FFD /* Pods */ = {
