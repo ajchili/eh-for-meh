@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import FirebaseDatabase
 
 protocol ItemPageViewDelegate: class {
     func setCurrentImage(_ index: Int)
