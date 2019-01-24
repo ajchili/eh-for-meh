@@ -139,4 +139,10 @@ public class Deal implements Serializable {
     public URL getURL() {
         return url;
     }
+
+    public String getMarkdownString() {
+        return "Features\n===\n" + features + "\n\n---\n\n" +
+                specifications + "\n\n---\n\n" +
+                story.getTitle() + "\n===\n" + story.getBody();
+    }
 }

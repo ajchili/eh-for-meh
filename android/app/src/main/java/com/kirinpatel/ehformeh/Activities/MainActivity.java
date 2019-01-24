@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -171,9 +173,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupView() {
         if (deal == null) return;
-
         TextView dealTitleTextView = findViewById(R.id.dealTitleTextView);
         TextView dealPriceTextView = findViewById(R.id.dealPriceTextView);
+        Button dealInfoButton = findViewById(R.id.dealInfoButton);
 
         dealTitleTextView.setText(deal.getTitle());
 
@@ -189,5 +191,13 @@ public class MainActivity extends AppCompatActivity {
         String price = "$" + minPrice;
         if (deal.getItems().length > 1 && minPrice != maxPrice) price += " - $" + maxPrice;
         dealPriceTextView.setText(price);
+
+        dealInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = DealInfo.newIntent(v.getContext(), deal);
+                startActivity(intent);
+            }
+        });
     }
 }
