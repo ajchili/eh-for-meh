@@ -65,6 +65,7 @@ public class Deal implements Serializable {
             boolean soldOut = dataSnapshot.hasChild("soldOutAt");
             Story story = Story.parseStory(dataSnapshot.child("story"));
             Theme theme = Theme.parseTheme(dataSnapshot.child("theme"));
+            Topic topic = Topic.parse(dataSnapshot.child("topic"));
             String url = dataSnapshot.child("url").getValue().toString();
             return new Deal(dataSnapshot.child("id").getValue().toString(),
                     dataSnapshot.child("features").getValue().toString(),
@@ -76,7 +77,7 @@ public class Deal implements Serializable {
                     story,
                     theme,
                     dataSnapshot.child("title").getValue().toString(),
-                    null,
+                    topic,
                     url);
         } else throw new Exception("Provided DataSnapshot is not parsable!");
     }

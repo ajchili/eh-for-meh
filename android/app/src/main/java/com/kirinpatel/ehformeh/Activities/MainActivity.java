@@ -61,13 +61,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.history:
                 return true;
             case R.id.forum:
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(deal.getTopic().getUrl())));
                 return true;
             case R.id.Settings:
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void animateUI() {
