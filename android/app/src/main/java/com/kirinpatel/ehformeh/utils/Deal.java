@@ -20,7 +20,7 @@ public class Deal implements Serializable {
     private Theme theme;
     private String title;
     private Topic topic;
-    private URL url;
+    private String url;
 
     public Deal(String id,
                 String features,
@@ -33,7 +33,7 @@ public class Deal implements Serializable {
                 Theme theme,
                 String title,
                 Topic topic,
-                URL url) {
+                String url) {
         this.id = id;
         this.features = features;
         this.isPreviousDeal = isPreviousDeal;
@@ -65,7 +65,7 @@ public class Deal implements Serializable {
             boolean soldOut = dataSnapshot.hasChild("soldOutAt");
             Story story = Story.parseStory(dataSnapshot.child("story"));
             Theme theme = Theme.parseTheme(dataSnapshot.child("theme"));
-            URL url = new URL(dataSnapshot.child("url").getValue().toString());
+            String url = dataSnapshot.child("url").getValue().toString();
             return new Deal(dataSnapshot.child("id").getValue().toString(),
                     dataSnapshot.child("features").getValue().toString(),
                     isPreviousDeal,
@@ -136,7 +136,7 @@ public class Deal implements Serializable {
         return topic;
     }
 
-    public URL getURL() {
+    public String getURL() {
         return url;
     }
 

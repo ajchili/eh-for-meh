@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -176,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
         TextView dealTitleTextView = findViewById(R.id.dealTitleTextView);
         TextView dealPriceTextView = findViewById(R.id.dealPriceTextView);
         Button dealInfoButton = findViewById(R.id.dealInfoButton);
+        Button dealBuyButton = findViewById(R.id.dealBuyButton);
 
         dealTitleTextView.setText(deal.getTitle());
 
@@ -196,6 +198,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = DealInfo.newIntent(v.getContext(), deal);
+                startActivity(intent);
+            }
+        });
+
+        dealBuyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(deal.getURL()));
                 startActivity(intent);
             }
         });
