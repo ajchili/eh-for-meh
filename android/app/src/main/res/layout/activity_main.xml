@@ -44,7 +44,7 @@
             android:id="@+id/dealTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="32sp"
+            android:textSize="28sp"
             android:textStyle="bold"
             android:layout_margin="10dp"
             app:layout_constraintBottom_toTopOf="@id/mehButton"/>
