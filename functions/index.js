@@ -6,24 +6,32 @@ admin.initializeApp(functions.config().firebase);
 
 const ref = admin.database().ref();
 
-const sendNewDealNotification = deal => {
+const sendNewDealNotification = (dealName, dealImageURL) => {
   const payload = {
+    data: {
+      "attachment-url": dealImageURL
+    },
     notification: {
+      content_available: "true",
       title: "Check out this new deal!",
-      body: deal,
-      content_available: "true"
+      body: dealName,
+      mutable_content: "true"
     }
   };
 
   return sendNotification(payload);
 };
 
-const sendDealSoldOutNotification = deal => {
+const sendDealSoldOutNotification = (dealName, dealImageURL) => {
   const payload = {
+    data: {
+      "attachment-url": dealImageURL
+    },
     notification: {
+      content_available: "true",
       title: "The current deal has sold out!",
-      body: `There are no more ${deal} left`,
-      content_available: "true"
+      body: `There are no more ${dealName} left`,
+      mutable_content: "true"
     }
   };
 
@@ -88,17 +96,17 @@ exports.sendDealUpdate = functions.database.ref("currentDeal/deal").onUpdate((ch
   const previousDeal = change.before.val();
   const deal = change.after.val();
 
-  if (previousDeal.title === deal.title) {
+  if (previousDeal.id === deal.id) {
     if (!previousDeal.soldOutAt && deal.soldOutAt) {
       console.log(`${deal.id} has sold out.`);
-      return sendDealSoldOutNotification(deal.title);
+      return sendDealSoldOutNotification(deal.title, deal.photos[0].replace("http://", "https://"));
     } else {
       console.log('No notification required.');
       return true;
     }
   } else {
     console.log(`${previousDeal.id} has ended, ${deal.id} has started.`);
-    return sendNewDealNotification(deal.title);
+    return sendNewDealNotification(deal.title, deal.photos[0].replace("http://", "https://"));
   }
 });
 
@@ -106,9 +114,10 @@ exports.sendFeedbackSubmittedNotification = functions.database.ref("feedback/{fe
   let feedbackId = context.params.feedback;
   const payload = {
     notification: {
+      content_available: "true",
       title: `New feedback submitted (${feedbackId})!`,
       body: snapshot.child("content").val(),
-      content_available: "false"
+      mutable_content: "true"
     }
   };
 
