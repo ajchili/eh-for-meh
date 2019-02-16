@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04934306661B3016CDC9C1EA /* Pods_Meh_Notification_Service_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2925F28751C8A0282DB64004 /* Pods_Meh_Notification_Service_Extension.framework */; };
 		2AA37B06988EE5272DFE884A /* Pods_Meh_Deal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD64933D1800455A5CA2E589 /* Pods_Meh_Deal.framework */; };
 		780630BF1FF6DC5F00D2019D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 780630BE1FF6DC5F00D2019D /* GoogleService-Info.plist */; };
 		781FCC5F20FE5D63009F35ED /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FCC5E20FE5D63009F35ED /* MainViewController.swift */; };
@@ -35,6 +36,8 @@
 		78C110DA211B974100622810 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110D9211B974100622810 /* Poll.swift */; };
 		78C110DE211B97D100622810 /* DealLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110DD211B97D100622810 /* DealLoader.swift */; };
 		78C110E0211B99BB00622810 /* ThemeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110DF211B99BB00622810 /* ThemeLoader.swift */; };
+		78D1A65D2218514E00AF75F9 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1A65C2218514E00AF75F9 /* NotificationService.swift */; };
+		78D1A6612218514E00AF75F9 /* Meh Notification Service Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 78D1A65A2218514E00AF75F9 /* Meh Notification Service Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		78D5D7A7211D472C0085D4E2 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */; };
 		78E2712721759202008375E0 /* SettingsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E2712621759202008375E0 /* SettingsNavigationViewController.swift */; };
 		A9E3D3EBBF74004850F4629F /* Pods_meh_com.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9B8600787B1AEA09CCDBB8F /* Pods_meh_com.framework */; };
@@ -48,6 +51,13 @@
 			remoteGlobalIDString = 785D3EC820131C9B00EB1598;
 			remoteInfo = "Meh Deal";
 		};
+		78D1A65F2218514E00AF75F9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 78952D831FD5BDCE000E0AAC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 78D1A6592218514E00AF75F9;
+			remoteInfo = "Meh Notification Service Extension";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -58,6 +68,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				785D3ED520131C9B00EB1598 /* Meh Deal.appex in Embed App Extensions */,
+				78D1A6612218514E00AF75F9 /* Meh Notification Service Extension.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -66,6 +77,7 @@
 
 /* Begin PBXFileReference section */
 		12EBA40DFD69FE30FAB18F22 /* Pods-Meh Deal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meh Deal.release.xcconfig"; path = "Pods/Target Support Files/Pods-Meh Deal/Pods-Meh Deal.release.xcconfig"; sourceTree = "<group>"; };
+		2925F28751C8A0282DB64004 /* Pods_Meh_Notification_Service_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Meh_Notification_Service_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38CA4D8E12BF331B76676C17 /* Pods-meh.com.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meh.com.release.xcconfig"; path = "Pods/Target Support Files/Pods-meh.com/Pods-meh.com.release.xcconfig"; sourceTree = "<group>"; };
 		3CDDDA797F244B5C653149C6 /* Pods-meh.com.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meh.com.debug.xcconfig"; path = "Pods/Target Support Files/Pods-meh.com/Pods-meh.com.debug.xcconfig"; sourceTree = "<group>"; };
 		780630BE1FF6DC5F00D2019D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -99,10 +111,17 @@
 		78C110D9211B974100622810 /* Poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
 		78C110DD211B97D100622810 /* DealLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealLoader.swift; sourceTree = "<group>"; };
 		78C110DF211B99BB00622810 /* ThemeLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeLoader.swift; sourceTree = "<group>"; };
+		78D1A65A2218514E00AF75F9 /* Meh Notification Service Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Meh Notification Service Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		78D1A65C2218514E00AF75F9 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		78D1A65E2218514E00AF75F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		78D1A66522185B6000AF75F9 /* Meh Deal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Meh Deal.entitlements"; sourceTree = "<group>"; };
+		78D1A66622185B6A00AF75F9 /* Meh Notification Service Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Meh Notification Service Extension.entitlements"; sourceTree = "<group>"; };
 		78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		78E2712621759202008375E0 /* SettingsNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationViewController.swift; sourceTree = "<group>"; };
 		903BF7FAD035129F02A7C4FD /* Pods-Meh Deal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meh Deal.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Meh Deal/Pods-Meh Deal.debug.xcconfig"; sourceTree = "<group>"; };
 		AD64933D1800455A5CA2E589 /* Pods_Meh_Deal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Meh_Deal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C96094399D4370B4B3543C38 /* Pods-Meh Notification Service Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meh Notification Service Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Meh Notification Service Extension/Pods-Meh Notification Service Extension.release.xcconfig"; sourceTree = "<group>"; };
+		DA7BD26D40DF2CF7259467A9 /* Pods-Meh Notification Service Extension.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meh Notification Service Extension.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Meh Notification Service Extension/Pods-Meh Notification Service Extension.debug.xcconfig"; sourceTree = "<group>"; };
 		E9B8600787B1AEA09CCDBB8F /* Pods_meh_com.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_meh_com.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -124,6 +143,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		78D1A6572218514E00AF75F9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04934306661B3016CDC9C1EA /* Pods_Meh_Notification_Service_Extension.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -133,6 +160,7 @@
 				E9B8600787B1AEA09CCDBB8F /* Pods_meh_com.framework */,
 				785D3ECA20131C9B00EB1598 /* NotificationCenter.framework */,
 				AD64933D1800455A5CA2E589 /* Pods_Meh_Deal.framework */,
+				2925F28751C8A0282DB64004 /* Pods_Meh_Notification_Service_Extension.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -171,6 +199,7 @@
 		785D3ECC20131C9B00EB1598 /* Meh Deal */ = {
 			isa = PBXGroup;
 			children = (
+				78D1A66522185B6000AF75F9 /* Meh Deal.entitlements */,
 				785D3ECD20131C9B00EB1598 /* TodayViewController.swift */,
 				785D3ECF20131C9B00EB1598 /* MainInterface.storyboard */,
 				785D3ED220131C9B00EB1598 /* Info.plist */,
@@ -184,6 +213,7 @@
 			children = (
 				78952D8D1FD5BDCE000E0AAC /* meh.com */,
 				785D3ECC20131C9B00EB1598 /* Meh Deal */,
+				78D1A65B2218514E00AF75F9 /* Meh Notification Service Extension */,
 				78952D8C1FD5BDCE000E0AAC /* Products */,
 				BBFE7EFBD100451A811A6FFD /* Pods */,
 				67FF1084BEAA0FC7D813C28A /* Frameworks */,
@@ -195,6 +225,7 @@
 			children = (
 				78952D8B1FD5BDCE000E0AAC /* meh.com.app */,
 				785D3EC920131C9B00EB1598 /* Meh Deal.appex */,
+				78D1A65A2218514E00AF75F9 /* Meh Notification Service Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -226,6 +257,16 @@
 				78C110D9211B974100622810 /* Poll.swift */,
 			);
 			path = Objects;
+			sourceTree = "<group>";
+		};
+		78D1A65B2218514E00AF75F9 /* Meh Notification Service Extension */ = {
+			isa = PBXGroup;
+			children = (
+				78D1A66622185B6A00AF75F9 /* Meh Notification Service Extension.entitlements */,
+				78D1A65C2218514E00AF75F9 /* NotificationService.swift */,
+				78D1A65E2218514E00AF75F9 /* Info.plist */,
+			);
+			path = "Meh Notification Service Extension";
 			sourceTree = "<group>";
 		};
 		78E1AFFC21DC53B800703777 /* Deal */ = {
@@ -264,6 +305,8 @@
 				38CA4D8E12BF331B76676C17 /* Pods-meh.com.release.xcconfig */,
 				903BF7FAD035129F02A7C4FD /* Pods-Meh Deal.debug.xcconfig */,
 				12EBA40DFD69FE30FAB18F22 /* Pods-Meh Deal.release.xcconfig */,
+				DA7BD26D40DF2CF7259467A9 /* Pods-Meh Notification Service Extension.debug.xcconfig */,
+				C96094399D4370B4B3543C38 /* Pods-Meh Notification Service Extension.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -304,11 +347,30 @@
 			);
 			dependencies = (
 				785D3ED420131C9B00EB1598 /* PBXTargetDependency */,
+				78D1A6602218514E00AF75F9 /* PBXTargetDependency */,
 			);
 			name = meh.com;
 			productName = meh.com;
 			productReference = 78952D8B1FD5BDCE000E0AAC /* meh.com.app */;
 			productType = "com.apple.product-type.application";
+		};
+		78D1A6592218514E00AF75F9 /* Meh Notification Service Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 78D1A6642218514E00AF75F9 /* Build configuration list for PBXNativeTarget "Meh Notification Service Extension" */;
+			buildPhases = (
+				69392B07F2CC6919A5E43DBA /* [CP] Check Pods Manifest.lock */,
+				78D1A6562218514E00AF75F9 /* Sources */,
+				78D1A6572218514E00AF75F9 /* Frameworks */,
+				78D1A6582218514E00AF75F9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Meh Notification Service Extension";
+			productName = "Meh Notification Service Extension";
+			productReference = 78D1A65A2218514E00AF75F9 /* Meh Notification Service Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -316,19 +378,40 @@
 		78952D831FD5BDCE000E0AAC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0920;
+				DefaultBuildSystemTypeForWorkspace = Original;
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 0910;
 				ORGANIZATIONNAME = "Kirin Patel";
 				TargetAttributes = {
 					785D3EC820131C9B00EB1598 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					78952D8A1FD5BDCE000E0AAC = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
+								enabled = 1;
+							};
+						};
+					};
+					78D1A6592218514E00AF75F9 = {
+						CreatedOnToolsVersion = 10.1;
+						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
 						};
@@ -350,6 +433,7 @@
 			targets = (
 				78952D8A1FD5BDCE000E0AAC /* meh.com */,
 				785D3EC820131C9B00EB1598 /* Meh Deal */,
+				78D1A6592218514E00AF75F9 /* Meh Notification Service Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -374,6 +458,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		78D1A6582218514E00AF75F9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -389,6 +480,28 @@
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-Meh Deal-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		69392B07F2CC6919A5E43DBA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Meh Notification Service Extension-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -421,6 +534,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-meh.com/Pods-meh.com-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/CTFeedback/CTFeedback.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Nuke/Nuke.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
@@ -432,6 +546,7 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CTFeedback.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nuke.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
@@ -484,6 +599,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		78D1A6562218514E00AF75F9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				78D1A65D2218514E00AF75F9 /* NotificationService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -491,6 +614,11 @@
 			isa = PBXTargetDependency;
 			target = 785D3EC820131C9B00EB1598 /* Meh Deal */;
 			targetProxy = 785D3ED320131C9B00EB1598 /* PBXContainerItemProxy */;
+		};
+		78D1A6602218514E00AF75F9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 78D1A6592218514E00AF75F9 /* Meh Notification Service Extension */;
+			targetProxy = 78D1A65F2218514E00AF75F9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -518,6 +646,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 903BF7FAD035129F02A7C4FD /* Pods-Meh Deal.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Meh Deal/Meh Deal.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T4GLZ43QVM;
 				INFOPLIST_FILE = "Meh Deal/Info.plist";
@@ -535,6 +664,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 12EBA40DFD69FE30FAB18F22 /* Pods-Meh Deal.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Meh Deal/Meh Deal.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T4GLZ43QVM;
 				INFOPLIST_FILE = "Meh Deal/Info.plist";
@@ -695,6 +825,51 @@
 			};
 			name = Release;
 		};
+		78D1A6622218514E00AF75F9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DA7BD26D40DF2CF7259467A9 /* Pods-Meh Notification Service Extension.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CODE_SIGN_ENTITLEMENTS = "Meh Notification Service Extension/Meh Notification Service Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T4GLZ43QVM;
+				INFOPLIST_FILE = "Meh Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kirinpatel.meh.Meh-Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		78D1A6632218514E00AF75F9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C96094399D4370B4B3543C38 /* Pods-Meh Notification Service Extension.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CODE_SIGN_ENTITLEMENTS = "Meh Notification Service Extension/Meh Notification Service Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T4GLZ43QVM;
+				INFOPLIST_FILE = "Meh Notification Service Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.kirinpatel.meh.Meh-Notification-Service-Extension";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -721,6 +896,15 @@
 			buildConfigurations = (
 				78952DA01FD5BDCF000E0AAC /* Debug */,
 				78952DA11FD5BDCF000E0AAC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		78D1A6642218514E00AF75F9 /* Build configuration list for PBXNativeTarget "Meh Notification Service Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				78D1A6622218514E00AF75F9 /* Debug */,
+				78D1A6632218514E00AF75F9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
