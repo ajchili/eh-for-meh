@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 import FirebaseAnalytics
 import FirebaseDatabase
 
@@ -140,7 +141,8 @@ class MainViewController: UIViewController {
         if let deal = deal {
             if let topic = deal.topic {
                 Analytics.logEvent("viewedForum", parameters: ["deal": deal.id])
-                UIApplication.shared.open(topic.url, options: [:])
+                let view = SFSafariViewController(url: topic.url)
+                present(view, animated: true)
             }
         }
     }
