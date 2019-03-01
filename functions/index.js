@@ -38,6 +38,22 @@ const sendDealSoldOutNotification = (dealName, dealImageURL) => {
   return sendNotification(payload);
 };
 
+const sendDealItemSoldOutNotification = (dealName, dealImageURL) => {
+  const payload = {
+    data: {
+      "attachment-url": dealImageURL
+    },
+    notification: {
+      content_available: "true",
+      title: "One of the deal's items has sold out!",
+      body: `Meh is running out of ${dealName}`,
+      mutable_content: "true"
+    }
+  };
+
+  return sendNotification(payload);
+};
+
 const sendNotification = (payload) => {
   let tokens = [];
 
@@ -97,9 +113,21 @@ exports.sendDealUpdate = functions.database.ref("currentDeal/deal").onUpdate((ch
   const deal = change.after.val();
 
   if (previousDeal.id === deal.id) {
-    if (!previousDeal.soldOutAt && deal.soldOutAt) {
+    if (
+      (!previousDeal.soldOutAt && deal.soldOutAt) ||
+      (previousDeal.launches &&
+        (previousDeal.launches.length !== previousDeal.items.length) &&
+        deal.launches && (deal.launches.length === deal.items.length)
+      )
+    ) {
       console.log(`${deal.id} has sold out.`);
       return sendDealSoldOutNotification(deal.title, deal.photos[0].replace("http://", "https://"));
+    } else if (
+      (deal.launches && !previousDeal.launches) ||
+      (deal.launches.length !== previousDeal.launches.length)
+    ) {
+      console.log(`${deal.id} has an item that sold out.`);
+      return sendDealItemSoldOutNotification(deal.title, deal.photos[0].replace("http://", "https://"));
     } else {
       console.log('No notification required.');
       return true;
