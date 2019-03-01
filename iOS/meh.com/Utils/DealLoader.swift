@@ -49,7 +49,7 @@ class DealLoader {
         let features = snapshot.childSnapshot(forPath: "features").value as? String ?? ""
         let specifications = snapshot.childSnapshot(forPath: "specifications").value as? String ?? ""
         let title = snapshot.childSnapshot(forPath: "title").value as? String ?? ""
-        let url = URL(string: snapshot.childSnapshot(forPath: "url").value as? String ?? "")
+        let url = URL(string: snapshot.childSnapshot(forPath: "url").value as? String ?? "https://meh.com")
         
         let storyTitle = snapshot.childSnapshot(forPath: "story/title").value as? String ?? ""
         let storyBody = snapshot.childSnapshot(forPath: "story/body").value as? String ?? ""
@@ -69,13 +69,19 @@ class DealLoader {
         
         if snapshot.childSnapshot(forPath: "soldOutAt").exists() {
             deal.soldOut = true
+        } else if (snapshot.childSnapshot(forPath: "launches").exists()) {
+            let itemCount = snapshot.childSnapshot(forPath: "items").childrenCount
+            let soldOutCount = snapshot.childSnapshot(forPath: "launches").childrenCount
+            deal.soldOut = itemCount == soldOutCount
         }
         
         if snapshot.childSnapshot(forPath: "topic").exists() {
             let topicId = snapshot.childSnapshot(forPath: "topic/id").value as? String ?? ""
             let topicURL = URL(string: snapshot.childSnapshot(forPath: "topic/url").value as? String ?? "")
             
-            deal.topic = Topic(id: topicId, url: topicURL!)
+            if let url = topicURL {
+                deal.topic = Topic(id: topicId, url: url)
+            }
         }
         
         return deal
