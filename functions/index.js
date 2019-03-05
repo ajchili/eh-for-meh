@@ -72,6 +72,23 @@ const sendNotification = (payload) => {
   });
 };
 
+const sendFeedbaclNotification = (payload) => {
+  return admin.database().ref("/feedback/tokens").once("value", snapshot => {
+    let tokens = [];
+    snapshot.forEach(childSnapshot => {
+      tokens.push(childSnapshot.key);
+    });
+
+    return admin.messaging().sendToDevice(tokens, payload).then(res => {
+      console.log("Successfully sent message:", JSON.stringify(res));
+      return true;
+    }).catch(err => {
+      console.error("Error sending message:", JSON.stringify(err));
+      return err;
+    });
+  });
+};
+
 exports.updateItem = functions.https.onRequest((request, response) => {
   return ref.child("API_KEY").once("value", (snapshot) => {
     const API_KEY = snapshot.val();
@@ -140,6 +157,7 @@ exports.sendDealUpdate = functions.database.ref("currentDeal/deal").onUpdate((ch
 
 exports.sendFeedbackSubmittedNotification = functions.database.ref("feedback/{feedback}").onCreate((snapshot, context) => {
   let feedbackId = context.params.feedback;
+  const bucket = admin.storage().bucket();
   const payload = {
     notification: {
       content_available: "true",
@@ -149,18 +167,19 @@ exports.sendFeedbackSubmittedNotification = functions.database.ref("feedback/{fe
     }
   };
 
-  return admin.database().ref("/feedback/tokens").once("value", snapshot => {
-    let tokens = [];
-    snapshot.forEach(childSnapshot => {
-      tokens.push(childSnapshot.key);
-    });
-
-    return admin.messaging().sendToDevice(tokens, payload).then(res => {
-      console.log("Successfully sent message:", JSON.stringify(res));
-      return true;
-    }).catch(err => {
-      console.error("Error sending message:", JSON.stringify(err));
-      return err;
-    });
+  let file = bucket.file(`/feedback/${feedbackId}.JPG`);
+  return file.getSignedUrl({
+    action: 'read',
+    expires: new Date(new Date().getTime() + 86400000)
+  }).then(signedUrl => {
+    if (signedUrl.length) {
+      payload.data = {
+        "attachment-url": signedUrl[0]
+      };
+    }
+    return sendFeedbaclNotification(payload);
+  }).catch(err => {
+    console.error(err);
+    return sendFeedbaclNotification(payload);
   });
 });
