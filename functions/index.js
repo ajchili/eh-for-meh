@@ -141,7 +141,8 @@ exports.sendDealUpdate = functions.database.ref("currentDeal/deal").onUpdate((ch
       return sendDealSoldOutNotification(deal.title, deal.photos[0].replace("http://", "https://"));
     } else if (
       (deal.launches && !previousDeal.launches) ||
-      (deal.launches.length !== previousDeal.launches.length)
+      (deal.launches && previousDeal.launches &&
+      (deal.launches.length !== previousDeal.launches.length))
     ) {
       console.log(`${deal.id} has an item that sold out.`);
       return sendDealItemSoldOutNotification(deal.title, deal.photos[0].replace("http://", "https://"));
