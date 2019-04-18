@@ -13,7 +13,7 @@ public class Deal implements Serializable {
     private String features;
     private boolean isPreviousDeal;
     private Item[] items;
-    private URL[] photos;
+    private DealPhoto[] photos;
     private boolean soldOut;
     private String specifications;
     private Story story;
@@ -26,7 +26,7 @@ public class Deal implements Serializable {
                 String features,
                 boolean isPreviousDeal,
                 Item[] items,
-                URL[] photos,
+                DealPhoto[] photos,
                 boolean soldOut,
                 String specifications,
                 Story story,
@@ -61,7 +61,7 @@ public class Deal implements Serializable {
                 dataSnapshot.hasChild("url")) {
             boolean isPreviousDeal = dataSnapshot.getRef().getParent().getKey().equals("currentDeal");
             Item[] items = Item.parseItems(dataSnapshot.child("items"));
-            URL[] photos = parsePhotos(dataSnapshot.child("photos"));
+            DealPhoto[] photos = parsePhotos(dataSnapshot.child("photos"));
             boolean soldOut = dataSnapshot.hasChild("soldOutAt");
             Story story = Story.parseStory(dataSnapshot.child("story"));
             Theme theme = Theme.parseTheme(dataSnapshot.child("theme"));
@@ -82,13 +82,13 @@ public class Deal implements Serializable {
         } else throw new Exception("Provided DataSnapshot is not parsable!");
     }
 
-    private static URL[] parsePhotos(DataSnapshot dataSnapshot) throws MalformedURLException {
+    private static DealPhoto[] parsePhotos(DataSnapshot dataSnapshot) {
         int itemLength = (int) dataSnapshot.getChildrenCount();
-        URL[] photos = new URL[itemLength];
+        DealPhoto[] photos = new DealPhoto[itemLength];
         Iterable<DataSnapshot> iterable = dataSnapshot.getChildren();
         for (int i = 0; i < photos.length; i++) {
             DataSnapshot childSnapshot = iterable.iterator().next();
-            photos[i] = new URL(childSnapshot.getValue().toString());
+            photos[i] = new DealPhoto(childSnapshot.getValue().toString());
         }
         return photos;
     }
@@ -109,7 +109,7 @@ public class Deal implements Serializable {
         return items;
     }
 
-    public URL[] getPhotos() {
+    public DealPhoto[] getPhotos() {
         return photos;
     }
 

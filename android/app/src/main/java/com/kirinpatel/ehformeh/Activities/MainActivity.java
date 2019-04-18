@@ -11,6 +11,8 @@ import android.net.Uri;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +24,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.database.DatabaseError;
+import com.kirinpatel.ehformeh.Adapters.PhotoAdapter;
 import com.kirinpatel.ehformeh.R;
 import com.kirinpatel.ehformeh.utils.Deal;
 import com.kirinpatel.ehformeh.utils.DealLoader;
@@ -31,6 +34,7 @@ import com.kirinpatel.ehformeh.utils.Item;
 public class MainActivity extends AppCompatActivity {
 
     private Deal deal;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,11 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar mehToolbar = findViewById(R.id.mehToolbar);
         setSupportActionBar(mehToolbar);
+
+        recyclerView = findViewById(R.id.dealPhotoRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this,
+                LinearLayoutManager.HORIZONTAL,
+                false));
 
         setupDealListener();
     }
@@ -198,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
         dealInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = DealInfo.newIntent(v.getContext(), deal);
+                Intent intent = DealInfo.newIntent(v.getContext());
                 startActivity(intent);
             }
         });
@@ -210,5 +219,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        recyclerView.setAdapter(new PhotoAdapter(deal));
     }
 }
