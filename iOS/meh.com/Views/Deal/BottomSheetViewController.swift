@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 import FirebaseAnalytics
 import GoogleMobileAds
 import SwiftyMarkdown
@@ -210,8 +211,10 @@ class BottomSheetViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     @objc func handleBuy() {
-        UIApplication.shared.open(URL(string: "https://meh.com/account/signin?returnurl=https%3A%2F%2Fmeh.com%2F%23checkout")!, options: [:]) { _ in
-            Analytics.logEvent("buy", parameters: [:])
+        if let url = URL(string: "https://meh.com/account/signin?returnurl=https%3A%2F%2Fmeh.com%2F%23checkout"), let deal = deal {
+            Analytics.logEvent("buy", parameters: ["deal": deal.id])
+            let view = SFSafariViewController(url: url)
+            present(view, animated: true)
         }
     }
     
