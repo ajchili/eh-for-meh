@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		04934306661B3016CDC9C1EA /* Pods_Meh_Notification_Service_Extension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2925F28751C8A0282DB64004 /* Pods_Meh_Notification_Service_Extension.framework */; };
 		2AA37B06988EE5272DFE884A /* Pods_Meh_Deal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD64933D1800455A5CA2E589 /* Pods_Meh_Deal.framework */; };
-		780630BF1FF6DC5F00D2019D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 780630BE1FF6DC5F00D2019D /* GoogleService-Info.plist */; };
 		781FCC5F20FE5D63009F35ED /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781FCC5E20FE5D63009F35ED /* MainViewController.swift */; };
 		78266BC1200FC7F400BF5BD8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78266BC0200FC7F400BF5BD8 /* Extensions.swift */; };
 		7826E0EA1FD655400011AA23 /* ImagePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7826E0E91FD655400011AA23 /* ImagePageViewController.swift */; };
@@ -21,7 +20,6 @@
 		785D3ECE20131C9B00EB1598 /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 785D3ECD20131C9B00EB1598 /* TodayViewController.swift */; };
 		785D3ED120131C9B00EB1598 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 785D3ECF20131C9B00EB1598 /* MainInterface.storyboard */; };
 		785D3ED520131C9B00EB1598 /* Meh Deal.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 785D3EC920131C9B00EB1598 /* Meh Deal.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		785D3EDE20131F9F00EB1598 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 785D3EDD20131F9F00EB1598 /* GoogleService-Info.plist */; };
 		78952D8F1FD5BDCF000E0AAC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78952D8E1FD5BDCF000E0AAC /* AppDelegate.swift */; };
 		78952D981FD5BDCF000E0AAC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78952D971FD5BDCF000E0AAC /* Assets.xcassets */; };
 		78952D9B1FD5BDCF000E0AAC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78952D991FD5BDCF000E0AAC /* LaunchScreen.storyboard */; };
@@ -36,6 +34,8 @@
 		78C110DA211B974100622810 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110D9211B974100622810 /* Poll.swift */; };
 		78C110DE211B97D100622810 /* DealLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110DD211B97D100622810 /* DealLoader.swift */; };
 		78C110E0211B99BB00622810 /* ThemeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110DF211B99BB00622810 /* ThemeLoader.swift */; };
+		78C57276226F8041005C5F37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78C57275226F8041005C5F37 /* GoogleService-Info.plist */; };
+		78C57277226F8041005C5F37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78C57275226F8041005C5F37 /* GoogleService-Info.plist */; };
 		78D1A65D2218514E00AF75F9 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1A65C2218514E00AF75F9 /* NotificationService.swift */; };
 		78D1A6612218514E00AF75F9 /* Meh Notification Service Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 78D1A65A2218514E00AF75F9 /* Meh Notification Service Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		78D5D7A7211D472C0085D4E2 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */; };
@@ -80,7 +80,6 @@
 		2925F28751C8A0282DB64004 /* Pods_Meh_Notification_Service_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Meh_Notification_Service_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		38CA4D8E12BF331B76676C17 /* Pods-meh.com.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meh.com.release.xcconfig"; path = "Pods/Target Support Files/Pods-meh.com/Pods-meh.com.release.xcconfig"; sourceTree = "<group>"; };
 		3CDDDA797F244B5C653149C6 /* Pods-meh.com.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-meh.com.debug.xcconfig"; path = "Pods/Target Support Files/Pods-meh.com/Pods-meh.com.debug.xcconfig"; sourceTree = "<group>"; };
-		780630BE1FF6DC5F00D2019D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		781FCC5E20FE5D63009F35ED /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		78266BC0200FC7F400BF5BD8 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		7826E0E91FD655400011AA23 /* ImagePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePageViewController.swift; sourceTree = "<group>"; };
@@ -94,7 +93,6 @@
 		785D3ECD20131C9B00EB1598 /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		785D3ED020131C9B00EB1598 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		785D3ED220131C9B00EB1598 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		785D3EDD20131F9F00EB1598 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "meh.com/GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		78952D8B1FD5BDCE000E0AAC /* meh.com.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = meh.com.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78952D8E1FD5BDCF000E0AAC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		78952D971FD5BDCF000E0AAC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -111,6 +109,7 @@
 		78C110D9211B974100622810 /* Poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
 		78C110DD211B97D100622810 /* DealLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealLoader.swift; sourceTree = "<group>"; };
 		78C110DF211B99BB00622810 /* ThemeLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeLoader.swift; sourceTree = "<group>"; };
+		78C57275226F8041005C5F37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		78D1A65A2218514E00AF75F9 /* Meh Notification Service Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Meh Notification Service Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78D1A65C2218514E00AF75F9 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		78D1A65E2218514E00AF75F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -203,7 +202,6 @@
 				785D3ECD20131C9B00EB1598 /* TodayViewController.swift */,
 				785D3ECF20131C9B00EB1598 /* MainInterface.storyboard */,
 				785D3ED220131C9B00EB1598 /* Info.plist */,
-				785D3EDD20131F9F00EB1598 /* GoogleService-Info.plist */,
 			);
 			path = "Meh Deal";
 			sourceTree = "<group>";
@@ -211,6 +209,7 @@
 		78952D821FD5BDCE000E0AAC = {
 			isa = PBXGroup;
 			children = (
+				78C57275226F8041005C5F37 /* GoogleService-Info.plist */,
 				78952D8D1FD5BDCE000E0AAC /* meh.com */,
 				785D3ECC20131C9B00EB1598 /* Meh Deal */,
 				78D1A65B2218514E00AF75F9 /* Meh Notification Service Extension */,
@@ -240,7 +239,6 @@
 				78952D8E1FD5BDCF000E0AAC /* AppDelegate.swift */,
 				78952D971FD5BDCF000E0AAC /* Assets.xcassets */,
 				78952D9C1FD5BDCF000E0AAC /* Info.plist */,
-				780630BE1FF6DC5F00D2019D /* GoogleService-Info.plist */,
 				785C37FD1FD7A2DF002CE08C /* meh.com.entitlements */,
 			);
 			path = meh.com;
@@ -443,8 +441,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78C57277226F8041005C5F37 /* GoogleService-Info.plist in Resources */,
 				785D3ED120131C9B00EB1598 /* MainInterface.storyboard in Resources */,
-				785D3EDE20131F9F00EB1598 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,8 +450,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				780630BF1FF6DC5F00D2019D /* GoogleService-Info.plist in Resources */,
 				78952D9B1FD5BDCF000E0AAC /* LaunchScreen.storyboard in Resources */,
+				78C57276226F8041005C5F37 /* GoogleService-Info.plist in Resources */,
 				78952D981FD5BDCF000E0AAC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
