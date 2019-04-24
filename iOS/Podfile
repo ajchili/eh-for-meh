@@ -21,8 +21,6 @@ end
 target 'Meh Deal' do
     use_frameworks!
     
-    pod 'Firebase/Core'
-    pod 'Firebase/Database'
 end
 
 target 'Meh Notification Service Extension' do

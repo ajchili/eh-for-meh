@@ -36,6 +36,8 @@
 		78C110E0211B99BB00622810 /* ThemeLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C110DF211B99BB00622810 /* ThemeLoader.swift */; };
 		78C57276226F8041005C5F37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78C57275226F8041005C5F37 /* GoogleService-Info.plist */; };
 		78C57277226F8041005C5F37 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 78C57275226F8041005C5F37 /* GoogleService-Info.plist */; };
+		78C572792270B6A7005C5F37 /* Structures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C572782270B6A7005C5F37 /* Structures.swift */; };
+		78C5727B2270B6C4005C5F37 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78C5727A2270B6C4005C5F37 /* Extensions.swift */; };
 		78D1A65D2218514E00AF75F9 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D1A65C2218514E00AF75F9 /* NotificationService.swift */; };
 		78D1A6612218514E00AF75F9 /* Meh Notification Service Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 78D1A65A2218514E00AF75F9 /* Meh Notification Service Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		78D5D7A7211D472C0085D4E2 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */; };
@@ -111,6 +113,8 @@
 		78C110DD211B97D100622810 /* DealLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DealLoader.swift; sourceTree = "<group>"; };
 		78C110DF211B99BB00622810 /* ThemeLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeLoader.swift; sourceTree = "<group>"; };
 		78C57275226F8041005C5F37 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		78C572782270B6A7005C5F37 /* Structures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Structures.swift; sourceTree = "<group>"; };
+		78C5727A2270B6C4005C5F37 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		78D1A65A2218514E00AF75F9 /* Meh Notification Service Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Meh Notification Service Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78D1A65C2218514E00AF75F9 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		78D1A65E2218514E00AF75F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -202,6 +206,8 @@
 			isa = PBXGroup;
 			children = (
 				78D1A66522185B6000AF75F9 /* Meh Deal.entitlements */,
+				78C5727A2270B6C4005C5F37 /* Extensions.swift */,
+				78C572782270B6A7005C5F37 /* Structures.swift */,
 				785D3ECD20131C9B00EB1598 /* TodayViewController.swift */,
 				785D3ECF20131C9B00EB1598 /* MainInterface.storyboard */,
 				785D3ED220131C9B00EB1598 /* Info.plist */,
@@ -569,6 +575,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				785D3ECE20131C9B00EB1598 /* TodayViewController.swift in Sources */,
+				78C5727B2270B6C4005C5F37 /* Extensions.swift in Sources */,
+				78C572792270B6A7005C5F37 /* Structures.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
