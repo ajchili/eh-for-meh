@@ -96,6 +96,7 @@ class DealViewController: UIViewController {
         didSet {
             setupDeal()
             imagePageViewController.deal = deal
+            imagePageViewController.imagePageViewControllerDelegate = self
         }
     }
     
@@ -334,5 +335,23 @@ extension DealViewController: ItemViewPageControlDelegate {
     
     func itemIndexChanged(_ index: Int) {
         pageControl.currentPage = index
+    }
+}
+
+extension DealViewController: ImagePageViewControllerDelegate {
+    
+    func imageTapped(_ image: UIImage) {
+        let view = EnlargedImageViewController()
+        view.image = image
+        view.theme = deal.theme
+        view.modalPresentationStyle = .overCurrentContext
+        view.modalTransitionStyle = .crossDissolve
+        present(view, animated: true)
+    }
+    
+    func imageLongPressed(_ image: UIImage) {
+        let activityViewController = UIActivityViewController(activityItems: [ image ],
+                                                              applicationActivities: nil)
+        present(activityViewController, animated: true)
     }
 }

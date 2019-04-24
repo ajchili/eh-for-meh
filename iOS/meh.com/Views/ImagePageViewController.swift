@@ -12,6 +12,11 @@ protocol ItemPageViewDelegate: class {
     func setCurrentImage(_ index: Int)
 }
 
+protocol ImagePageViewControllerDelegate: class {
+    func imageTapped(_ image: UIImage)
+    func imageLongPressed(_ image: UIImage)
+}
+
 class ImagePageViewController: UIPageViewController {
     
     var deal: Deal! {
@@ -23,6 +28,7 @@ class ImagePageViewController: UIPageViewController {
     var currentIndex = 0
     var orderedViewControllers = [UIViewController]()
     
+    var imagePageViewControllerDelegate: ImagePageViewControllerDelegate?
     var itemViewPageControlDelegate: ItemViewPageControlDelegate? {
         didSet {
             if let delegate = itemViewPageControlDelegate, let deal = deal {
@@ -67,6 +73,7 @@ class ImagePageViewController: UIPageViewController {
     fileprivate func newImageViewController(image: URL) -> UIViewController {
         let imageViewController = ImageViewController()
         imageViewController.image = image
+        imageViewController.delegate = self
         return imageViewController
     }
 }
@@ -136,5 +143,21 @@ extension ImagePageViewController: ItemPageViewDelegate {
                                 animated: true,
                                 completion: nil)
         currentIndex = index
+    }
+}
+
+
+extension ImagePageViewController: ImageViewControllerDelegate {
+    
+    func imageTapped(_ image: UIImage) {
+        if let delegate = imagePageViewControllerDelegate {
+            delegate.imageTapped(image)
+        }
+    }
+    
+    func imageLongPressed(_ image: UIImage) {
+        if let delegate = imagePageViewControllerDelegate {
+            delegate.imageLongPressed(image)
+        }
     }
 }

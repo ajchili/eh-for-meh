@@ -9,12 +9,18 @@
 import UIKit
 import Nuke
 
+protocol ImageViewControllerDelegate: class {
+    func imageTapped(_ image: UIImage)
+    func imageLongPressed(_ image: UIImage)
+}
+
 class ImageViewController: UIViewController {
     
     let imageView: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
         iv.contentMode = .scaleAspectFit
+        iv.isUserInteractionEnabled = true
         return iv
     }()
     
@@ -26,17 +32,30 @@ class ImageViewController: UIViewController {
     }()
     
     open var image: URL!
+    var delegate: ImageViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
         downloadImage()
-        
+    }
+    
+    @objc func viewEnlargedImage(_ sender: UITapGestureRecognizer) {
+        if let image = imageView.image, let delegate = delegate {
+            delegate.imageTapped(image)
+        }
+    }
+    
+    @objc func shareImage(_ sender: UILongPressGestureRecognizer) {
+        if let image = imageView.image, let delegate = delegate {
+            delegate.imageLongPressed(image)
+        }
     }
     
     fileprivate func setupView() {
         view.backgroundColor = nil
+        view.isUserInteractionEnabled = true
         
         let padding: CGFloat = 20
         
@@ -45,6 +64,12 @@ class ImageViewController: UIViewController {
         imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -padding).isActive = true
         imageView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: padding).isActive = true
         imageView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -padding).isActive = true
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(viewEnlargedImage))
+        tapGestureRecognizer.numberOfTapsRequired = 1
+        tapGestureRecognizer.numberOfTouchesRequired = 1
+        imageView.addGestureRecognizer(tapGestureRecognizer)
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(shareImage))
+        imageView.addGestureRecognizer(longPressGesture)
         
         view.addSubview(progressView)
         progressView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true

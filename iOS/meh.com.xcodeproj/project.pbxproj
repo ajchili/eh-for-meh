@@ -40,6 +40,7 @@
 		78D1A6612218514E00AF75F9 /* Meh Notification Service Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 78D1A65A2218514E00AF75F9 /* Meh Notification Service Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		78D5D7A7211D472C0085D4E2 /* HistoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */; };
 		78E2712721759202008375E0 /* SettingsNavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78E2712621759202008375E0 /* SettingsNavigationViewController.swift */; };
+		78F7C21D2229AA5E00518183 /* EnlargedImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78F7C21C2229AA5E00518183 /* EnlargedImageViewController.swift */; };
 		A9E3D3EBBF74004850F4629F /* Pods_meh_com.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9B8600787B1AEA09CCDBB8F /* Pods_meh_com.framework */; };
 /* End PBXBuildFile section */
 
@@ -117,6 +118,7 @@
 		78D1A66622185B6A00AF75F9 /* Meh Notification Service Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Meh Notification Service Extension.entitlements"; sourceTree = "<group>"; };
 		78D5D7A6211D472C0085D4E2 /* HistoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTableViewCell.swift; sourceTree = "<group>"; };
 		78E2712621759202008375E0 /* SettingsNavigationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsNavigationViewController.swift; sourceTree = "<group>"; };
+		78F7C21C2229AA5E00518183 /* EnlargedImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnlargedImageViewController.swift; sourceTree = "<group>"; };
 		903BF7FAD035129F02A7C4FD /* Pods-Meh Deal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meh Deal.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Meh Deal/Pods-Meh Deal.debug.xcconfig"; sourceTree = "<group>"; };
 		AD64933D1800455A5CA2E589 /* Pods_Meh_Deal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Meh_Deal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C96094399D4370B4B3543C38 /* Pods-Meh Notification Service Extension.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Meh Notification Service Extension.release.xcconfig"; path = "Pods/Target Support Files/Pods-Meh Notification Service Extension/Pods-Meh Notification Service Extension.release.xcconfig"; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				7826E0E91FD655400011AA23 /* ImagePageViewController.swift */,
 				7826E0ED1FD659320011AA23 /* ImageViewController.swift */,
 				78AD53AD2102F4AF0031E9B0 /* LoadingViewController.swift */,
+				78F7C21C2229AA5E00518183 /* EnlargedImageViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -593,6 +596,7 @@
 				78E2712721759202008375E0 /* SettingsNavigationViewController.swift in Sources */,
 				78C110D2211B948C00622810 /* Deal.swift in Sources */,
 				78C110E0211B99BB00622810 /* ThemeLoader.swift in Sources */,
+				78F7C21D2229AA5E00518183 /* EnlargedImageViewController.swift in Sources */,
 				78C110D8211B958D00622810 /* Topic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
